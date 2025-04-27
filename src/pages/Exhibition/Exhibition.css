@@ -1,0 +1,117 @@
+/* 공통 스타일 */
+.exhibitions-container {
+    position: relative;
+    width: 402px;
+    height: 874px;
+    background: #FFFFFF;
+    margin: 0 auto;
+    font-family: 'Pretendard Variable', sans-serif;
+  }
+  
+  /* 헤더 */
+  .exhibitions-title {
+    position: absolute;
+    width: 111px;
+    height: 38px;
+    left: 25px;
+    top: 80px;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    color: #000000;
+  }
+  .menu-icon {
+    position: absolute;
+    left: 355px;
+    top: 110px;
+    width: 23px;
+    height: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  
+  .menu-icon .line {
+    width: 23px;
+    height: 2px;
+    background-color: black;
+  }
+  
+  /* 연도 네비게이션 */
+  .year-nav {
+    position: relative;
+    top: 160px;
+    left: 24px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .year {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #ACACAC;
+    cursor: pointer;  
+    padding: 0 10px;
+  }
+  
+  .year.active {
+    background: #000;
+    color: #FFF;
+    border-radius: 20px;
+  }
+  
+  /* 작품 목록 */
+  .exhibitions-list {
+    position: absolute;
+    top: 228px;
+    left: 24px;
+    width: 354px;
+    display: flex;
+    flex-direction: column;
+    gap: 66px; /* 첫 이미지와 두 번째 이미지 사이 여백 */
+    padding-bottom: 50px; /* 마지막 항목 아래에 여백 추가 */
+  }
+  
+  /* 각 작품 아이템 */
+  .exhibition-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* 이미지 영역 */
+  .exhibition-image {
+    width: 354px;
+    height: 183px;
+    background: #D9D9D9;
+    font-size: 32px;
+    line-height: 38px;
+    color: #808080;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* 텍스트 정보 */
+  .exhibition-info {
+    margin-top: 12px;
+  }
+  
+  .exhibition-title {
+    font-size: 12px;
+    line-height: 14px;
+    color: #6E6E6E;
+  }
+  
+  .exhibition-meta {
+    font-size: 12px;
+    line-height: 14px;
+    color: #6E6E6E;
+  }
+  
+  .exhibition-image {
+    width: 100%; /* 화면 크기에 맞춰서 이미지 크기 조정 */
+    height: auto; /* 비율에 맞게 높이 자동 조정 */
+    object-fit: cover; /* 이미지 비율을 맞추면서 잘리게 함 */
+  }

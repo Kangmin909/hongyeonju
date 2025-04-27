@@ -1,0 +1,87 @@
+/* src/pages/Menu.css */
+
+.menu-container {
+  position: relative;
+  left: 0px;
+  width: 402px;
+  height: 874px;
+  background: #FFFFFF;
+  margin: 0 auto;
+  font-family: 'Pretendard Variable', sans-serif;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 95px;
+  left: 24px;
+  width: 42px;
+  height: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.menu-items {
+  position: absolute;
+  top: 0px; /* Figma에서 지정한 위치 */
+  left: -10px;
+}
+
+button {
+  all: unset;
+  font-size: 32px;
+  color: black;
+  cursor: pointer;
+  text-align: left;
+  padding: 20px 10px;
+  width: auto;
+  margin-bottom: 48px; /* 항목 간 간격 조정 */
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #f0f0f0;
+}
+
+button:focus {
+  outline: none;
+  background-color: #ddd;
+}
+
+/* 각 항목 고정 위치 */
+button:nth-child(1) {
+  position: absolute;
+  top: 242px; /* HOME 위치 */
+  left: 24px;
+}
+
+button:nth-child(2) {
+  position: absolute;
+  top: 330px; /* WORKS 위치 */
+  left: 24px;
+}
+
+button:nth-child(3) {
+  position: absolute;
+  top: 418px; /* EXHIBITION 위치 */
+  left: 24px;
+}
+
+button:nth-child(4) {
+  position: absolute;
+  top: 506px; /* CV 위치 */
+  left: 24px;
+}
+
+button:nth-child(5) {
+  position: absolute;
+  top: 594px; /* ABOUT 위치 */
+  left: 24px;
+}
