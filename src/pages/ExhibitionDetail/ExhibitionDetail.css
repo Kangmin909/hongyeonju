@@ -1,0 +1,88 @@
+.exhibition-detail-page {
+  position: relative;
+  width: 402px;
+  min-height: 100vh;
+  background: #FFFFFF;
+  margin: 0 auto;
+  font-family: 'Pretendard Variable', sans-serif;
+  padding: 80px 24px 50px 24px; /* 상단 여백 + 좌우 패딩 + 하단 여백 */
+  box-sizing: border-box;
+}
+
+/* 메뉴 버튼 */
+.exhibition-detail-menu-button {
+  position: absolute;
+  top: 110px;
+  right: 23px;
+  width: 23px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.exhibition-detail-menu-line {
+  width: 23px;
+  height: 2px;
+  background-color: black;
+}
+
+/* 텍스트 제목/부제목 */
+.exhibition-detail-title {
+  font-size: 32px;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.exhibition-detail-subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: #000;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* 날짜, 장소 라벨 */
+.exhibition-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.exhibition-detail-date,
+.exhibition-detail-location {
+  background: #000;
+  color: #FFF;
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+/* 설명 */
+.exhibition-detail-description {
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.05em;
+  color: #6E6E6E;
+  text-align: justify;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+/* 이미지 목록 */
+.exhibition-detail-images {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+/* 각 이미지 박스 */
+.exhibition-detail-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

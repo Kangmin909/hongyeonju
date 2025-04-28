@@ -38,29 +38,31 @@
     background-color: black;
   }
   
-  /* 연도 네비게이션 */
-  .year-nav {
-    position: relative;
-    top: 160px;
-    left: 24px;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .year {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #ACACAC;
-    cursor: pointer;  
-    padding: 0 10px;
-  }
-  
-  .year.active {
-    background: #000;
-    color: #FFF;
-    border-radius: 20px;
-  }
+ /* 연도 네비게이션 */
+ .exhibitions-container .year-nav {
+  position: relative;
+  top: 170px;
+  left: 24px;
+  display: flex;
+  gap: 5px;
+}
+
+.exhibitions-container .year-nav .year {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ACACAC;
+  cursor: pointer;  
+  padding: 0 10px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.exhibitions-container .year-nav .year.active {
+  background: #000;
+  color: #FFF;
+  border-radius: 20px;
+}
   
   /* 작품 목록 */
   .exhibitions-list {
@@ -99,12 +101,20 @@
   }
   
   .exhibition-title {
+    font-size: 20px;
+    line-height: 40px;
+    color: #000;
+  }
+  
+  .exhibition-date {
+    margin-top: 5px;
     font-size: 12px;
     line-height: 14px;
     color: #6E6E6E;
   }
-  
-  .exhibition-meta {
+
+  .exhibition-location {
+    margin-top: 5px;
     font-size: 12px;
     line-height: 14px;
     color: #6E6E6E;

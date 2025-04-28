@@ -39,24 +39,26 @@
   }
   
   /* 연도 네비게이션 */
-  .year-nav {
+  .works-container .year-nav {
     position: relative;
-    top: 160px;
+    top: 170px;
     left: 24px;
     display: flex;
-    gap: 10px;
+    gap: 5px;
   }
   
-  .year {
+  .works-container .year-nav .year {
     font-weight: 400;
     font-size: 20px;
     line-height: 24px;
     color: #ACACAC;
     cursor: pointer;  
     padding: 0 10px;
+    min-width: 40px;
+    text-align: center;
   }
   
-  .year.active {
+  .works-container .year-nav .year.active {
     background: #000;
     color: #FFF;
     border-radius: 20px;
@@ -80,19 +82,6 @@
     flex-direction: column;
   }
   
-  /* 이미지 영역 */
-  .work-image {
-    width: 354px;
-    height: 183px;
-    background: #D9D9D9;
-    font-size: 32px;
-    line-height: 38px;
-    color: #808080;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
   /* 텍스트 정보 */
   .work-info {
     margin-top: 12px;
@@ -105,6 +94,7 @@
   }
   
   .work-meta {
+    margin-top: 5px;
     font-size: 12px;
     line-height: 14px;
     color: #6E6E6E;
