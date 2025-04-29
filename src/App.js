@@ -4,9 +4,8 @@ import Menu from './pages/Menu/Menu';
 import Works from './pages/Works/Works';
 import Exhibition from './pages/Exhibition/Exhibition';
 import ExhibitionDetail from './pages/ExhibitionDetail/ExhibitionDetail';
-
-/// import CV from './pages/CV/CV';
-// import About from './pages/About/About';
+import CV from './pages/CV/CV';
+import About from './pages/About/About';
 
 function App() {
   return (
@@ -17,8 +16,8 @@ function App() {
         <Route path="/works" element={<Works />} />
         <Route path="/exhibition" element={<Exhibition />} />
         <Route path="/exhibition/:id" element={<ExhibitionDetail />} />
-        {/* <Route path="/cv" element={<CV />} /> */}
-        {/* <Route path="/about" element={<About />} /> */}
+        <Route path="/cv" element={<CV />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

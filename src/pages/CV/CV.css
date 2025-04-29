@@ -1,0 +1,87 @@
+.cv-page {
+  position: relative;
+  width: 402px;
+  min-height: 100vh;
+  background: #FFFFFF;
+  margin: 0 auto;
+  font-family: 'Pretendard Variable', sans-serif;
+  padding: 80px 25px 50px 25px;
+  box-sizing: border-box;
+}
+
+/* 메뉴 버튼 */
+.cv-menu-button {
+  position: absolute;
+  top: 110px;
+  right: 24px;
+  width: 23px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.cv-menu-line {
+  width: 23px;
+  height: 2px;
+  background-color: black;
+}
+
+/* 제목 */
+.cv-title {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 38px;
+  color: #000000;
+  margin-bottom: 29px;
+}
+
+/* 이름 */
+.cv-name {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+/* 섹션 제목 */
+.cv-section-title {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #000000;
+  margin: 40px 0 20px 0;
+}
+
+/* 교육/전시 이력 리스트 */
+.cv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cv-list-item {
+  display: flex;
+  gap: 34px;
+}
+
+.cv-year {
+  font-size: 14px;
+  line-height: 17px;
+  color: #6E6E6E;
+  min-width: 34px;
+}
+
+.cv-content {
+  font-size: 14px;
+  line-height: 22px;
+  color: #6E6E6E;
+}
+
+@media (max-width: 402px) {
+  .cv-page {
+    width: 100%;
+  }
+}
