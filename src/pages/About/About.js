@@ -23,7 +23,7 @@ const About = () => {
 
       <div>
         <h2 className="about-section-title">MAIL</h2>
-        <p className="about-contact-info">hongyj0906@naver.com</p>
+        <p className="about-contact-info">hongyj0906@gmail.com</p>
       </div>
 
       <div>
