@@ -18,7 +18,8 @@ const ExhibitionDetail = () => {
       images: [
         { id: 1, label: "이미지", url: "https://haieng.com/wp-content/uploads/2017/10/test-image-500x500.jpg" },
         { id: 2, label: "이미지", url: "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/ax7gxa1iogyu/b/hongyoenju/o/test1.png" },
-        { id: 3, label: "이미지", url: "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/ax7gxa1iogyu/b/hongyoenju/o/test2.png" }
+        { id: 3, label: "이미지", url: "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/ax7gxa1iogyu/b/hongyoenju/o/test2.png" },
+        { id: 4, label: "이미지", url: "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/ax7gxa1iogyu/b/hongyoenju/o/%EA%B3%A0%EC%96%91%EC%9D%B4%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-05-18%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.44.44.png" }
       ]
     },
     { 
