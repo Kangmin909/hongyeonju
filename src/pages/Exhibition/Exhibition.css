@@ -1,11 +1,13 @@
 /* 공통 스타일 */
 .exhibitions-container {
     position: relative;
-    width: 402px;
-    height: 874px;
+    width: 100%;
+    max-width: 402px;
+    min-height: 100vh;
     background: #FFFFFF;
     margin: 0 auto;
     font-family: 'Pretendard Variable', sans-serif;
+    box-sizing: border-box;
   }
   
   /* 헤더 */
@@ -123,4 +125,50 @@
     width: 100%; /* 화면 크기에 맞춰서 이미지 크기 조정 */
     height: auto; /* 비율에 맞게 높이 자동 조정 */
     object-fit: cover; /* 이미지 비율을 맞추면서 잘리게 함 */
+  }
+
+  @media (max-width: 402px) {
+    .exhibitions-container {
+      padding: 0 20px;
+    }
+    
+    .exhibitions-title {
+      left: 20px;
+    }
+    
+    .menu-icon {
+      left: calc(100% - 24px - 23px);
+    }
+    
+    .exhibitions-container .year-nav {
+      left: 20px;
+    }
+    
+    .exhibitions-list {
+      left: 20px;
+      width: calc(100% - 40px);
+    }
+  }
+
+  @media (max-width: 360px) {
+    .exhibitions-container {
+      padding: 0 16px;
+    }
+    
+    .exhibitions-title {
+      left: 16px;
+    }
+    
+    .menu-icon {
+      left: calc(100% - 16px - 23px);
+    }
+    
+    .exhibitions-container .year-nav {
+      left: 16px;
+    }
+    
+    .exhibitions-list {
+      left: 16px;
+      width: calc(100% - 32px);
+    }
   }
