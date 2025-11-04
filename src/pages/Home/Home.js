@@ -3,8 +3,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import MediaDisplay from '../../components/MediaDisplay';
 
-const homeImage = 'https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/ax7gxa1iogyu/b/hongyoenju/o/home%2F%EB%82%99%ED%95%98.jpeg';
+const homeImage = 'https://www.youtube.com/watch?v=l9D1HPb6kVA';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Home = () => {
         </div>
       </div>
       <div className="image-placeholder">
-        <img src={homeImage} alt="Can't find file" className="profile-image" />
+        <MediaDisplay src={homeImage} alt="Home image" className="profile-image" autoplay={true} />
       </div>
     </div>
   );

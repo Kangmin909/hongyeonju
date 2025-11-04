@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Exhibition.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import MediaDisplay from '../../components/MediaDisplay';
 
 const Exhibitions = () => {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const Exhibitions = () => {
             onClick={() => handleExhibitionClick(exhibition.id)}
             style={{ cursor: 'pointer' }}
           >
-            <img src={exhibition.link} alt="Can't find file" className="exhibition-image" />
+            <MediaDisplay src={exhibition.link} alt={exhibition.title} className="exhibition-image" autoplay={true} />
             <div className="exhibition-info">
               <div className="exhibition-title">{exhibition.title}</div>
               <div className="exhibition-date">{exhibition.date}</div>
