@@ -13,7 +13,7 @@ const Exhibitions = () => {
   const [selectedYear, setSelectedYear] = useState(initialYear);
 
   const exhibitions = [
-    { id: 1, year: '2021', title: '아트그라운드 서울 2024', date: '2024.10.31 - 11.03', location: '노들섬 노들갤러리 1,2관', link: 'https://haieng.com/wp-content/uploads/2017/10/test-image-500x500.jpg' },
+    { id: 1, year: '2024', title: '아트그라운드 서울 2024', date: '2024.10.31 - 11.03', location: '노들섬 노들갤러리 1,2관', link: 'https://haieng.com/wp-content/uploads/2017/10/test-image-500x500.jpg' },
     { id: 2, year: '2023', title: '슬다 / 타인의 시선, 내 안의 자아', date: '2023.07.19 - 10.19', location: '카페 언트 (경기 과천시 남태령옛길 97) ', link: 'https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/ax7gxa1iogyu/b/hongyoenju/o/%ED%83%80%EC%9D%B8%EC%9D%98%20%EC%8B%9C%EC%84%A0%2C%20%EB%82%B4%20%EC%95%88%EC%9D%98%20%EC%9E%90%EC%95%84%2FCube1%2C%20133*138cm%2C%20%EC%9E%A5%EC%A7%80%EC%97%90%20%ED%98%BC%ED%95%A9%EC%9E%AC%EB%A3%8C%2C%202022.png'}
   ];
 

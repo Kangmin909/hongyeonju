@@ -44,9 +44,8 @@
   .works-container .year-nav {
     position: relative;
     top: 170px;
-    left: 25px;
     display: flex;
-    gap: 5px;
+    gap: 13px;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -136,11 +135,11 @@
 
   @media (max-width: 402px) {
     .works-container {
-      padding: 0 20px;
+      padding: 0 24px;
     }
     
     .works-title {
-      left: 20px;
+      left: 24px;
     }
     
     .menu-icon {
@@ -148,9 +147,6 @@
     }
     
     .works-container .year-nav {
-      left: 20px;
-      gap: 3px;
-      width: calc(100% - 40px);
     }
     
     .works-container .year-nav .year {
@@ -160,8 +156,8 @@
     }
     
     .works-list {
-      left: 20px;
-      width: calc(100% - 40px);
+      left: 24px;
+      width: calc(100% - 48px);
     }
   }
 

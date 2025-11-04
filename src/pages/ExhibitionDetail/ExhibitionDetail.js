@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import './ExhibitionDetail.css';
 import MediaDisplay from '../../components/MediaDisplay';
+import arrowIcon from '../../assets/icons/back-arrow.png'; // 실제 아이콘 경로에 맞게 수정
 
 const ExhibitionDetail = () => {
   const { id } = useParams();
@@ -52,10 +53,8 @@ const ExhibitionDetail = () => {
 
   return (
     <div className="exhibition-detail-page">
-      <div className="exhibition-detail-menu-button" onClick={handleBackClick}>
-        <div className="exhibition-detail-menu-line"></div>
-        <div className="exhibition-detail-menu-line"></div>
-        <div className="exhibition-detail-menu-line"></div>
+      <div className="exhibition-detail-back-arrow" onClick={() => navigate(-1)}>
+        <img src={arrowIcon} alt="Back Arrow" className="arrow-icon" />
       </div>
       
       <div className="exhibition-detail-header">
