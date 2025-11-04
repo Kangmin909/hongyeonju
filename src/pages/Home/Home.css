@@ -2,11 +2,14 @@
 
 .home-container {
   position: relative;
-  width: 402px;
-  height: 874px;
+  width: 100%;
+  max-width: 402px;
+  min-height: 100vh;
   background: #FFFFFF;
   margin: 0 auto;
   font-family: 'Pretendard Variable', sans-serif;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .home-name {
@@ -21,7 +24,7 @@
 
 .menu-icon {
   position: absolute;
-  left: 355px;
+  right: 24px;
   top: 102px;
   width: 23px;
   height: 16px;
@@ -39,9 +42,8 @@
 
 .image-placeholder {
   position: absolute;
-  width: 354px;
+  width: calc(100% - 48px);
   left: 24px;
-
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
@@ -53,5 +55,24 @@
   height: auto;
   display: block;
   object-fit: contain; /* 이미지 원본 비율 유지 */
+}
+
+@media (max-width: 402px) {
+  .home-container {
+    padding: 0 16px;
+  }
+  
+  .home-name {
+    left: 16px;
+  }
+  
+  .menu-icon {
+    right: 16px;
+  }
+  
+  .image-placeholder {
+    left: 16px;
+    width: calc(100% - 32px);
+  }
 }
 
