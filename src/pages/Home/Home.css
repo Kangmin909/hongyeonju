@@ -41,7 +41,7 @@
   position: absolute;
   width: 354px;
   left: 24px;
-<<<<<<< HEAD
+
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
@@ -54,18 +54,4 @@
   display: block;
   object-fit: contain; /* 이미지 원본 비율 유지 */
 }
-=======
-  top: 207px;
-  background: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-}
 
-.profile-image {
-  width: 100%; /* 화면 크기에 맞춰서 이미지 크기 조정 */
-  height: auto; /* 비율에 맞게 높이 자동 조정 */
-  object-fit: cover; /* 이미지 비율을 맞추면서 잘리게 함 */
-}
->>>>>>> 584b2d7c6380d29388f2daae9be39df81d56bac8
