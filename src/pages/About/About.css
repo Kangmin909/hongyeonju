@@ -67,6 +67,14 @@
   margin-top: 10px;
 }
 
+.about-text-content p {
+  margin: 0 0 20px 0;
+}
+
+.about-text-content p:last-child {
+  margin-bottom: 0;
+}
+
 @media (max-width: 402px) {
   .about-page {
     width: 100%;

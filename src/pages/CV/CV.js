@@ -34,7 +34,7 @@ const CV = () => {
       </div>
 
       <h1 className="cv-title">CV</h1>
-      <h2 className="cv-name">홍연주 b.1999겠냐</h2>
+      <h2 className="cv-name">홍연주 b.1999</h2>
 
       <div className="cv-section">
         <div className="cv-list">

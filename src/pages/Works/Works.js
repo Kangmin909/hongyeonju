@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Works.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Works = () => {
-  const [selectedYear, setSelectedYear] = useState('2021');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 쿼리스트링에서 연도 읽기
+  const queryParams = new URLSearchParams(location.search);
+  const initialYear = queryParams.get('year') || '2025';
+  const [selectedYear, setSelectedYear] = useState(initialYear);
 
   const handleYearClick = (year) => {
     setSelectedYear(year);
+    navigate(`/works?year=${year}`);
   };
 
   const works = [
@@ -23,6 +29,11 @@ const Works = () => {
 
   const filteredWorks = works.filter(work => work.year === selectedYear);
 
+  useEffect(() => {
+    setSelectedYear(initialYear);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]); // URL이 바뀌면 selectedYear도 다시 세팅
+
   return (
     <div className="works-container">
       <header className="works-header">
@@ -35,7 +46,7 @@ const Works = () => {
       </header>
 
       <nav className="year-nav">
-        {['2021', '2022', '2023', '2024', '2025'].map((year) => (
+        {['2025', '2024', '2023', '2022', '2021'].map((year) => (
           <div
             key={year}
             className={`year ${selectedYear === year ? 'active' : ''}`}

@@ -8,7 +8,7 @@ const Exhibitions = () => {
 
   // 쿼리스트링에서 연도 읽기
   const queryParams = new URLSearchParams(location.search);
-  const initialYear = queryParams.get('year') || '2021';
+  const initialYear = queryParams.get('year') || '2025';
   const [selectedYear, setSelectedYear] = useState(initialYear);
 
   const exhibitions = [
@@ -45,7 +45,7 @@ const Exhibitions = () => {
       </header>
 
       <nav className="year-nav">
-        {['2021', '2022', '2023', '2024', '2025'].map((year) => (
+        {['2025', '2024', '2023', '2022', '2021'].map((year) => (
           <div
             key={year}
             className={`year ${selectedYear === year ? 'active' : ''}`}

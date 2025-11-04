@@ -119,8 +119,7 @@
     line-height: 14px;
     color: #6E6E6E;
   }
-  
-  .exhibition-image {
+    .exhibition-image {
     width: 100%; /* 화면 크기에 맞춰서 이미지 크기 조정 */
     height: auto; /* 비율에 맞게 높이 자동 조정 */
     object-fit: cover; /* 이미지 비율을 맞추면서 잘리게 함 */
