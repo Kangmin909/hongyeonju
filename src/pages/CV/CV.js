@@ -22,7 +22,8 @@ const CV = () => {
     { year: '2020', content: '<콘하스 팝업전>, 콘하스, 서울\n<The Ten> , prgm studio, 서울' },
     { year: '2019', content: '<세화전>, 갤러리 한옥, 서울\n<세모네모>, 동덕아트갤러리, 서울' },
     { year: '2018', content: '<쌩쇼>, 아트스페이스 지선, 서울' },
-    { year: '2017', content: '<워크샵 단체전>, A&D 갤러리, 서울' }
+    { year: '2017', content: '<워크샵 단체전>, A&D 갤러리, 서울' },
+    { year: '2015', content: '<테스트, 나도 할 수 있다>' }
   ];
 
   return (
