@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Works.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-import MediaDisplay from '../../components/MediaDisplay';
 
 const Works = () => {
   const navigate = useNavigate();
@@ -35,6 +34,44 @@ const Works = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]); // URL이 바뀌면 selectedYear도 다시 세팅
 
+  const renderMedia = (src) => {
+    if (!src) return null;
+
+    // 🎥 유튜브 링크 처리
+    if (src.includes("youtube.com") || src.includes("youtu.be")) {
+      const embedUrl = src
+        .replace("watch?v=", "embed/")
+        .replace("youtu.be/", "youtube.com/embed/");
+      return (
+        <iframe
+          src={`${embedUrl}?autoplay=1&mute=1&loop=1`}
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          className="profile-image"
+          title="Home video"
+        ></iframe>
+      );
+    }
+
+    // 🎬 mp4 (OCI 영상 등)
+    if (src.endsWith(".mp4")) {
+      return (
+        <video
+          src={src}
+          className="work-image"
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
+        />
+      );
+    }
+
+    // 🖼️ 이미지
+    return <img src={src} alt="Home" className="work-image" />;
+  };
+
   return (
     <div className="works-container">
       <header className="works-header">
@@ -61,7 +98,7 @@ const Works = () => {
       <div className="works-list">
         {filteredWorks.map((work) => (
           <div className="work-item" key={work.id}>
-            <MediaDisplay src={work.link} alt={work.title} className="work-image" autoplay={true} />
+            {renderMedia(work.link)}
             <div className="work-info">
               <div className="work-title">{work.title}</div>
               <div className="work-meta">{work.meta}</div>

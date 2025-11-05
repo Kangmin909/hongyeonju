@@ -94,6 +94,23 @@
     display: flex;
     flex-direction: column;
   }
+
+  .work-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain; /* 원본 비율 유지 */
+  }
+  
+  /* ▶️ YouTube (iframe 전용) */
+  .work-item iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* 유튜브만 비율 고정 */
+    border: none;
+    display: block;
+    object-fit: cover;
+  }
+
   
   /* 텍스트 정보 */
   .work-info {

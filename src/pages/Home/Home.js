@@ -3,12 +3,53 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
-import MediaDisplay from '../../components/MediaDisplay';
 
-const homeImage = 'https://www.youtube.com/watch?v=l9D1HPb6kVA';
+const homeImage = 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/video%2F_talkv_wsD01179bG_S7FWNRcrSnMKxzHxW3GNAk_talkv_high_1.mp4';
+// const homeImage = 'https://www.youtube.com/watch?v=l9D1HPb6kVA';
+// const homeImage = 'https://haieng.com/wp-content/uploads/2017/10/test-image-500x500.jpg';
+
 
 const Home = () => {
   const navigate = useNavigate();
+
+// 📌 확장자/도메인 기준으로 src 타입 감지
+  const renderMedia = (src) => {
+    if (!src) return null;
+
+    // 🎥 유튜브 링크 처리
+    if (src.includes("youtube.com") || src.includes("youtu.be")) {
+      const embedUrl = src
+        .replace("watch?v=", "embed/")
+        .replace("youtu.be/", "youtube.com/embed/");
+      return (
+        <iframe
+          src={`${embedUrl}?autoplay=1&mute=1&loop=1`}
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          className="profile-image"
+          title="Home video"
+        ></iframe>
+      );
+    }
+
+    // 🎬 mp4 (OCI 영상 등)
+    if (src.endsWith(".mp4")) {
+      return (
+        <video
+          src={src}
+          className="profile-image"
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
+        />
+      );
+    }
+
+    // 🖼️ 이미지
+    return <img src={src} alt="Home" className="profile-image" />;
+  };
 
   return (
     <div className="home-container">
@@ -21,7 +62,8 @@ const Home = () => {
         </div>
       </div>
       <div className="image-placeholder">
-        <MediaDisplay src={homeImage} alt="Home image" className="profile-image" autoplay={true} />
+        {renderMedia(homeImage)}
+        {/* <MediaDisplay src={homeImage} alt="Home image" className="profile-image" autoplay={true} /> */}
       </div>
     </div>
   );

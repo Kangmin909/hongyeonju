@@ -54,7 +54,16 @@
   width: 100%;
   height: auto;
   display: block;
-  object-fit: contain; /* 이미지 원본 비율 유지 */
+  object-fit: contain; /* 원본 비율 유지 */
+}
+
+/* ▶️ YouTube (iframe 전용) */
+.image-placeholder iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* 유튜브만 비율 고정 */
+  border: none;
+  display: block;
+  object-fit: cover;
 }
 
 .media-container {
