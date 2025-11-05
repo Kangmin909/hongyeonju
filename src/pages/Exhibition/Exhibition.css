@@ -15,7 +15,7 @@
     position: absolute;
     width: 111px;
     height: 38px;
-    left: 25px;
+    left: 24px;
     top: 80px;
     font-weight: 400;
     font-size: 32px;
@@ -45,8 +45,10 @@
  .exhibitions-container .year-nav {
   position: absolute;
   top: 170px;
+  left: 24px;
+  width: 354px;
   display: flex;
-  gap: 13px;
+  gap: 5px;
   flex-wrap: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -60,7 +62,7 @@
 
 .exhibitions-container .year-nav .year {
   font-weight: 400;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 24px;
   color: #ACACAC;
   cursor: pointer;  
@@ -73,7 +75,7 @@
 .exhibitions-container .year-nav .year.active {
   background: #000;
   color: #FFF;
-  border-radius: 24px;
+  border-radius: 20px;
 }
   
   /* 작품 목록 */
@@ -167,7 +169,9 @@
     }
     
     .exhibitions-container .year-nav {
-
+      left: 24px;
+      gap: 13px;
+      width: calc(100% - 48px);
     }
     
     .exhibitions-container .year-nav .year {
@@ -178,7 +182,7 @@
     
     .exhibitions-list {
       left: 24px;
-      width: calc(100% - 40px);
+      width: calc(100% - 48px);
     }
   }
 

@@ -15,7 +15,7 @@
     position: absolute;
     width: 111px;
     height: 38px;
-    left: 25px;
+    left: 24px;
     top: 80px;
     font-weight: 400;
     font-size: 32px;
@@ -42,10 +42,12 @@
   
   /* 연도 네비게이션 */
   .works-container .year-nav {
-    position: relative;
+    position: absolute;
     top: 170px;
+    left: 24px;
+    width: 354px;
     display: flex;
-    gap: 13px;
+    gap: 5px;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -79,7 +81,7 @@
   .works-list {
     position: absolute;
     top: 228px;
-    left: 25px;
+    left: 24px;
     width: 354px;
     display: flex;
     flex-direction: column;
@@ -147,6 +149,9 @@
     }
     
     .works-container .year-nav {
+      left: 24px;
+      gap: 13px;
+      width: calc(100% - 48px);
     }
     
     .works-container .year-nav .year {
