@@ -13,8 +13,10 @@ const Exhibitions = () => {
   const [selectedYear, setSelectedYear] = useState(initialYear);
 
   const exhibitions = [
-    { id: 1, year: '2024', title: '아트그라운드 서울 2024', date: '2024.10.31 - 11.03', location: '노들섬 노들갤러리 1,2관', link: 'https://haieng.com/wp-content/uploads/2017/10/test-image-500x500.jpg' },
-    { id: 2, year: '2023', title: '슬다 / 타인의 시선, 내 안의 자아', date: '2023.07.19 - 10.19', location: '카페 언트 (경기 과천시 남태령옛길 97) ', link: 'https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/ax7gxa1iogyu/b/hongyoenju/o/%ED%83%80%EC%9D%B8%EC%9D%98%20%EC%8B%9C%EC%84%A0%2C%20%EB%82%B4%20%EC%95%88%EC%9D%98%20%EC%9E%90%EC%95%84%2FCube1%2C%20133*138cm%2C%20%EC%9E%A5%EC%A7%80%EC%97%90%20%ED%98%BC%ED%95%A9%EC%9E%AC%EB%A3%8C%2C%202022.png'}
+    { id: 1, year: '2023', title: '슬다: 타인의 시선, 내 안의 자아', date: '2023.07.19 - 10.19', location: '카페 언트 (경기 과천시 남태령옛길 97)', link: 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/exhibition%2F%EC%8A%AC%EB%8B%A4%2F%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB.png' },
+    { id: 2, year: '2025', title: '눈과 입을 막는다', date: '2025.08.03 - 10', location: '마포아트센터 갤러리 (서울 마포구 대흥동 30-3)', link: 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/exhibition%2F%EB%88%88%EA%B3%BC%20%EC%9E%85%EC%9D%84%20%EB%A7%89%EB%8A%94%2F1.png' },
+    { id: 3, year: '2024', title: 'Cosmos', date: '23.12.26 - 24.03.26', location: '레끌레드 크리스탈 삼성점 (서울 강남구 삼성로 95길 24)', link: 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/exhibition%2FCosmos%2F%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB.png' },
+    { id: 4, year: '2025', title: "그림생각(들)", date: '25.06.03 - 06.08', location: '홍익대학교 제4공학관 T202 - T211', link: 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/exhibition%2F%EA%B7%B8%EB%A6%BC%EC%83%9D%EA%B0%81(%EB%93%A4)%2F1.png' }
   ];
 
   const handleYearClick = (year) => {
