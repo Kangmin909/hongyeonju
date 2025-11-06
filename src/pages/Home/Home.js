@@ -16,7 +16,7 @@ const Home = () => {
   const renderMedia = (src) => {
     if (!src) return null;
 
-    
+
     // 🎥 유튜브 링크 처리
     if (src.includes("youtube.com") || src.includes("youtu.be")) {
       const embedUrl = src
