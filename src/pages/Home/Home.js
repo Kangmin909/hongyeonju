@@ -43,7 +43,7 @@ const Home = () => {
           muted
           loop
           playsInline
-          controls
+          // controls
         />
       );
     }
