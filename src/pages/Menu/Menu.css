@@ -30,7 +30,7 @@
 
 .menu-items {
   position: absolute;
-  top: 0px; /* Figma에서 지정한 위치 */
+  top: -20px; /* Figma에서 지정한 위치 */
   left: -10px;
 }
 
