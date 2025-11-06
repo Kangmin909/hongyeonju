@@ -19,22 +19,6 @@
   padding: 80px 24px 50px 24px; /* 상단 여백 + 좌우 패딩 + 하단 여백 */
   box-sizing: border-box;
 }
-.exhibition-detail-back-arrow {
-  position: absolute;
-  right: 24px;
-  top: 110px;
-  width: 23px;
-  height: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-}
-.arrow-icon {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
 
 /* 텍스트 제목/부제목 */
 .exhibition-detail-title {
