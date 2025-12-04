@@ -15,7 +15,7 @@
     position: absolute;
     width: 111px;
     height: 38px;
-    left: 24px;
+    left: 25px;
     top: 80px;
     font-weight: 400;
     font-size: 32px;
@@ -170,8 +170,9 @@
     
     .exhibitions-container .year-nav {
       left: 24px;
-      gap: 13px;
-      width: calc(100% - 48px);
+      gap: 3px;
+      width: calc(100% - 40px);
+      justify-content: space-between
     }
     
     .exhibitions-container .year-nav .year {
@@ -182,7 +183,7 @@
     
     .exhibitions-list {
       left: 24px;
-      width: calc(100% - 48px);
+      width: calc(100% - 40px);
     }
   }
 
