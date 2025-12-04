@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 
     const data = response.results.map((page) => {
       return {
-        id: page.properties.id.number || "",
+        id: page.properties.id.title[0]?.plain_text || "",
         year: page.properties.year.number || "",
         title: page.properties.title.rich_text[0]?.plain_text || "",
         meta: page.properties.meta.rich_text[0]?.plain_text || "",
