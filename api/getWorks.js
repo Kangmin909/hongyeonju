@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       database_id: databaseId,
       sorts: [
         {
-          property: "ID",
+          property: "id",
           direction: "ascending",
         },
       ],
@@ -18,8 +18,8 @@ export default async function handler(req, res) {
 
     const data = response.results.map((page) => {
       return {
-        id: page.properties.id.number,
-        year: page.properties.year.rich_text[0]?.plain_text || "",
+        id: page.properties.id.number || "",
+        year: page.properties.year.number || "",
         title: page.properties.title.rich_text[0]?.plain_text || "",
         meta: page.properties.meta.rich_text[0]?.plain_text || "",
         link: page.properties.link.url || "",
