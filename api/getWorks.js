@@ -18,11 +18,11 @@ export default async function handler(req, res) {
 
     const data = response.results.map((page) => {
       return {
-        id: page.properties.ID.number,
-        year: page.properties.Year.text[0]?.plain_text || "",
-        title: page.properties.Title.text[0]?.plain_text || "",
-        meta: page.properties.Meta.text[0]?.plain_text || "",
-        link: page.properties.Link.url || "",
+        id: page.properties.id.number,
+        year: page.properties.year.rich_text[0]?.plain_text || "",
+        title: page.properties.title.rich_text[0]?.plain_text || "",
+        meta: page.properties.meta.rich_text[0]?.plain_text || "",
+        link: page.properties.link.url || "",
       };
     });
 
