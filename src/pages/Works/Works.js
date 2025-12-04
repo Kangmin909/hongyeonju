@@ -21,7 +21,7 @@ const Works = () => {
   useEffect(() => {
     fetch("/api/getWorks")
       .then((res) => res.json())
-      .then((data) => setWorks(data.works));
+      .then((data) => setWorks(data));
   }, []);
 
   const filteredWorks = works.filter(work => work.year === selectedYear);
