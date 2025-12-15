@@ -4,7 +4,7 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 export default async function handler(req, res) {
   try {
-    const databaseId = process.env.NOTION_WORKS_DB_ID;
+    const databaseId = process.env.NOTION_HOME_DB_ID;
 
     const response = await notion.databases.query({
       database_id: databaseId,
@@ -14,22 +14,23 @@ export default async function handler(req, res) {
           direction: "ascending",
         },
       ],
+      page_size: 1, // ✅ 하나만 가져오기
     });
 
-    const data = response.results.map((page) => {
-      return {
-        id: page.properties.id.title[0]?.plain_text || "",
-        year: page.properties.year.select?.name || "",
-        // year: page.properties.year.rich_text[0]?.plain_text || "",
-        title: page.properties.title.rich_text[0]?.plain_text || "",
-        meta: page.properties.meta.rich_text[0]?.plain_text || "",
-        link: page.properties.link.url || "",
-      };
-    });
+    const page = response.results[0];
+
+    if (!page) {
+      return res.status(404).json({ error: "No home data found" });
+    }
+
+    const data = {
+      id: page.properties.id.title[0]?.plain_text || "",
+      link: page.properties.link.url || "",
+    };
 
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to load works" });
+    res.status(500).json({ error: "Failed to load home media" });
   }
 }
