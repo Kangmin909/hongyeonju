@@ -1,4 +1,3 @@
-// /api/notion-image-sync.js
 import { Client } from "@notionhq/client";
 
 // Notion Client
@@ -19,16 +18,20 @@ export default async function handler(req, res) {
     // 1) Payload 파싱
     const pageId = req.body?.data?.id;
     const fileInfo = req.body?.data?.properties?.image?.files?.[0];
-    const imageUrl = fileInfo?.file?.url;
+    const fileUrl = fileInfo?.file?.url;
     const originalName = fileInfo?.name;
 
-    if (!pageId || !imageUrl) {
-      console.error("❌ Missing required fields", { pageId, imageUrl });
+    if (!pageId || !fileUrl || !originalName) {
+      console.error("❌ Missing required fields", {
+        pageId,
+        fileUrl,
+        originalName,
+      });
       return res.status(400).json({ error: "Invalid payload structure" });
     }
 
     console.log("📌 Extracted pageId:", pageId);
-    console.log("📌 Extracted imageUrl:", imageUrl);
+    console.log("📌 Extracted fileUrl:", fileUrl);
     console.log("📌 Original filename:", originalName);
 
     if (!OCI_PAR_URL) {
@@ -36,25 +39,43 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Missing OCI_PAR_URL" });
     }
 
-    // 2) 이미지 다운로드
-    const imageResponse = await fetch(imageUrl);
-    const arrayBuffer = await imageResponse.arrayBuffer();
-    const imageBuffer = Buffer.from(arrayBuffer);
+    // 2) 파일 타입 판별 (확장자 기준)
+    const ext = originalName.split(".").pop().toLowerCase();
 
-    // 3) OCI PAR 업로드
-    const uploadName = originalName || `image-${Date.now()}.png`;
+    const isImage = ["png", "jpg", "jpeg", "webp", "gif"].includes(ext);
+    const isVideo = ["mp4", "mov", "webm"].includes(ext);
 
-    // PAR URL은 파일명을 포함한 완성 URL이 아님 → 파일명은 쿼리로 지정됨
+    if (!isImage && !isVideo) {
+      console.error("❌ Unsupported file type:", ext);
+      return res.status(400).json({ error: "Unsupported file type" });
+    }
+
+    // Content-Type 결정
+    let contentType;
+    if (isImage) {
+      contentType = `image/${ext === "jpg" ? "jpeg" : ext}`;
+    } else {
+      contentType = "video/mp4";
+    }
+
+    // 3) 파일 다운로드
+    const fileResponse = await fetch(fileUrl);
+    const arrayBuffer = await fileResponse.arrayBuffer();
+    const fileBuffer = Buffer.from(arrayBuffer);
+
+    // 4) OCI PAR 업로드
+    const uploadName = originalName;
     const parUploadUrl = `${OCI_PAR_URL}${encodeURIComponent(uploadName)}`;
 
     console.log("📤 Uploading via PAR:", parUploadUrl);
+    console.log("📄 Detected Content-Type:", contentType);
 
     const uploadResponse = await fetch(parUploadUrl, {
       method: "PUT",
       headers: {
-        "Content-Type": "image/png",
+        "Content-Type": contentType,
       },
-      body: imageBuffer,
+      body: fileBuffer,
     });
 
     if (!uploadResponse.ok) {
@@ -62,31 +83,33 @@ export default async function handler(req, res) {
       throw new Error(`Upload failed: ${text}`);
     }
 
-    console.log("✅ Image uploaded via PAR!");
+    console.log("✅ File uploaded via PAR!");
 
-    // 4) Notion 업데이트용 실제 공개 URL 구성
-    // PAR 업로드는 최종 object URL 규칙을 따름
-    const finalImageUrl = parUploadUrl.split("?")[0]; // ?filename 앞부분이 실제 URL
+    // 5) 실제 OCI Object URL
+    const finalFileUrl = parUploadUrl.split("?")[0];
 
-    console.log("🔗 Final OCI URL:", finalImageUrl);
+    console.log("🔗 Final OCI URL:", finalFileUrl);
 
-    // 5) Notion DB 업데이트
-    const notionUpdateRes = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
-      method: "PATCH",
-      headers: {
-        "Authorization": `Bearer ${process.env.NOTION_TOKEN}`,
-        "Content-Type": "application/json",
-        "Notion-Version": "2022-06-28"
-      },
-      body: JSON.stringify({
-        properties: {
-          link: {
-            type: "url",
-            url: finalImageUrl
-          }
-        }
-      })
-    });
+    // 6) Notion DB 업데이트
+    const notionUpdateRes = await fetch(
+      `https://api.notion.com/v1/pages/${pageId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
+          "Content-Type": "application/json",
+          "Notion-Version": "2022-06-28",
+        },
+        body: JSON.stringify({
+          properties: {
+            link: {
+              type: "url",
+              url: finalFileUrl,
+            },
+          },
+        }),
+      }
+    );
 
     const notionResult = await notionUpdateRes.json();
     console.log("📝 Notion Update Result:", notionResult);
@@ -94,9 +117,9 @@ export default async function handler(req, res) {
     return res.status(200).json({
       ok: true,
       pageId,
-      uploadedUrl: finalImageUrl,
+      type: isImage ? "image" : "video",
+      uploadedUrl: finalFileUrl,
     });
-
   } catch (err) {
     console.error("❌ ERROR:", err);
     return res.status(500).json({ error: err.message });
