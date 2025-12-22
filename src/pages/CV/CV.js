@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CV.css';
 
@@ -9,22 +9,23 @@ const CV = () => {
     navigate('/menu');
   };
 
-  const education = [
-    { year: '2025', content: '홍익대학교 동양화과 석사 재학중' },
-    { year: '2023', content: '한성대학교 동양화과 학사 졸업' },
-    { year: '2018', content: '안양예술고등학교 졸업' }
-  ];
+  const [CV1, setCV1] = useState([]);
+  const [CV2, setCV2] = useState([]);
+  
+  useEffect(() => {
+    fetch("/api/getCV1")
+      .then((res) => res.json())
+      .then((data) => setCV1(data));
+  }, []);
 
-  const exhibitions = [
-    { year: '2024', content: '<아트그라운드 서울2024> , 노들섬 갤러리, 서울' },
-    { year: '2023', content: '<이유없는 이후>, 홍익대학교, 서울\n<오픈스튜디오>, 홍익대학교, 서울' },
-    { year: '2022', content: '<떠오르는 것 하강하는 것>, 홍익대학교, 서울' },
-    { year: '2020', content: '<콘하스 팝업전>, 콘하스, 서울\n<The Ten> , prgm studio, 서울' },
-    { year: '2019', content: '<세화전>, 갤러리 한옥, 서울\n<세모네모>, 동덕아트갤러리, 서울' },
-    { year: '2018', content: '<쌩쇼>, 아트스페이스 지선, 서울' },
-    { year: '2017', content: '<워크샵 단체전>, A&D 갤러리, 서울' },
-    { year: '2015', content: '<테스트, 나도 할 수 있다>' }
-  ];
+  useEffect(() => {
+    fetch("/api/getCV2")
+      .then((res) => res.json())
+      .then((data) => setCV2(data));
+  }, []);
+
+  const education = CV1;
+  const exhibitions = CV2;
 
   return (
     <div className="cv-page">
@@ -47,9 +48,9 @@ const CV = () => {
           ))}
         </div>
       </div>
-
+      
+      <h3 className="cv-section-title">전시이력</h3>
       <div className="cv-section">
-        <h3 className="cv-section-title">전시이력</h3>
         <div className="cv-list">
           {exhibitions.map((item, index) => (
             <div key={index} className="cv-list-item">
