@@ -61,14 +61,14 @@
   color: #6E6E6E;
   text-align: justify;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 38px;
 }
 
 /* 이미지 목록 */
 .exhibition-detail-images {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 30px;
 }
 
 /* 각 이미지 박스 */

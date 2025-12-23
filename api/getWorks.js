@@ -20,7 +20,6 @@ export default async function handler(req, res) {
       return {
         id: page.properties.id.title[0]?.plain_text || "",
         year: page.properties.year.select?.name || "",
-        // year: page.properties.year.rich_text[0]?.plain_text || "",
         title: page.properties.title.rich_text[0]?.plain_text || "",
         meta: page.properties.meta.rich_text[0]?.plain_text || "",
         link: page.properties.link.url || "",
