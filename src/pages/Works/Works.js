@@ -17,18 +17,24 @@ const Works = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 쿼리스트링에서 연도 읽기
+  const [selectedYear, setSelectedYear] = useState(null);
+
+  const worksArray = Array.isArray(works) ? works : [];
+  const wholeYears = [...new Set(worksArray.map(work => work.year))]
+   .sort((a, b) => b - a);
+  
   const queryParams = new URLSearchParams(location.search);
-  const initialYear = queryParams.get('year') || '2025';
-  const [selectedYear, setSelectedYear] = useState(initialYear);
+  const initialYear = queryParams.get('year') || wholeYears[0];
+
+  useEffect(() => {
+    setSelectedYear(initialYear);
+  }, [initialYear]);
 
   const handleYearClick = (year) => {
     setSelectedYear(year);
     navigate(`/works?year=${year}`);
   };
 
-  // works가 null이거나 배열이 아닐 때 빈 배열로 처리
-  const worksArray = Array.isArray(works) ? works : [];
   const filteredWorks = worksArray.filter(work => work.year === selectedYear);
 
   useEffect(() => {
@@ -86,7 +92,7 @@ const Works = () => {
       </header>
 
       <nav className="year-nav">
-        {['2025', '2024', '2023', '2022', '2021'].map((year) => (
+        {wholeYears.map((year) => (
           <div
             key={year}
             className={`year ${selectedYear === year ? 'active' : ''}`}
