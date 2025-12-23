@@ -80,7 +80,7 @@ export const SkeletonCVItem = () => {
 export const SkeletonHomeImage = () => {
   return (
     <div className="skeleton-home-image">
-      <SkeletonImage width="100%" height="100%" />
+      <SkeletonImage width="100%" className="skeleton-exhibition-image"/>
     </div>
   );
 };

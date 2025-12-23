@@ -75,6 +75,7 @@ const Home = () => {
         </div>
       </div>
       <div className="image-placeholder">
+
         {loading || !homeImage ? (
           <SkeletonHomeImage />
         ) : (

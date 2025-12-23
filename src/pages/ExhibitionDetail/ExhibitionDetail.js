@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ExhibitionDetail.css';
 import { useAppData } from '../../context/AppDataContext';
-import { SkeletonImage } from '../../components/Skeleton';
+// import { SkeletonImage } from '../../components/Skeleton';
 import MediaDisplay from '../../components/MediaDisplay';
 
 const ExhibitionDetail = () => {
@@ -49,14 +49,14 @@ const ExhibitionDetail = () => {
       </div>
 
       <div className="exhibition-detail-images">
-        {images.length === 0 ? (
+        {/* {images.length === 0 ? (
           <>
             <SkeletonImage width="100%" height="400px" />
             <SkeletonImage width="100%" height="400px" />
             <SkeletonImage width="100%" height="400px" />
           </>
-        ) : (
-          images.map((image) => (
+        ) : ( */}
+{          images.map((image) => (
             <div key={image.id} className="exhibition-detail-image-container">
               <MediaDisplay src={image.link} alt={image.label} className="exhibition-detail-image" />
               <div className="exhibition-detail-work-info">
@@ -64,8 +64,8 @@ const ExhibitionDetail = () => {
                 <div className="exhibition-detail-work-meta">{image.meta}</div>
               </div>
             </div>
-          ))
-        )}
+          ))}
+        {/* )} */}
       </div>
     </div>
   );

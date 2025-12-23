@@ -48,7 +48,8 @@
   left: 24px;
   width: 354px;
   display: flex;
-  gap: 5px;
+  gap: 12px;
+  justify-content: space-between;
   flex-wrap: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -170,9 +171,9 @@
     
     .exhibitions-container .year-nav {
       left: 24px;
-      gap: 3px;
-      width: calc(100% - 40px);
-      justify-content: space-between
+    gap: 13px;
+    justify-content: space-between;
+      width: calc(100% - 48px);
     }
     
     .exhibitions-container .year-nav .year {
@@ -183,7 +184,7 @@
     
     .exhibitions-list {
       left: 24px;
-      width: calc(100% - 40px);
+      width: calc(100% - 48px);
     }
   }
 
@@ -202,7 +203,8 @@
     
     .exhibitions-container .year-nav {
       left: 16px;
-      gap: 2px;
+    gap: 8px;
+    justify-content: space-between;
       width: calc(100% - 32px);
     }
     

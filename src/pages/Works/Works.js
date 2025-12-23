@@ -3,12 +3,13 @@ import './Works.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
 import { SkeletonWorkItem } from '../../components/Skeleton';
+import YearNav from '../../components/YearNav';
 
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const { works, loading } = useAppData();
   const { works, loading, fetchAllData } = useAppData();
+
   // Home 화면에서 모든 데이터를 한 번에 fetch
   useEffect(() => {
     if (loading === true){
@@ -17,14 +18,13 @@ const Works = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [selectedYear, setSelectedYear] = useState(null);
-
   const worksArray = Array.isArray(works) ? works : [];
   const wholeYears = [...new Set(worksArray.map(work => work.year))]
    .sort((a, b) => b - a);
   
   const queryParams = new URLSearchParams(location.search);
-  const initialYear = queryParams.get('year') || wholeYears[0];
+  const initialYear = queryParams.get('year') || wholeYears[0] || '2025';
+  const [selectedYear, setSelectedYear] = useState(initialYear);
 
   useEffect(() => {
     setSelectedYear(initialYear);
@@ -40,7 +40,7 @@ const Works = () => {
   useEffect(() => {
     setSelectedYear(initialYear);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]); // URL이 바뀌면 selectedYear도 다시 세팅
+  }, [location.search, initialYear]); // URL이 바뀌면 selectedYear도 다시 세팅
 
   const renderMedia = (src) => {
     if (!src) return null;
@@ -91,17 +91,12 @@ const Works = () => {
         </div>
       </header>
 
-      <nav className="year-nav">
-        {wholeYears.map((year) => (
-          <div
-            key={year}
-            className={`year ${selectedYear === year ? 'active' : ''}`}
-            onClick={() => handleYearClick(year)}
-          >
-            {year}
-          </div>
-        ))}
-      </nav>
+      <YearNav
+        years={wholeYears}
+        selectedYear={selectedYear}
+        onSelect={handleYearClick}
+        loading={loading || worksArray.length === 0}
+      />
 
       <div className="works-list">
         {loading || worksArray.length === 0 ? (

@@ -41,13 +41,14 @@
   }
   
   /* 연도 네비게이션 */
-  .works-container .year-nav {
+.works-container .year-nav {
     position: absolute;
     top: 170px;
     left: 24px;
     width: 354px;
     display: flex;
-    gap: 5px;
+    gap: 12px;
+    justify-content: space-between;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -165,11 +166,12 @@
       left: calc(100% - 24px - 23px);
     }
     
-    .works-container .year-nav {
-      left: 24px;
-      gap: 13px;
-      width: calc(100% - 48px);
-    }
+  .works-container .year-nav {
+    left: 24px;
+    gap: 13px;
+    justify-content: space-between;
+    width: calc(100% - 48px);
+  }
     
     .works-container .year-nav .year {
       font-size: 18px;
@@ -196,11 +198,12 @@
       left: calc(100% - 16px - 23px);
     }
     
-    .works-container .year-nav {
-      left: 16px;
-      gap: 2px;
-      width: calc(100% - 32px);
-    }
+  .works-container .year-nav {
+    left: 16px;
+    gap: 8px;
+    justify-content: space-between;
+    width: calc(100% - 32px);
+  }
     
     .works-container .year-nav .year {
       font-size: 16px;

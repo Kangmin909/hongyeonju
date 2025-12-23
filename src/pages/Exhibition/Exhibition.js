@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
 import { SkeletonExhibitionItem } from '../../components/Skeleton';
 import MediaDisplay from '../../components/MediaDisplay';
+import YearNav from '../../components/YearNav';
 
 const Exhibitions = () => {
   const navigate = useNavigate();
@@ -24,13 +25,12 @@ const Exhibitions = () => {
   const wholeYears = [...new Set(exhibitions.map(exhibition => exhibition.year))]
    .sort((a, b) => b - a);
   
-  const initialYear = queryParams.get('year') || wholeYears[0];
+  const initialYear = queryParams.get('year') || wholeYears[0] || '2025';
 
   useEffect(() => {
     setSelectedYear(initialYear);
   }, [initialYear]);
 
-  
 
   const handleYearClick = (year) => {
     setSelectedYear(year);
@@ -49,7 +49,7 @@ const Exhibitions = () => {
   useEffect(() => {
     setSelectedYear(initialYear);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]); // URL이 바뀌면 selectedYear도 다시 세팅
+  }, [location.search, initialYear]); // URL이 바뀌면 selectedYear도 다시 세팅
   
 
   return (
@@ -63,17 +63,12 @@ const Exhibitions = () => {
         </div>
       </header>
 
-      <nav className="year-nav">
-        {wholeYears.map((year) => (
-          <div
-            key={year}
-            className={`year ${selectedYear === year ? 'active' : ''}`}
-            onClick={() => handleYearClick(year)}
-          >
-            {year}
-          </div>
-        ))}
-      </nav>
+      <YearNav
+        years={wholeYears}
+        selectedYear={selectedYear}
+        onSelect={handleYearClick}
+        loading={loading || exhibitions.length === 0}
+      />
 
       <div className="exhibitions-list">
         {loading || exhibitions.length === 0 ? (
