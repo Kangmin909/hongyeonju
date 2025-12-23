@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppData } from '../../context/AppDataContext';
 import './About.css';
 
 const About = () => {
   const navigate = useNavigate();
+  const { about } = useAppData();
 
   const handleBackClick = () => {
     navigate('/menu');
   };
-
-  const [about, setAbout] = useState(null);
-
-  useEffect(() => {
-    fetch("/api/getAbout")
-      .then((res) => res.json())
-      .then((data) => setAbout(data));
-  }, []);
 
   const mail = about?.mail;
   const instagram = about?.instagram;
@@ -33,12 +27,21 @@ const About = () => {
 
       <div>
         <h2 className="about-section-title">MAIL</h2>
-        <p className="about-contact-info">{mail}</p>
+        <a href={`mailto:${mail}`} className="about-contact-info">
+          {mail}
+        </a>
       </div>
 
       <div>
         <h2 className="about-section-title">INSTAGRAM</h2>
-        <p className="about-contact-info">{instagram}</p>
+        <a 
+          href={instagram.startsWith('http') ? instagram : `https://instagram.com/${instagram.replace('@', '')}`} 
+          className="about-contact-info"
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          {instagram}
+        </a>
       </div>
 
       <div className="about-text-section">

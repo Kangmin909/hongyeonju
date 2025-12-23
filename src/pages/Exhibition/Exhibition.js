@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Exhibition.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAppData } from '../../context/AppDataContext';
 import MediaDisplay from '../../components/MediaDisplay';
 
 const Exhibitions = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { exhibition: exhibitions = [] } = useAppData();
 
   // 쿼리스트링에서 연도 읽기
   const queryParams = new URLSearchParams(location.search);
@@ -16,14 +18,6 @@ const Exhibitions = () => {
     setSelectedYear(year);
     navigate(`/exhibition?year=${year}`);
   };
-
-  const [exhibitions, setExhibitions] = useState([]);
-  
-  useEffect(() => {
-    fetch("/api/getExhibition")
-      .then((res) => res.json())
-      .then((data) => setExhibitions(data));
-  }, []);
 
   const filteredExhibitions = exhibitions.filter(exhibition => exhibition.year === selectedYear);
 

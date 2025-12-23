@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppData } from '../../context/AppDataContext';
 import './CV.css';
 
 const CV = () => {
   const navigate = useNavigate();
+  const { cv1, cv2 } = useAppData();
 
   const handleBackClick = () => {
     navigate('/menu');
   };
 
-  const [CV1, setCV1] = useState([]);
-  const [CV2, setCV2] = useState([]);
-  
-  useEffect(() => {
-    fetch("/api/getCV1")
-      .then((res) => res.json())
-      .then((data) => setCV1(data));
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/getCV2")
-      .then((res) => res.json())
-      .then((data) => setCV2(data));
-  }, []);
-
-  const education = CV1;
-  const exhibitions = CV2;
+  const education = cv1 || [];
+  const exhibitions = cv2 || [];
 
   return (
     <div className="cv-page">
@@ -55,7 +42,7 @@ const CV = () => {
           {exhibitions.map((item, index) => (
             <div key={index} className="cv-list-item">
               <div className="cv-year">{item.year}</div>
-              <div className="cv-content">{item.content}</div>
+              <pre className="cv-content">{item.content}</pre>
             </div>
           ))}
         </div>

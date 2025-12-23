@@ -69,7 +69,7 @@
 
 .cv-year {
   font-size: 14px;
-  line-height: 17px;
+  line-height: 22px;
   color: #6E6E6E;
   min-width: 34px;
 }
@@ -78,6 +78,16 @@
   font-size: 14px;
   line-height: 22px;
   color: #6E6E6E;
+
+  /* 1. 기본 고정폭 글꼴 해제 (필요한 경우) */
+  font-family: inherit; 
+
+  /* 2. 자동 줄바꿈 활성화 (중요!) */
+  white-space: pre-wrap; 
+  word-break: keep-all;
+
+  /* 3. 기본 여백 제거 */
+  margin: 0;
 }
 
 @media (max-width: 402px) {

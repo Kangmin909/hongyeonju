@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Works.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAppData } from '../../context/AppDataContext';
 
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { works = [] } = useAppData();
 
   // 쿼리스트링에서 연도 읽기
   const queryParams = new URLSearchParams(location.search);
@@ -15,14 +17,6 @@ const Works = () => {
     setSelectedYear(year);
     navigate(`/works?year=${year}`);
   };
-
-  const [works, setWorks] = useState([]);
-  
-  useEffect(() => {
-    fetch("/api/getWorks")
-      .then((res) => res.json())
-      .then((data) => setWorks(data));
-  }, []);
 
   const filteredWorks = works.filter(work => work.year === selectedYear);
 

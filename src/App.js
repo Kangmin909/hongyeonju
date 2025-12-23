@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AppDataProvider } from './context/AppDataContext';
 import Home from './pages/Home/Home';
 import Menu from './pages/Menu/Menu';
 import Works from './pages/Works/Works';
@@ -9,17 +10,19 @@ import About from './pages/About/About';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/works" element={<Works />} />
-        <Route path="/exhibition" element={<Exhibition />} />
-        <Route path="/exhibition/:id" element={<ExhibitionDetail />} />
-        <Route path="/cv" element={<CV />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </Router>
+    <AppDataProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/works" element={<Works />} />
+          <Route path="/exhibition" element={<Exhibition />} />
+          <Route path="/exhibition/:id" element={<ExhibitionDetail />} />
+          <Route path="/cv" element={<CV />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Router>
+    </AppDataProvider>
   );
 }
 

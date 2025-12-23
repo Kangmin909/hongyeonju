@@ -1,7 +1,8 @@
 // src/pages/Home.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppData } from '../../context/AppDataContext';
 import './Home.css';
 
 // const homeImage = 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/home%2F_talkv_wsD01179bG_S7FWNRcrSnMKxzHxW3GNAk_talkv_high_1.mp4';
@@ -11,17 +12,16 @@ import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { home, fetchAllData } = useAppData();
 
-  const [home, setHome] = useState(null);
-
+  // Home 화면에서 모든 데이터를 한 번에 fetch
   useEffect(() => {
-    fetch("/api/getHome")
-      .then((res) => res.json())
-      .then((data) => setHome(data));
+    fetchAllData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const homeImage = home?.link;
-  
+
 // 📌 확장자/도메인 기준으로 src 타입 감지
   const renderMedia = (src) => {
     if (!src) return null;
