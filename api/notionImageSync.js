@@ -64,7 +64,9 @@ export default async function handler(req, res) {
     const fileBuffer = Buffer.from(arrayBuffer);
 
     // 4) OCI PAR 업로드
-    const uploadName = originalName;
+    const timestamp = Date.now(); // ms 단위
+    const safeName = originalName.replace(/\s+/g, "_"); // 공백 제거(권장)
+    const uploadName = `${safeName}_${timestamp}`;
     const parUploadUrl = `${OCI_PAR_URL}${encodeURIComponent(uploadName)}`;
 
     console.log("📤 Uploading via PAR:", parUploadUrl);
