@@ -64,7 +64,23 @@ export default async function handler(req, res) {
     const fileBuffer = Buffer.from(arrayBuffer);
 
     // 4) OCI PAR 업로드
-    const timestamp = Date.now(); // ms 단위
+    function getKSTTimestamp() {
+      const now = new Date();
+    
+      // UTC → KST (+9)
+      const kst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+    
+      const YYYY = kst.getUTCFullYear();
+      const MM = String(kst.getUTCMonth() + 1).padStart(2, "0");
+      const DD = String(kst.getUTCDate()).padStart(2, "0");
+      const HH = String(kst.getUTCHours()).padStart(2, "0");
+      const mm = String(kst.getUTCMinutes()).padStart(2, "0");
+      const ss = String(kst.getUTCSeconds()).padStart(2, "0");
+    
+      return `${YYYY}${MM}${DD}T${HH}${mm}${ss}`;
+    }
+
+    const timestamp = getKSTTimestamp(); // ms 단위
     const safeName = originalName.replace(/\s+/g, "_"); // 공백 제거(권장)
     const uploadName = `${safeName}_${timestamp}`;
     const parUploadUrl = `${OCI_PAR_URL}${encodeURIComponent(uploadName)}`;
