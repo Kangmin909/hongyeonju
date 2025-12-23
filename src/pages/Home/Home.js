@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
+import { SkeletonHomeImage } from '../../components/Skeleton';
 import './Home.css';
 
 // const homeImage = 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/home%2F_talkv_wsD01179bG_S7FWNRcrSnMKxzHxW3GNAk_talkv_high_1.mp4';
@@ -12,11 +13,12 @@ import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { home, fetchAllData } = useAppData();
-
+  const { home, loading, fetchAllData } = useAppData();
   // Home 화면에서 모든 데이터를 한 번에 fetch
   useEffect(() => {
-    fetchAllData();
+    if (loading === true){
+      fetchAllData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,7 +75,11 @@ const Home = () => {
         </div>
       </div>
       <div className="image-placeholder">
-        {renderMedia(homeImage)}
+        {loading || !homeImage ? (
+          <SkeletonHomeImage />
+        ) : (
+          renderMedia(homeImage)
+        )}
         {/* <MediaDisplay src={homeImage} alt="Home image" className="profile-image" autoplay={true} /> */}
       </div>
     </div>

@@ -2,11 +2,20 @@ import React, { useState, useEffect } from 'react';
 import './Works.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
+import { SkeletonWorkItem } from '../../components/Skeleton';
 
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { works = [] } = useAppData();
+  // const { works, loading } = useAppData();
+  const { works, loading, fetchAllData } = useAppData();
+  // Home 화면에서 모든 데이터를 한 번에 fetch
+  useEffect(() => {
+    if (loading === true){
+      fetchAllData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 쿼리스트링에서 연도 읽기
   const queryParams = new URLSearchParams(location.search);
@@ -18,7 +27,9 @@ const Works = () => {
     navigate(`/works?year=${year}`);
   };
 
-  const filteredWorks = works.filter(work => work.year === selectedYear);
+  // works가 null이거나 배열이 아닐 때 빈 배열로 처리
+  const worksArray = Array.isArray(works) ? works : [];
+  const filteredWorks = worksArray.filter(work => work.year === selectedYear);
 
   useEffect(() => {
     setSelectedYear(initialYear);
@@ -87,15 +98,23 @@ const Works = () => {
       </nav>
 
       <div className="works-list">
-        {filteredWorks.map((work) => (
-          <div className="work-item" key={work.id}>
-            {renderMedia(work.link)}
-            <div className="work-info">
-              <div className="work-title">{work.title}</div>
-              <div className="work-meta">{work.meta}</div>
+        {loading || worksArray.length === 0 ? (
+          <>
+            <SkeletonWorkItem />
+            <SkeletonWorkItem />
+            <SkeletonWorkItem />
+          </>
+        ) : (
+          filteredWorks.map((work) => (
+            <div className="work-item" key={work.id}>
+              {renderMedia(work.link)}
+              <div className="work-info">
+                <div className="work-title">{work.title}</div>
+                <div className="work-meta">{work.meta}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

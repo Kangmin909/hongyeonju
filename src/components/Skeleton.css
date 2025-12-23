@@ -1,0 +1,143 @@
+/* 스켈레톤 기본 애니메이션 */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton-box,
+.skeleton-text,
+.skeleton-image {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0px,
+    #e0e0e0 40px,
+    #f0f0f0 80px
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-text-container {
+  width: 100%;
+}
+
+.skeleton-text {
+  height: 16px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0px,
+    #e0e0e0 40px,
+    #f0f0f0 80px
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-image {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0px,
+    #e0e0e0 40px,
+    #f0f0f0 80px
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Home 이미지 스켈레톤 */
+.skeleton-home-image {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+
+/* 작품 아이템 스켈레톤 */
+.skeleton-work-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-work-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 4px;
+}
+
+.skeleton-work-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* 전시 아이템 스켈레톤 */
+.skeleton-exhibition-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-exhibition-image {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.skeleton-exhibition-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* CV 아이템 스켈레톤 */
+.skeleton-cv-item {
+  display: flex;
+  gap: 34px;
+  margin-bottom: 8px;
+}
+
+/* About 텍스트 스켈레톤 */
+.skeleton-about-section {
+  margin-bottom: 18px;
+}
+
+.skeleton-about-title {
+  height: 24px;
+  width: 100px;
+  margin-bottom: 10px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0px,
+    #e0e0e0 40px,
+    #f0f0f0 80px
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-about-content {
+  height: 17px;
+  width: 200px;
+  margin-bottom: 18px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0px,
+    #e0e0e0 40px,
+    #f0f0f0 80px
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-about-text {
+  margin-top: 10px;
+}
+
