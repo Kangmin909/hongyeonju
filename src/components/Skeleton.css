@@ -60,6 +60,7 @@
 
 .skeleton-home-image {
   width: 100%;
+  aspect-ratio: 16 / 9;
 }
 
 .skeleton-home-image-box {

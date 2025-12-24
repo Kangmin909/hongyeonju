@@ -29,22 +29,23 @@ const About = () => {
           <div className="about-menu-line"></div>
           <div className="about-menu-line"></div>
         </div>
+
         <h1 className="about-title">ABOUT</h1>
 
-        <div className="skeleton-about-section">
-          <SkeletonBox width="100px" height="24px" className="skeleton-about-title" />
-          <SkeletonBox width="200px" height="17px" className="skeleton-about-content" />
+        <div>
+          <h2 className="about-section-title">MAIL</h2>
+          <SkeletonText lines={1} width="200px" />
         </div>
 
-        <div className="skeleton-about-section">
-          <SkeletonBox width="100px" height="24px" className="skeleton-about-title" />
-          <SkeletonBox width="200px" height="17px" className="skeleton-about-content" />
+        <div>
+          <h2 className="about-section-title">INSTAGRAM</h2>
+          <SkeletonText lines={1} width="150px" />
         </div>
 
-        <div className="skeleton-about-section">
-          <SkeletonBox width="100px" height="24px" className="skeleton-about-title" />
-          <div className="skeleton-about-text">
-            <SkeletonText lines={3} width="100%" />
+        <div className="about-text-section">
+          <h2 className="about-section-title">TEXT</h2>
+          <div className="about-text-content">
+            <SkeletonText lines={5} />
           </div>
         </div>
       </div>
