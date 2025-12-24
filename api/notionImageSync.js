@@ -80,9 +80,13 @@ export default async function handler(req, res) {
       return `${YYYY}${MM}${DD}T${HH}${mm}${ss}`;
     }
 
-    const timestamp = getKSTTimestamp(); // ms 단위
-    const safeName = originalName.replace(/\s+/g, "_"); // 공백 제거(권장)
-    const uploadName = `${safeName}_${timestamp}`;
+    const timestamp = getKSTTimestamp();
+    const lastDotIndex = originalName.lastIndexOf(".");
+    const baseName = lastDotIndex !== -1 ? originalName.substring(0, lastDotIndex) : originalName;
+    const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
+    
+    const safeBaseName = baseName.replace(/\s+/g, "_");
+    const uploadName = `${safeBaseName}_${timestamp}${extension}`;
     const parUploadUrl = `${OCI_PAR_URL}${encodeURIComponent(uploadName)}`;
 
     console.log("📤 Uploading via PAR:", parUploadUrl);
