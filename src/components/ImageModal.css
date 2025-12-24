@@ -43,6 +43,14 @@
   cursor: zoom-out;
 }
 
+.media-modal-video {
+  width: 90vw;
+  max-width: 1000px;
+  aspect-ratio: 16 / 9;
+  max-height: 80vh;
+  outline: none;
+}
+
 /* 하단 중앙 컨트롤러 */
 .image-modal-controls {
   position: fixed;

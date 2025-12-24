@@ -82,7 +82,6 @@ const Exhibitions = () => {
               className="exhibition-item"
               key={exhibition.id}
               onClick={() => handleExhibitionClick(exhibition)}
-              style={{ cursor: 'pointer' }}
             >
               <MediaDisplay src={exhibition.link} alt={exhibition.exhibitionTitle} className="exhibition-image" autoplay={true} />
               <div className="exhibition-info">

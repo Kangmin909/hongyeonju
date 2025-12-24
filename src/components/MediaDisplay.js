@@ -68,6 +68,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
         controls={controls}
         onError={() => setHasError(true)}
         onClick={onClick}
+        style={onClick ? { cursor: 'pointer' } : {}}
       />
     );
   }
@@ -80,7 +81,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
       className={className || ''}
       onError={() => setHasError(true)}
       onClick={onClick}
-      style={{ cursor: onClick ? 'pointer' : 'default' }}
+      style={onClick ? { cursor: 'pointer' } : {}}
     />
   );
 };
