@@ -95,19 +95,26 @@
   .exhibition-item {
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .exhibition-item:hover .exhibition-image,
+  .exhibition-item:hover .exhibition-image img,
+  .exhibition-item:hover .exhibition-image video {
+    opacity: 0.7;
+    transform: scale(1.02);
   }
   
   /* 이미지 영역 */
   .exhibition-image {
-    width: 354px;
-    height: 183px;
+    width: 100%;
+    height: auto;
     background: #D9D9D9;
-    font-size: 32px;
-    line-height: 38px;
-    color: #808080;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    overflow: hidden; /* 확대 시 경계선 깔끔하게 처리 */
   }
   
   /* 텍스트 정보 */
@@ -190,32 +197,32 @@
 
   @media (max-width: 360px) {
     .exhibitions-container {
-      padding: 0 16px;
+      padding: 0 24px;
     }
     
     .exhibitions-title {
-      left: 16px;
+      left: 24px;
     }
     
     .menu-icon {
-      left: calc(100% - 16px - 23px);
+      left: calc(100% - 24px - 23px);
     }
     
     .exhibitions-container .year-nav {
-      left: 16px;
-    gap: 8px;
+      left: 24px;
+    gap: 13px;
     justify-content: space-between;
-      width: calc(100% - 32px);
+      width: calc(100% - 48px);
     }
     
     .exhibitions-container .year-nav .year {
-      font-size: 16px;
-      padding: 0 6px;
-      min-width: 32px;
+      font-size: 18px;
+      padding: 0 8px;
+      min-width: 36px;
     }
     
     .exhibitions-list {
-      left: 16px;
-      width: calc(100% - 32px);
+      left: 24px;
+      width: calc(100% - 48px);
     }
   }

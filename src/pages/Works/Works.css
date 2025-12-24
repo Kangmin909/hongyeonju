@@ -187,32 +187,32 @@
 
   @media (max-width: 360px) {
     .works-container {
-      padding: 0 16px;
+      padding: 0 24px;
     }
     
     .works-title {
-      left: 16px;
+      left: 24px;
     }
     
     .menu-icon {
-      left: calc(100% - 16px - 23px);
+      left: calc(100% - 24px - 23px);
     }
     
   .works-container .year-nav {
-    left: 16px;
-    gap: 8px;
+    left: 24px;
+    gap: 13px;
     justify-content: space-between;
-    width: calc(100% - 32px);
+    width: calc(100% - 48px);
   }
     
     .works-container .year-nav .year {
-      font-size: 16px;
-      padding: 0 6px;
-      min-width: 32px;
+      font-size: 18px;
+      padding: 0 8px;
+      min-width: 36px;
     }
     
     .works-list {
-      left: 16px;
-      width: calc(100% - 32px);
+      left: 24px;
+      width: calc(100% - 48px);
     }
   }

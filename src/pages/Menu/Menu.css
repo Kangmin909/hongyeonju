@@ -2,9 +2,9 @@
 
 .menu-container {
   position: relative;
-  left: 0px;
-  width: 402px;
-  height: 874px;
+  width: 100%;
+  max-width: 402px;
+  height: 100vh; /* 화면 높이에 맞춤 */
   background: #FFFFFF;
   margin: 0 auto;
   font-family: 'Pretendard Variable', sans-serif;
@@ -34,7 +34,7 @@
   left: -10px;
 }
 
-button {
+.menu-button {
   all: unset;
   font-size: 32px;
   color: black;
@@ -46,42 +46,83 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.menu-button:hover {
   background-color: #f0f0f0;
 }
 
-button:focus {
+.menu-button:focus {
   outline: none;
   background-color: #ddd;
 }
 /* 각 항목 고정 위치 */
-button:nth-child(1) {
+.menu-button:nth-child(1) {
   position: absolute;
   top: 242px; /* HOME 위치 */
   left: 24px;
 }
 
-button:nth-child(2) {
+.menu-button:nth-child(2) {
   position: absolute;
   top: 330px; /* WORKS 위치 */
   left: 24px;
 }
 
-button:nth-child(3) {
+.menu-button:nth-child(3) {
   position: absolute;
   top: 418px; /* EXHIBITION 위치 */
   left: 24px;
 }
 
-button:nth-child(4) {
+.menu-button:nth-child(4) {
   position: absolute;
   top: 506px; /* CV 위치 */
   left: 24px;
 }
 
-button:nth-child(5) {
+.menu-button:nth-child(5) {
   position: absolute;
   top: 594px; /* ABOUT 위치 */
   left: 24px;
+}
+
+.refresh-button {
+  all: unset;
+  position: absolute;
+  bottom: 40px;
+  right: 24px;
+  font-size: 11px;
+  font-weight: 300;
+  color: #ACACAC; /* 기본 연한 색상 */
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 5px 0;
+  border-bottom: 1px solid transparent;
+}
+
+.refresh-button:hover {
+  color: #ACACAC; /* 호버 시에도 연하게 유지 */
+}
+
+.refresh-button:active {
+  border-bottom: 1px solid #ACACAC; /* 클릭 시 연한 밑줄 */
+}
+
+.refresh-button:disabled {
+  color: #000; /* REFRESHING... 일 때 진하게 변경 */
+  cursor: default;
+  border-bottom: 1px solid transparent;
+}
+
+@media (max-width: 402px) {
+  .refresh-button {
+    right: 24px;
+  }
+}
+
+@media (max-width: 360px) {
+  .refresh-button {
+    right: 24px;
+  }
 }
 

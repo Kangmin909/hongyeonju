@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppData } from '../../context/AppDataContext';
 import './Menu.css';
 
 // 화살표 이미지를 import합니다.
@@ -9,12 +10,18 @@ import arrowIcon from '../../assets/icons/back-arrow.png'; // 실제 아이콘 �
 
 const Menu = () => {
   const navigate = useNavigate();
+  const { refreshData, loading } = useAppData();
+
+  const handleRefresh = async () => {
+    await refreshData();
+  };
 
   return (
     <div className="menu-container">
       <div className="back-arrow" onClick={() => navigate(-1)}>
         <img src={arrowIcon} alt="Back Arrow" className="arrow-icon" />
       </div>
+
       <div className="menu-items">
         <button className="menu-button" onClick={() => navigate('/')}>HOME</button>
         <button className="menu-button" onClick={() => navigate('/works')}>WORKS</button>
@@ -22,6 +29,14 @@ const Menu = () => {
         <button className="menu-button" onClick={() => navigate('/cv')}>CV</button>
         <button className="menu-button" onClick={() => navigate('/about')}>ABOUT</button>
       </div>
+
+      <button 
+        className="refresh-button" 
+        onClick={handleRefresh}
+        disabled={loading}
+      >
+        {loading ? 'REFRESHING...' : 'REFRESH'}
+      </button>
     </div>
   );
 };
