@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './ExhibitionDetail.css';
 import { useAppData } from '../../context/AppDataContext';
 import MediaDisplay from '../../components/MediaDisplay';
 import { SkeletonImage, SkeletonText, SkeletonBox } from '../../components/Skeleton';
+import ImageModal from '../../components/ImageModal';
 
 const ExhibitionDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { exhibitions, loading, fetchAllData } = useAppData();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     // exhibitions 데이터가 없으면 fetchAllData 호출
@@ -90,7 +92,12 @@ const ExhibitionDetail = () => {
       <div className="exhibition-detail-images">
         {images.map((image) => (
           <div key={image.id} className="exhibition-detail-image-container">
-            <MediaDisplay src={image.link} alt={image.label} className="exhibition-detail-image" />
+            <MediaDisplay 
+              src={image.link} 
+              alt={image.label} 
+              className="exhibition-detail-image" 
+              onClick={() => setSelectedImage({ src: image.link, alt: image.title })}
+            />
             <div className="exhibition-detail-work-info">
               <div className="exhibition-detail-work-title">{image.title}</div>
               <div className="exhibition-detail-work-meta">{image.meta}</div>
@@ -98,6 +105,14 @@ const ExhibitionDetail = () => {
           </div>
         ))}
       </div>
+
+      {selectedImage && (
+        <ImageModal 
+          src={selectedImage.src} 
+          alt={selectedImage.alt} 
+          onClose={() => setSelectedImage(null)} 
+        />
+      )}
     </div>
   );
 };

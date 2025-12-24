@@ -5,11 +5,13 @@ import { useAppData } from '../../context/AppDataContext';
 import { SkeletonWorkItem } from '../../components/Skeleton';
 import MediaDisplay from '../../components/MediaDisplay';
 import YearNav from '../../components/YearNav';
+import ImageModal from '../../components/ImageModal';
 
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { works, fetchAllData } = useAppData();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // works 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
@@ -71,7 +73,19 @@ const Works = () => {
         ) : (
           filteredWorks.map((work) => (
             <div className="work-item" key={work.id}>
-              <MediaDisplay src={work.link} alt={work.title} className="work-image" controls={true} />
+              <MediaDisplay 
+                src={work.link} 
+                alt={work.title} 
+                className="work-image" 
+                controls={true} 
+                onClick={() => {
+                  // 비디오가 아닌 경우에만 모달 확대 (mp4나 youtube가 아닌 경우)
+                  const isVideo = work.link.endsWith('.mp4') || work.link.includes('youtube.com') || work.link.includes('youtu.be');
+                  if (!isVideo) {
+                    setSelectedImage({ src: work.link, alt: work.title });
+                  }
+                }}
+              />
               <div className="work-info">
                 <div className="work-title">{work.title}</div>
                 <div className="work-meta">{work.meta}</div>
@@ -80,6 +94,14 @@ const Works = () => {
           ))
         )}
       </div>
+
+      {selectedImage && (
+        <ImageModal 
+          src={selectedImage.src} 
+          alt={selectedImage.alt} 
+          onClose={() => setSelectedImage(null)} 
+        />
+      )}
     </div>
   );
 };

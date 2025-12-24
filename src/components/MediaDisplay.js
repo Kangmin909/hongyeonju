@@ -25,7 +25,7 @@ const isYouTubeUrl = (url) => {
 };
 
 // MediaDisplay 컴포넌트
-const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false }) => {
+const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false, onClick }) => {
   const [hasError, setHasError] = useState(false);
 
   if (hasError || !src) {
@@ -67,6 +67,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false 
         playsInline
         controls={controls}
         onError={() => setHasError(true)}
+        onClick={onClick}
       />
     );
   }
@@ -78,6 +79,8 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false 
       alt={alt || "Media content"} 
       className={className || ''}
       onError={() => setHasError(true)}
+      onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
     />
   );
 };
