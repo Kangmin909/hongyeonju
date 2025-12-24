@@ -9,7 +9,8 @@ import YearNav from '../../components/YearNav';
 const Exhibitions = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { exhibition, loading, fetchAllData } = useAppData();
+  const { exhibitions, loading, fetchAllData } = useAppData();
+
   // Home 화면에서 모든 데이터를 한 번에 fetch
   useEffect(() => {
     if (loading === true){
@@ -21,8 +22,8 @@ const Exhibitions = () => {
   const queryParams = new URLSearchParams(location.search);
   const [selectedYear, setSelectedYear] = useState(null);
 
-  const exhibitions = Array.isArray(exhibition) ? exhibition : [];
-  const wholeYears = [...new Set(exhibitions.map(exhibition => exhibition.year))]
+  const safeExhibitions = Array.isArray(exhibitions) ? exhibitions : [];
+  const wholeYears = [...new Set(safeExhibitions.map(exhibition => exhibition.year))]
    .sort((a, b) => b - a);
   
   const initialYear = queryParams.get('year') || wholeYears[0] || '2025';
@@ -38,12 +39,10 @@ const Exhibitions = () => {
   };
 
   // exhibition이 null이거나 배열이 아닐 때 빈 배열로 처리
-  const filteredExhibitions = exhibitions.filter(exhibition => exhibition.year === selectedYear);
+  const filteredExhibitions = safeExhibitions.filter(exhibition => exhibition.year === selectedYear);
 
   const handleExhibitionClick = (exhibition) => {
-    navigate(`/exhibition/${exhibition.id}`, {
-      state: { exhibition },
-    }); // 전시 세부페이지로 이동
+    navigate(`/exhibition/${exhibition.id}`); // 전시 세부페이지로 이동
   };
 
   useEffect(() => {
@@ -67,11 +66,11 @@ const Exhibitions = () => {
         years={wholeYears}
         selectedYear={selectedYear}
         onSelect={handleYearClick}
-        loading={loading || exhibitions.length === 0}
+        loading={loading || safeExhibitions.length === 0}
       />
 
       <div className="exhibitions-list">
-        {loading || exhibitions.length === 0 ? (
+        {loading || safeExhibitions.length === 0 ? (
           <>
             <SkeletonExhibitionItem />
             <SkeletonExhibitionItem />

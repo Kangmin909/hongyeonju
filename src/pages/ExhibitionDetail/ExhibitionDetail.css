@@ -116,3 +116,10 @@
   line-height: 14px;
   color: #6E6E6E;
 }
+
+/* Skeleton UI를 위한 추가 스타일 */
+.skeleton-badge {
+  background-color: #f0f0f0; /* 스켈레톤 기본 색상 */
+  border-radius: 20px;
+  /* shimmer 애니메이션은 Skeleton.css에서 이미 적용됨 */
+}

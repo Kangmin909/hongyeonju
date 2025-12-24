@@ -6,7 +6,7 @@ export const appDataStore = {
   about: null,
   cv1: null,
   cv2: null,
-  exhibition: null,
+  exhibitions: null,
   works: null,
   loading: true,
   error: null,
@@ -22,7 +22,7 @@ export const AppDataProvider = ({ children }) => {
     about: null,
     cv1: null,
     cv2: null,
-    exhibition: null,
+    exhibitions: null,
     works: null,
     loading: true,
     error: null,
@@ -33,7 +33,7 @@ export const AppDataProvider = ({ children }) => {
     try {
       setData(prev => ({ ...prev, loading: true, error: null }));
 
-      const [homeRes, aboutRes, cv1Res, cv2Res, exhibitionRes, worksRes] = await Promise.all([
+      const [homeRes, aboutRes, cv1Res, cv2Res, exhibitionsRes, worksRes] = await Promise.all([
         fetch("/api/getHome").then(res => res.json()),
         fetch("/api/getAbout").then(res => res.json()),
         fetch("/api/getCV1").then(res => res.json()),
@@ -47,7 +47,7 @@ export const AppDataProvider = ({ children }) => {
         about: aboutRes,
         cv1: cv1Res,
         cv2: cv2Res,
-        exhibition: exhibitionRes,
+        exhibitions: exhibitionsRes,
         works: worksRes,
         loading: false,
         error: null,
@@ -64,7 +64,7 @@ export const AppDataProvider = ({ children }) => {
         about: null,
         cv1: null,
         cv2: null,
-        exhibition: null,
+        exhibitions: null,
         works: null,
         loading: false,
         error: error.message,
