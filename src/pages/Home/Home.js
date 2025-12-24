@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
+import MediaDisplay from '../../components/MediaDisplay';
 import { SkeletonHomeImage } from '../../components/Skeleton';
 import './Home.css';
 
@@ -24,46 +25,6 @@ const Home = () => {
 
   const homeImage = home?.link;
 
-// 📌 확장자/도메인 기준으로 src 타입 감지
-  const renderMedia = (src) => {
-    if (!src) return null;
-
-
-    // 🎥 유튜브 링크 처리
-    if (src.includes("youtube.com") || src.includes("youtu.be")) {
-      const embedUrl = src
-        .replace("watch?v=", "embed/")
-        .replace("youtu.be/", "youtube.com/embed/");
-      return (
-        <iframe
-          src={`${embedUrl}?autoplay=1&mute=1&loop=1`}
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          className="profile-image"
-          title="Home video"
-        ></iframe>
-      );
-    }
-
-    // 🎬 mp4 (OCI 영상 등)
-    if (src.endsWith(".mp4")) {
-      return (
-        <video
-          src={src}
-          className="profile-image"
-          autoPlay
-          muted
-          loop
-          playsInline
-          // controls
-        />
-      );
-    }
-
-    // 🖼️ 이미지
-    return <img src={src} alt="Home" className="profile-image" />;
-  };
-
   return (
     <div className="home-container">
       <div className="home-header">
@@ -79,9 +40,8 @@ const Home = () => {
         {!home ? (
           <SkeletonHomeImage />
         ) : (
-          renderMedia(homeImage)
+          <MediaDisplay src={homeImage} alt="Home media" className="profile-image" autoplay={true} />
         )}
-        {/* <MediaDisplay src={homeImage} alt="Home image" className="profile-image" autoplay={true} /> */}
       </div>
     </div>
   );

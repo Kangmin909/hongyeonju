@@ -123,3 +123,20 @@
   border-radius: 20px;
   /* shimmer 애니메이션은 Skeleton.css에서 이미 적용됨 */
 }
+
+/* 미디어 로딩 에러 플레이스홀더 */
+.media-error-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* 기본 비율 */
+  color: #a0a0a0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.media-error-message {
+  max-width: 80%;
+}

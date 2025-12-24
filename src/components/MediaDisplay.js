@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // 유튜브 URL에서 비디오 ID 추출
 const getYouTubeVideoId = (url) => {
@@ -25,14 +25,21 @@ const isYouTubeUrl = (url) => {
 };
 
 // MediaDisplay 컴포넌트
-const MediaDisplay = ({ src, alt, className, autoplay = false }) => {
-  if (!src) return null;
+const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError || !src) {
+    return (
+      <div className={`media-error-placeholder ${className || ''}`}>
+        <div className="media-error-message">이미지를 불러오지 못했습니다.</div>
+      </div>
+    );
+  }
 
   if (isYouTubeUrl(src)) {
     const videoId = getYouTubeVideoId(src);
-    // autoplay가 true면 autoplay=1&mute=1 추가 (유튜브는 음소거 상태에서만 자동재생 가능)
-    const autoplayParam = autoplay ? '?autoplay=1&mute=1' : '';
-    const embedUrl = `https://www.youtube.com/embed/${videoId}${autoplayParam}`;
+    const autoplayParams = 'autoplay=1&mute=1&loop=1&playlist=' + videoId;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?${autoplayParams}`;
     
     return (
       <div className="media-container">
@@ -43,13 +50,36 @@ const MediaDisplay = ({ src, alt, className, autoplay = false }) => {
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+          onError={() => setHasError(true)}
         />
       </div>
     );
   }
 
+  if (src.endsWith('.mp4')) {
+    return (
+      <video
+        src={src}
+        className={className || ''}
+        autoPlay={autoplay}
+        muted={autoplay} // 자동 재생을 위해서는 음소거가 필수인 경우가 많음
+        loop={autoplay}
+        playsInline
+        controls={controls}
+        onError={() => setHasError(true)}
+      />
+    );
+  }
+
   // 일반 이미지
-  return <img src={src} alt={alt || "Can't find file"} className={className || ''} />;
+  return (
+    <img 
+      src={src} 
+      alt={alt || "Media content"} 
+      className={className || ''}
+      onError={() => setHasError(true)}
+    />
+  );
 };
 
 export default MediaDisplay;
