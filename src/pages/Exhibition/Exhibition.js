@@ -9,15 +9,15 @@ import YearNav from '../../components/YearNav';
 const Exhibitions = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { exhibitions, loading, fetchAllData } = useAppData();
+  const { exhibitions, fetchAllData } = useAppData();
 
-  // Home 화면에서 모든 데이터를 한 번에 fetch
+  // exhibitions 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
-    if (loading === true){
+    if (!exhibitions) {
       fetchAllData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [exhibitions, fetchAllData]);
 
   const queryParams = new URLSearchParams(location.search);
   const [selectedYear, setSelectedYear] = useState(null);
@@ -66,11 +66,11 @@ const Exhibitions = () => {
         years={wholeYears}
         selectedYear={selectedYear}
         onSelect={handleYearClick}
-        loading={loading || safeExhibitions.length === 0}
+        loading={!exhibitions}
       />
 
       <div className="exhibitions-list">
-        {loading || safeExhibitions.length === 0 ? (
+        {!exhibitions ? (
           <>
             <SkeletonExhibitionItem />
             <SkeletonExhibitionItem />

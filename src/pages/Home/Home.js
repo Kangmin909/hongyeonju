@@ -13,14 +13,14 @@ import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { home, loading, fetchAllData } = useAppData();
+  const { home, fetchAllData } = useAppData();
   // Home 화면에서 모든 데이터를 한 번에 fetch
   useEffect(() => {
-    if (loading === true){
+    if (!home) {
       fetchAllData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [home, fetchAllData]);
 
   const homeImage = home?.link;
 
@@ -76,7 +76,7 @@ const Home = () => {
       </div>
       <div className="image-placeholder">
 
-        {loading || !homeImage ? (
+        {!home ? (
           <SkeletonHomeImage />
         ) : (
           renderMedia(homeImage)

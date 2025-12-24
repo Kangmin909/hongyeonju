@@ -8,15 +8,15 @@ import YearNav from '../../components/YearNav';
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { works, loading, fetchAllData } = useAppData();
+  const { works, fetchAllData } = useAppData();
 
-  // Home 화면에서 모든 데이터를 한 번에 fetch
+  // works 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
-    if (loading === true){
+    if (!works) {
       fetchAllData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [works, fetchAllData]);
 
   const worksArray = Array.isArray(works) ? works : [];
   const wholeYears = [...new Set(worksArray.map(work => work.year))]
@@ -95,11 +95,11 @@ const Works = () => {
         years={wholeYears}
         selectedYear={selectedYear}
         onSelect={handleYearClick}
-        loading={loading || worksArray.length === 0}
+        loading={!works}
       />
 
       <div className="works-list">
-        {loading || worksArray.length === 0 ? (
+        {!works ? (
           <>
             <SkeletonWorkItem />
             <SkeletonWorkItem />

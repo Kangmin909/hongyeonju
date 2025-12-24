@@ -6,14 +6,15 @@ import './CV.css';
 
 const CV = () => {
   const navigate = useNavigate();
-  const { cv1, cv2, loading, fetchAllData } = useAppData();
-  // Home 화면에서 모든 데이터를 한 번에 fetch
+  const { cv1, cv2, fetchAllData } = useAppData();
+  
+  // cv1 또는 cv2 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
-    if (loading === true){
+    if (!cv1 || !cv2) {
       fetchAllData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cv1, cv2, fetchAllData]);
 
   const handleBackClick = () => {
     navigate('/menu');
@@ -35,7 +36,7 @@ const CV = () => {
 
       <div className="cv-section">
         <div className="cv-list">
-          {loading || education.length === 0 ? (
+          {!cv1 ? (
             <>
               <SkeletonCVItem />
               <SkeletonCVItem />
@@ -55,7 +56,7 @@ const CV = () => {
       <h3 className="cv-section-title">전시이력</h3>
       <div className="cv-section">
         <div className="cv-list">
-          {loading || exhibitions.length === 0 ? (
+          {!cv2 ? (
             <>
               <SkeletonCVItem />
               <SkeletonCVItem />

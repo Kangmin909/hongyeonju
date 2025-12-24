@@ -6,21 +6,22 @@ import './About.css';
 
 const About = () => {
   const navigate = useNavigate();
-  const { about, loading, fetchAllData } = useAppData();
-  // Home 화면에서 모든 데이터를 한 번에 fetch
+  const { about, fetchAllData } = useAppData();
+  
+  // about 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
-    if (loading === true){
+    if (!about) {
       fetchAllData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [about, fetchAllData]);
 
   const handleBackClick = () => {
     navigate('/menu');
   };
 
-  // about이 null이거나 loading일 때 스켈레톤 표시
-  if (loading || !about) {
+  // about이 null일 때 스켈레톤 표시
+  if (!about) {
     return (
       <div className="about-page">
         <div className="about-menu-button" onClick={handleBackClick}>
