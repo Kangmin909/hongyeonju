@@ -8,6 +8,18 @@
   background: #FFFFFF;
   margin: 0 auto;
   font-family: 'Pretendard Variable', sans-serif;
+  overflow: hidden;
+  /* 애니메이션 속도 향상: 0.5s -> 0.3s, 더 즉각적인 반응성 */
+  animation: slideInFromLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .back-arrow {
@@ -20,6 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .arrow-icon {
@@ -37,52 +50,72 @@
 .menu-button {
   all: unset;
   font-size: 32px;
-  color: black;
+  color: black; /* 기본 상태를 검은색으로 변경 */
   cursor: pointer;
   text-align: left;
   padding: 20px 10px;
   width: auto;
   margin-bottom: 48px; /* 항목 간 간격 조정 */
-  transition: background-color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 모든 변화에 부드러운 가속도 적용 */
+  /* 개별 버튼 페이드인 애니메이션 */
+  opacity: 0;
+  animation: itemFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes itemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .menu-button:hover {
-  background-color: #f0f0f0;
+  color: #ACACAC; /* 호버 시 연한 회색으로 변경 */
+  transform: translateX(10px); /* 오른쪽으로 살짝 이동 */
+  letter-spacing: 0.05em; /* 자간이 미세하게 넓어지는 효과 */
 }
 
 .menu-button:focus {
   outline: none;
-  background-color: #ddd;
 }
-/* 각 항목 고정 위치 */
+/* 각 항목 고정 위치 및 단축된 애니메이션 지연 시간 */
 .menu-button:nth-child(1) {
   position: absolute;
   top: 242px; /* HOME 위치 */
   left: 24px;
+  animation-delay: 0.15s;
 }
 
 .menu-button:nth-child(2) {
   position: absolute;
   top: 330px; /* WORKS 위치 */
   left: 24px;
+  animation-delay: 0.18s;
 }
 
 .menu-button:nth-child(3) {
   position: absolute;
   top: 418px; /* EXHIBITION 위치 */
   left: 24px;
+  animation-delay: 0.21s;
 }
 
 .menu-button:nth-child(4) {
   position: absolute;
   top: 506px; /* CV 위치 */
   left: 24px;
+  animation-delay: 0.24s;
 }
 
 .menu-button:nth-child(5) {
   position: absolute;
   top: 594px; /* ABOUT 위치 */
   left: 24px;
+  animation-delay: 0.27s;
 }
 
 .refresh-button {
