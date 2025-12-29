@@ -77,9 +77,7 @@
 }
 
 .menu-button:hover {
-  color: #ACACAC; /* 호버 시 연한 회색으로 변경 */
-  transform: translateX(10px); /* 오른쪽으로 살짝 이동 */
-  letter-spacing: 0.05em; /* 자간이 미세하게 넓어지는 효과 */
+  color: #ACACAC; /* 호버 시 연한 회색으로만 변경 */
 }
 
 .menu-button:focus {

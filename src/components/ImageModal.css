@@ -4,9 +4,17 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.95);
-  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.8); /* 배경 투명도를 낮추고 블러 강조 */
+  backdrop-filter: blur(15px); /* 고급스러운 블러 효과 */
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 4000;
   display: flex;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .image-modal-wrapper {
@@ -16,42 +24,104 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 100px 40px;
+  padding: 60px 20px;
   box-sizing: border-box;
+  scrollbar-width: none;
+}
+
+.image-modal-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .image-modal-content {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-width: fit-content;
   min-height: fit-content;
+  animation: contentSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes contentSlideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px) scale(0.98); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1); 
+  }
 }
 
 .image-modal-img {
   max-width: 90vw;
   max-height: 80vh;
   object-fit: contain;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: zoom-in;
+  cursor: grab; /* 드래그 가능하다는 표시 */
   transform-origin: center;
   display: block;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  background-color: #000;
+  user-select: none; /* 드래그 시 이미지 선택 방지 */
+  -webkit-user-drag: none;
+}
+
+.image-modal-img:active {
+  cursor: grabbing;
 }
 
 .image-modal-img.zoomed {
   cursor: zoom-out;
 }
 
+/* 드래그 기능을 위한 외곽 래퍼 (비디오/유튜브용) */
+.media-wrapper-outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.media-wrapper-outer:active {
+  cursor: grabbing;
+}
+
+/* 미디어 우측 상단 전용 닫기 버튼 */
+.media-close-btn {
+  position: absolute;
+  top: -45px;
+  right: -5px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  font-weight: 200;
+  cursor: pointer;
+  z-index: 4200;
+  padding: 10px;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.media-close-btn:hover {
+  opacity: 1;
+}
+
 .media-modal-video {
   width: 90vw;
-  max-width: 1000px;
+  max-width: 1100px;
   aspect-ratio: 16 / 9;
   max-height: 80vh;
   outline: none;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  background: #000;
 }
 
-/* 하단 중앙 컨트롤러 */
+/* 하단 세련된 컨트롤러 (Glassmorphism) */
 .image-modal-controls {
   position: fixed;
   bottom: 40px;
@@ -60,49 +130,71 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
-  z-index: 2100;
+  gap: 8px;
+  z-index: 4100;
   background: rgba(255, 255, 255, 0.1);
-  padding: 5px 15px;
-  border-radius: 20px;
-  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 16px;
+  border-radius: 30px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .control-btn-small {
-  background: none;
+  background: transparent;
   border: none;
   color: white;
-  font-size: 18px;
-  width: 28px;
-  height: 28px;
+  font-size: 22px;
+  width: 36px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
+  border-radius: 50%;
+  opacity: 0.7;
 }
 
 .control-btn-small:hover {
-  opacity: 0.6;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .zoom-level-small {
   color: white;
-  font-size: 12px;
-  min-width: 45px;
+  font-size: 11px;
+  font-weight: 500;
+  min-width: 50px;
   text-align: center;
   font-family: 'Pretendard Variable', sans-serif;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  opacity: 0.9;
 }
 
-/* 모바일 대응 */
+/* 상단 정보 표시 */
+.image-modal-info {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  z-index: 4100;
+  pointer-events: none;
+}
+
 @media (max-width: 480px) {
   .image-modal-wrapper {
-    padding: 60px 20px;
+    padding: 40px 10px;
   }
   
   .image-modal-controls {
     bottom: 30px;
-    gap: 10px;
+    padding: 4px 12px;
   }
 }
