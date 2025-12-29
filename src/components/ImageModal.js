@@ -27,11 +27,9 @@ const ImageModal = ({ src, alt, onClose }) => {
     const vHeight = viewportRef.current.offsetHeight;
     const iWidth = vWidth * currentZoom;
     const iHeight = vHeight * currentZoom;
-    
     let maxX = 0, maxY = 0;
     if (iWidth > vWidth) maxX = (iWidth - vWidth) / 2;
     if (iHeight > vHeight) maxY = (iHeight - vHeight) / 2;
-    
     return {
       x: Math.max(-maxX, Math.min(maxX, newX)),
       y: Math.max(-maxY, Math.min(maxY, newY))
@@ -43,25 +41,14 @@ const ImageModal = ({ src, alt, onClose }) => {
     const target = e.target;
     const width = target.videoWidth || target.naturalWidth || target.offsetWidth;
     const height = target.videoHeight || target.naturalHeight || target.offsetHeight;
-    
     if (width && height) {
       const ratio = width / height;
       const winW = window.innerWidth * 0.85;
       const winH = window.innerHeight * 0.75;
-      
       let finalW, finalH;
-      if (ratio > winW / winH) {
-        finalW = winW;
-        finalH = winW / ratio;
-      } else {
-        finalH = winH;
-        finalW = winH * ratio;
-      }
-      
-      setViewportStyle({ 
-        width: `${Math.round(finalW)}px`, 
-        height: `${Math.round(finalH)}px`
-      });
+      if (ratio > winW / winH) { finalW = winW; finalH = winW / ratio; }
+      else { finalH = winH; finalW = winH * ratio; }
+      setViewportStyle({ width: `${Math.round(finalW)}px`, height: `${Math.round(finalH)}px` });
     }
   };
 
@@ -69,6 +56,18 @@ const ImageModal = ({ src, alt, onClose }) => {
 
   const isVideo = src.endsWith('.mp4');
   const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
+
+  // 중심점 좌표 계산 함수
+  const getTouchCenter = (touches) => {
+    if (!viewportRef.current) return { x: 0, y: 0 };
+    const rect = viewportRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    return {
+      x: (touches[0].clientX + touches[1].clientX) / 2 - centerX,
+      y: (touches[0].clientY + touches[1].clientY) / 2 - centerY
+    };
+  };
 
   const handleStart = (e) => {
     if (e.touches && e.touches.length === 2) {
@@ -84,21 +83,26 @@ const ImageModal = ({ src, alt, onClose }) => {
   };
 
   const handleMove = (e) => {
-    if (e.touches && e.touches.length === 2) {
-      if (pinchStartDist.current === 0) return;
+    if (e.touches && e.touches.length === 2 && pinchStartDist.current > 0) {
+      // 핀치 줌 좌표 보정 로직
       const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
       const newZoom = Math.min(Math.max(initialZoom.current * (dist / pinchStartDist.current), 1), 5);
+      
+      if (newZoom === zoom) return;
+
+      const center = getTouchCenter(e.touches);
+      const ratio = newZoom / zoom;
+      const newX = center.x - (center.x - offset.x) * ratio;
+      const newY = center.y - (center.y - offset.y) * ratio;
+
       setZoom(newZoom);
-      if (newZoom === 1) setOffset({ x: 0, y: 0 });
-      else setOffset(prev => getClampedOffset(prev.x, prev.y, newZoom));
+      setOffset(getClampedOffset(newX, newY, newZoom));
     } else if (isDragging.current && zoom > 1) {
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       const dx = clientX - lastPos.current.x;
       const dy = clientY - lastPos.current.y;
-      
       if (Math.abs(dx) > 2 || Math.abs(dy) > 2) hasMoved.current = true;
-      
       setOffset(prev => getClampedOffset(prev.x + dx, prev.y + dy, zoom));
       lastPos.current = { x: clientX, y: clientY };
     }
@@ -111,86 +115,42 @@ const ImageModal = ({ src, alt, onClose }) => {
 
   const handleWheel = (e) => {
     if (isVideo || isYouTube || !viewportRef.current) return;
-    
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.2 : 0.2;
     const newZoom = Math.min(Math.max(zoom + delta, 1), 5);
-    
     if (newZoom === zoom) return;
-
-    if (newZoom === 1) {
-      setZoom(1);
-      setOffset({ x: 0, y: 0 });
-      return;
-    }
-
+    if (newZoom === 1) { setZoom(1); setOffset({ x: 0, y: 0 }); return; }
     const rect = viewportRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
-
+    const mouseX = e.clientX - (rect.left + rect.width / 2);
+    const mouseY = e.clientY - (rect.top + rect.height / 2);
     const ratio = newZoom / zoom;
-    const newX = mouseX - (mouseX - offset.x) * ratio;
-    const newY = mouseY - (mouseY - offset.y) * ratio;
-
     setZoom(newZoom);
-    setOffset(getClampedOffset(newX, newY, newZoom));
+    setOffset(getClampedOffset(mouseX - (mouseX - offset.x) * ratio, mouseY - (mouseY - offset.y) * ratio, newZoom));
   };
 
   const handleImageClick = (e) => {
     e.stopPropagation();
     if (isVideo || isYouTube || hasMoved.current) return;
-
-    if (zoom > 1) {
-      setZoom(1);
-      setOffset({ x: 0, y: 0 });
-    } else {
-      const rect = viewportRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const x = e.clientX - centerX;
-      const y = e.clientY - centerY;
-      
+    if (zoom > 1) { setZoom(1); setOffset({ x: 0, y: 0 }); }
+    else {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - (rect.left + rect.width / 2);
+      const y = e.clientY - (rect.top + rect.height / 2);
       const targetZoom = 2.5;
-      const targetX = -x * (targetZoom - 1);
-      const targetY = -y * (targetZoom - 1);
-      
       setZoom(targetZoom);
-      setOffset(getClampedOffset(targetX, targetY, targetZoom));
+      setOffset(getClampedOffset(-x * (targetZoom - 1), -y * (targetZoom - 1), targetZoom));
     }
   };
 
   const renderContent = () => {
-    const style = {
-      transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
-      transition: (isDragging.current || pinchStartDist.current > 0) ? 'none' : 'transform 0.25s ease-out'
-    };
-    const events = { 
-      onMouseDown: handleStart, onMouseMove: handleMove, onMouseUp: handleEnd, onMouseLeave: handleEnd, 
-      onTouchStart: handleStart, onTouchMove: handleMove, onTouchEnd: handleEnd, onWheel: handleWheel
-    };
-
+    const style = { transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`, transition: (isDragging.current || pinchStartDist.current > 0) ? 'none' : 'transform 0.25s ease-out' };
+    const events = { onMouseDown: handleStart, onMouseMove: handleMove, onMouseUp: handleEnd, onMouseLeave: handleEnd, onTouchStart: handleStart, onTouchMove: handleMove, onTouchEnd: handleEnd, onWheel: handleWheel };
     if (isYouTube) {
       const videoId = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)?.[1];
-      return (
-        <div className="media-movable-content" style={style} {...events}>
-          <iframe src={`https://www.youtube.com/embed/${videoId}?autoplay=1`} title={alt || 'YouTube video'} className="media-modal-video" frameBorder="0" allowFullScreen onLoad={handleMediaLoad} />
-        </div>
-      );
+      return <div className="media-movable-content" style={style} {...events}><iframe src={`https://www.youtube.com/embed/${videoId}?autoplay=1`} title={alt || 'YouTube video'} className="media-modal-video" frameBorder="0" allowFullScreen onLoad={handleMediaLoad} /></div>;
     }
-    if (isVideo) {
-      return (
-        <div className="media-movable-content" style={style} {...events}>
-          <video src={src} className="media-modal-video" controls autoPlay onLoadedMetadata={handleMediaLoad} />
-        </div>
-      );
-    }
-    return (
-      <div className="media-movable-content" style={style} {...events}>
-        <img src={src} alt={alt || 'Full size'} className="image-modal-img-internal" onLoad={handleMediaLoad} onClick={handleImageClick} draggable="false" />
-      </div>
-    );
+    if (isVideo) return <div className="media-movable-content" style={style} {...events}><video src={src} className="media-modal-video" controls autoPlay onLoadedMetadata={handleMediaLoad} /></div>;
+    return <div className="media-movable-content" style={style} {...events}><img src={src} alt={alt || 'Full size'} className="image-modal-img-internal" onLoad={handleMediaLoad} onClick={handleImageClick} draggable="false" /></div>;
   };
 
   return (
