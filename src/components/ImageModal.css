@@ -82,26 +82,33 @@
   touch-action: none;
 }
 
-/* 미디어 우측 상단 전용 닫기 버튼 */
-.media-close-btn {
-  position: absolute;
-  top: -45px;
-  right: -5px;
-  background: none;
-  border: none;
+/* 화면 우측 상단 전용 닫기 버튼 (고정형) */
+.modal-fixed-close-btn {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: rgba(0, 0, 0, 0.3); /* 은은한 배경 추가 */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
   font-size: 32px;
   font-weight: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  z-index: 4200;
-  padding: 10px;
+  z-index: 4500; /* 최상단 유지 */
   line-height: 1;
-  opacity: 0.6;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
-.media-close-btn:hover {
-  opacity: 1;
+.modal-fixed-close-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
 }
 
 .media-modal-video {
