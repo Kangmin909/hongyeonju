@@ -6,7 +6,7 @@ import './About.css';
 
 const About = () => {
   const navigate = useNavigate();
-  const { about, fetchAllData } = useAppData();
+  const { about, fetchAllData, toggleMenu } = useAppData();
   
   // about 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
@@ -17,7 +17,7 @@ const About = () => {
   }, [about, fetchAllData]);
 
   const handleBackClick = () => {
-    navigate('/menu');
+    toggleMenu();
   };
 
   // about이 null일 때 스켈레톤 표시

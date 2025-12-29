@@ -9,7 +9,7 @@ import ImageModal from '../../components/ImageModal';
 const ExhibitionDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { exhibitions, loading, fetchAllData } = useAppData();
+  const { exhibitions, fetchAllData, toggleMenu } = useAppData();
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ExhibitionDetail = () => {
   if (!exhibitions) {
     return (
       <div className="exhibition-detail-page">
-        <div className="menu-icon" onClick={() => navigate('/menu')}>
+        <div className="menu-icon" onClick={toggleMenu}>
           <div className="line" />
           <div className="line" />
           <div className="line" />
@@ -72,7 +72,7 @@ const ExhibitionDetail = () => {
 
   return (
     <div className="exhibition-detail-page">
-      <div className="menu-icon" onClick={() => navigate('/menu')}>
+      <div className="menu-icon" onClick={toggleMenu}>
         <div className="line" />
         <div className="line" />
         <div className="line" />

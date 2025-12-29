@@ -6,7 +6,7 @@ import './CV.css';
 
 const CV = () => {
   const navigate = useNavigate();
-  const { cv1, cv2, fetchAllData } = useAppData();
+  const { cv1, cv2, fetchAllData, toggleMenu } = useAppData();
   
   // cv1 또는 cv2 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
@@ -17,7 +17,7 @@ const CV = () => {
   }, [cv1, cv2, fetchAllData]);
 
   const handleBackClick = () => {
-    navigate('/menu');
+    toggleMenu();
   };
 
   const education = cv1 || [];

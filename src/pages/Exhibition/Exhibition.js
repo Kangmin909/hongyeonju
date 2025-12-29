@@ -9,7 +9,7 @@ import YearNav from '../../components/YearNav';
 const Exhibitions = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { exhibitions, fetchAllData } = useAppData();
+  const { exhibitions, fetchAllData, toggleMenu } = useAppData();
 
   // exhibitions 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
@@ -55,7 +55,7 @@ const Exhibitions = () => {
     <div className="exhibitions-container">
       <header className="exhibitions-header">
         <h1 className="exhibitions-title">EXHIBITION</h1>
-        <div className="menu-icon" onClick={() => navigate('/menu')}>
+        <div className="menu-icon" onClick={toggleMenu}>
           <div className="line" />
           <div className="line" />
           <div className="line" />

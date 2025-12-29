@@ -1,11 +1,9 @@
 @keyframes skeleton-shimmer {
   0% {
-    /* 시작 위치를 더 뒤로 밀어 여유를 줌 */
-    background-position: -200% 0;
+    background-position: 200% 0;
   }
   100% {
-    /* 끝 위치도 더 뒤로 보내서 전체 흐름을 길게 만듦 */
-    background-position: 200% 0;
+    background-position: -200% 0;
   }
 }
 
@@ -18,7 +16,7 @@
   overflow: hidden;
   border-radius: 6px;
 
-  /* 하이라이트 폭 조절: 30%에서 70%까지 넓게 퍼지도록 수정 */
+  /* 기존의 세련된 110도 대각선 유지 */
   background: linear-gradient(
     110deg, 
     #f2f2f2 30%, 
@@ -26,10 +24,10 @@
     #f2f2f2 70%
   );
 
-  /* 배경 사이즈를 키워야 넓은 하이라이트가 자연스럽게 이동함 */
+  /* 배경 사이즈 복구 */
   background-size: 300% 100%; 
   
-  /* 속도 조절: 1.5s -> 2.2s로 늘려 더 천천히 지나가게 함 */
+  /* 기존 속도 및 타이밍 복구 */
   animation: skeleton-shimmer 4.0s infinite ease-in-out; 
 }
 
@@ -60,7 +58,7 @@
 
 .skeleton-home-image {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
 }
 
 .skeleton-home-image-box {

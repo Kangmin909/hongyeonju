@@ -12,9 +12,9 @@ function App() {
   return (
     <AppDataProvider>
       <Router>
+        <Menu />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
           <Route path="/works" element={<Works />} />
           <Route path="/exhibition" element={<Exhibition />} />
           <Route path="/exhibition/:id" element={<ExhibitionDetail />} />

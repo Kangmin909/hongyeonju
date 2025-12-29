@@ -26,3 +26,48 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* =========================
+   COMMON MEDIA LOADING (Layout Shift Prevention)
+========================= */
+
+.media-placeholder-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: #f2f2f2;
+  overflow: hidden;
+  border-radius: 4px;
+  aspect-ratio: 4 / 3; /* 로딩 전 기본 비율을 4:3으로 변경 */
+}
+
+.loading-shimmer {
+  background: linear-gradient(
+    110deg, 
+    #f2f2f2 30%, 
+    #ffffff 50%, 
+    #f2f2f2 70%
+  );
+  background-size: 300% 100%;
+  animation: skeleton-shimmer 4.0s infinite ease-in-out;
+}
+
+.media-element {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+.media-placeholder-wrapper:not(.loading-shimmer) {
+  background-color: transparent;
+  aspect-ratio: auto;
+}
+
+.media-placeholder-wrapper:not(.loading-shimmer) .media-element {
+  opacity: 1;
+}
+
+/* @keyframes skeleton-shimmer는 Skeleton.css에 정의된 것을 사용 */
+
+

@@ -10,24 +10,31 @@ import arrowIcon from '../../assets/icons/back-arrow.png'; // 실제 아이콘 �
 
 const Menu = () => {
   const navigate = useNavigate();
-  const { refreshData, loading } = useAppData();
+  const { isMenuOpen, toggleMenu, refreshData, loading } = useAppData();
 
   const handleRefresh = async () => {
     await refreshData();
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+    toggleMenu(); // 페이지 이동 후 메뉴 닫기
+  };
+
+  if (!isMenuOpen) return null;
+
   return (
     <div className="menu-container">
-      <div className="back-arrow" onClick={() => navigate(-1)}>
+      <div className="back-arrow" onClick={toggleMenu}>
         <img src={arrowIcon} alt="Back Arrow" className="arrow-icon" />
       </div>
 
       <div className="menu-items">
-        <button className="menu-button" onClick={() => navigate('/')}>HOME</button>
-        <button className="menu-button" onClick={() => navigate('/works')}>WORKS</button>
-        <button className="menu-button" onClick={() => navigate('/exhibition')}>EXHIBITION</button>
-        <button className="menu-button" onClick={() => navigate('/cv')}>CV</button>
-        <button className="menu-button" onClick={() => navigate('/about')}>ABOUT</button>
+        <button className="menu-button" onClick={() => handleNavigate('/')}>HOME</button>
+        <button className="menu-button" onClick={() => handleNavigate('/works')}>WORKS</button>
+        <button className="menu-button" onClick={() => handleNavigate('/exhibition')}>EXHIBITION</button>
+        <button className="menu-button" onClick={() => handleNavigate('/cv')}>CV</button>
+        <button className="menu-button" onClick={() => handleNavigate('/about')}>ABOUT</button>
       </div>
 
       <button 

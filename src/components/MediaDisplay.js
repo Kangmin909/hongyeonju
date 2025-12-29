@@ -27,6 +27,7 @@ const isYouTubeUrl = (url) => {
 // MediaDisplay 컴포넌트
 const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false, onClick }) => {
   const [hasError, setHasError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   if (hasError || !src) {
     return (
@@ -36,53 +37,65 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
     );
   }
 
+  // 로딩 중이거나 에러가 아닐 때 공통으로 적용할 래퍼 스타일
+  const wrapperClass = `media-placeholder-wrapper ${!isLoaded ? 'loading-shimmer' : ''} ${className || ''}`;
+
   if (isYouTubeUrl(src)) {
     const videoId = getYouTubeVideoId(src);
     const autoplayParams = 'autoplay=1&mute=1&loop=1&playlist=' + videoId;
     const embedUrl = `https://www.youtube.com/embed/${videoId}?${autoplayParams}`;
     
     return (
-      <div className="media-container">
-        <iframe
-          src={embedUrl}
-          title={alt || 'YouTube video'}
-          className="media-iframe"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          onError={() => setHasError(true)}
-        />
+      <div className={wrapperClass}>
+        <div className="media-container">
+          <iframe
+            src={embedUrl}
+            title={alt || 'YouTube video'}
+            className="media-iframe"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setHasError(true)}
+          />
+        </div>
       </div>
     );
   }
 
   if (src.endsWith('.mp4')) {
     return (
-      <video
-        src={src}
-        className={className || ''}
-        autoPlay={autoplay}
-        muted={autoplay} // 자동 재생을 위해서는 음소거가 필수인 경우가 많음
-        loop={autoplay}
-        playsInline
-        controls={controls}
-        onError={() => setHasError(true)}
-        onClick={onClick}
-        style={onClick ? { cursor: 'pointer' } : {}}
-      />
+      <div className={wrapperClass}>
+        <video
+          src={src}
+          className="media-element"
+          autoPlay={autoplay}
+          muted={autoplay}
+          loop={autoplay}
+          playsInline
+          controls={controls}
+          onLoadedData={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
+          onClick={onClick}
+          style={onClick ? { cursor: 'pointer' } : {}}
+        />
+      </div>
     );
   }
 
   // 일반 이미지
   return (
-    <img 
-      src={src} 
-      alt={alt || "Media content"} 
-      className={className || ''}
-      onError={() => setHasError(true)}
-      onClick={onClick}
-      style={onClick ? { cursor: 'pointer' } : {}}
-    />
+    <div className={wrapperClass}>
+      <img 
+        src={src} 
+        alt={alt || "Media content"} 
+        className="media-element"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)}
+        onClick={onClick}
+        style={onClick ? { cursor: 'pointer' } : {}}
+      />
+    </div>
   );
 };
 

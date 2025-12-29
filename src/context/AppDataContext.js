@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 
 // 전역 변수 객체 (컴포넌트 외부에서도 접근 가능)
 export const appDataStore = {
@@ -47,7 +47,12 @@ export const AppDataProvider = ({ children }) => {
   };
 
   const [data, setData] = useState(getInitialData);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoading = useRef(false);
+
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev);
+  }, []);
 
   // 모든 API를 한 번에 호출
   const fetchAllData = useCallback(async (force = false) => {
@@ -91,6 +96,9 @@ export const AppDataProvider = ({ children }) => {
       setData(finalState);
       Object.assign(appDataStore, finalState);
 
+      // 데이터 로드 후 미디어 프리로딩 실행
+      preloadMedia(newData);
+
     } catch (error) {
       console.error('Failed to fetch app data:', error);
       const errorState = { loading: false, error: error.message };
@@ -101,16 +109,65 @@ export const AppDataProvider = ({ children }) => {
     }
   }, [data, CACHE_DURATION]);
 
+  // 미디어 프리로딩 함수 (이미지 위주)
+  const preloadMedia = (appData) => {
+    const urls = [];
+    
+    // 1. 홈 이미지 추출
+    if (appData.home?.link) urls.push(appData.home.link);
+    
+    // 2. 전시 이미지 추출
+    if (Array.isArray(appData.exhibitions)) {
+      appData.exhibitions.forEach(ex => {
+        if (ex.link) urls.push(ex.link);
+        if (Array.isArray(ex.images)) {
+          ex.images.forEach(img => {
+            if (img.link) urls.push(img.link);
+          });
+        }
+      });
+    }
+    
+    // 3. 작품 이미지 추출
+    if (Array.isArray(appData.works)) {
+      appData.works.forEach(work => {
+        if (work.link) urls.push(work.link);
+      });
+    }
+
+    // 중복 제거 후 프리로딩
+    const uniqueUrls = [...new Set(urls)];
+    uniqueUrls.forEach(url => {
+      // 영상은 프리로딩이 무거울 수 있으므로 이미지만 처리
+      const isImage = /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url) || !url.includes('.mp4');
+      
+      if (isImage) {
+        const img = new Image();
+        img.src = url;
+      }
+    });
+  };
+
   // 강제 새로고침 함수
   const refreshData = useCallback(() => {
     return fetchAllData(true);
   }, [fetchAllData]);
 
+  // 앱 시작 시 캐시가 있다면 프리로딩 한 번 실행
+  useEffect(() => {
+    if (data.home || data.exhibitions) {
+      preloadMedia(data);
+    }
+  }, []); // 마운트 시 1회 실행
+
   const value = {
     ...data,
+    isMenuOpen,
+    toggleMenu,
     fetchAllData,
     refreshData,
   };
+
 
   return (
     <AppDataContext.Provider value={value}>

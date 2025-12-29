@@ -131,10 +131,51 @@
   align-items: center;
   background-color: #f0f0f0;
   width: 100%;
-  aspect-ratio: 16 / 9; /* 기본 비율 */
+  aspect-ratio: 4 / 3; /* 기본 비율 */
   color: #a0a0a0;
   font-size: 14px;
   text-align: center;
+}
+
+/* 레이아웃 시프트 방지를 위한 미디어 래퍼 */
+.media-placeholder-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: #f2f2f2;
+  overflow: hidden;
+  border-radius: 4px;
+  /* 대략적인 기본 높이 확보 (16:9 기준) */
+  aspect-ratio: 4 / 3;
+}
+
+/* 로딩 중 쉬머 애니메이션 (Skeleton.css 애니메이션 재활용 가능하면 좋음) */
+.loading-shimmer {
+  background: linear-gradient(
+    110deg, 
+    #f2f2f2 30%, 
+    #ffffff 50%, 
+    #f2f2f2 70%
+  );
+  background-size: 300% 100%;
+  animation: skeleton-shimmer 2s infinite ease-in-out;
+}
+
+.media-element {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+/* 로딩이 완료된 래퍼 내부의 이미지/비디오 */
+.media-placeholder-wrapper:not(.loading-shimmer) {
+  background-color: transparent;
+  aspect-ratio: auto; /* 로딩 완료 후 실제 이미지 비율에 따름 */
+}
+
+.media-placeholder-wrapper:not(.loading-shimmer) .media-element {
+  opacity: 1;
 }
 
 .media-error-message {

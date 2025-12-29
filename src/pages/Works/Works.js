@@ -10,7 +10,7 @@ import ImageModal from '../../components/ImageModal';
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { works, fetchAllData } = useAppData();
+  const { works, fetchAllData, toggleMenu } = useAppData();
   const [selectedImage, setSelectedImage] = useState(null);
 
   // works 데이터가 없으면 fetchAllData 호출
@@ -49,7 +49,7 @@ const Works = () => {
     <div className="works-container">
       <header className="works-header">
         <h1 className="works-title">WORKS</h1>
-        <div className="menu-icon" onClick={() => navigate('/menu')}>
+        <div className="menu-icon" onClick={toggleMenu}>
           <div className="line" />
           <div className="line" />
           <div className="line" />

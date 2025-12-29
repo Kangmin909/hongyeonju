@@ -15,7 +15,7 @@ import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { home, fetchAllData } = useAppData();
+  const { home, fetchAllData, toggleMenu } = useAppData();
   const [selectedMedia, setSelectedMedia] = useState(null);
 
   // Home 화면에서 모든 데이터를 한 번에 fetch
@@ -32,7 +32,7 @@ const Home = () => {
     <div className="home-container">
       <div className="home-header">
         <div className="home-name">HONG<br />YEONJU</div>
-        <div className="menu-icon" onClick={() => navigate('/menu')}>
+        <div className="menu-icon" onClick={toggleMenu}>
           <div className="line" />
           <div className="line" />
           <div className="line" />

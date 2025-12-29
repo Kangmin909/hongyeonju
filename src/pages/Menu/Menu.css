@@ -1,24 +1,27 @@
 /* src/pages/Menu.css */
 
 .menu-container {
-  position: relative;
+  position: fixed; /* 페이지 위에 고정 */
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   max-width: 402px;
-  height: 100vh; /* 화면 높이에 맞춤 */
+  height: 100vh;
   background: #FFFFFF;
-  margin: 0 auto;
   font-family: 'Pretendard Variable', sans-serif;
   overflow: hidden;
-  /* 애니메이션 속도 향상: 0.5s -> 0.3s, 더 즉각적인 반응성 */
+  z-index: 3000; /* 모든 요소보다 위에 표시 */
+  /* 왼쪽에서 슬라이드 진입 애니메이션 */
   animation: slideInFromLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes slideInFromLeft {
   from {
-    transform: translateX(-100%);
+    transform: translateX(-150%); /* 확실히 화면 밖에서 시작 */
   }
   to {
-    transform: translateX(0);
+    transform: translateX(-50%); /* 중앙 정렬 유지 */
   }
 }
 
