@@ -52,17 +52,18 @@
   height: 100%;
   width: 100%;
   will-change: transform;
+  gap: 0; /* 이미지 사이의 모든 간격 제거 */
 }
 
 .slide-item {
-  flex: 0 0 100%;
+  flex: 0 0 100%; /* 부모(뷰포트) 너비의 100%를 정확히 차지 */
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  padding: 0; /* 여백 제거 */
+  padding: 0;
   box-sizing: border-box;
 }
 
