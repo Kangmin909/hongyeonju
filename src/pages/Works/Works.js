@@ -6,12 +6,13 @@ import { SkeletonWorkItem } from '../../components/Skeleton';
 import MediaDisplay from '../../components/MediaDisplay';
 import YearNav from '../../components/YearNav';
 import ImageModal from '../../components/ImageModal';
+import VideoModal from '../../components/VideoModal';
 
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { works, fetchAllData, toggleMenu } = useAppData();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedMedia, setSelectedMedia] = useState(null);
 
   // works 데이터가 없으면 fetchAllData 호출
   useEffect(() => {
@@ -39,6 +40,24 @@ const Works = () => {
   };
 
   const filteredWorks = worksArray.filter(work => work.year === selectedYear);
+
+  // 이미지들만 필터링 (네비게이션용)
+  const imageItems = filteredWorks.filter(item => {
+    const link = item.link?.toLowerCase() || "";
+    return !link.endsWith('.mp4') && !link.includes('youtube.com') && !link.includes('youtu.be');
+  });
+
+  const handleMediaClick = (item) => {
+    const link = item.link?.toLowerCase() || "";
+    const isVideo = link.endsWith('.mp4') || link.includes('youtube.com') || link.includes('youtu.be');
+    
+    if (isVideo) {
+      setSelectedMedia({ type: 'video', src: item.link, alt: item.title });
+    } else {
+      const index = imageItems.findIndex(img => img.link === item.link);
+      setSelectedMedia({ type: 'image', items: imageItems, index: index });
+    }
+  };
 
   useEffect(() => {
     setSelectedYear(initialYear);
@@ -78,7 +97,7 @@ const Works = () => {
                 alt={work.title} 
                 className="work-image" 
                 controls={true} 
-                onClick={() => setSelectedImage({ src: work.link, alt: work.title })}
+                onClick={() => handleMediaClick(work)}
               />
               <div className="work-info">
                 <div className="work-title">{work.title}</div>
@@ -89,11 +108,19 @@ const Works = () => {
         )}
       </div>
 
-      {selectedImage && (
+      {selectedMedia?.type === 'image' && (
         <ImageModal 
-          src={selectedImage.src} 
-          alt={selectedImage.alt} 
-          onClose={() => setSelectedImage(null)} 
+          images={selectedMedia.items}
+          initialIndex={selectedMedia.index}
+          onClose={() => setSelectedMedia(null)} 
+        />
+      )}
+
+      {selectedMedia?.type === 'video' && (
+        <VideoModal 
+          src={selectedMedia.src}
+          alt={selectedMedia.alt}
+          onClose={() => setSelectedMedia(null)}
         />
       )}
     </div>

@@ -6,12 +6,8 @@ import { useAppData } from '../../context/AppDataContext';
 import MediaDisplay from '../../components/MediaDisplay';
 import { SkeletonHomeImage } from '../../components/Skeleton';
 import ImageModal from '../../components/ImageModal';
+import VideoModal from '../../components/VideoModal';
 import './Home.css';
-
-// const homeImage = 'https://ax7gxa1iogyu.objectstorage.ap-chuncheon-1.oci.customer-oci.com/n/ax7gxa1iogyu/b/hongyoenju/o/home%2F_talkv_wsD01179bG_S7FWNRcrSnMKxzHxW3GNAk_talkv_high_1.mp4';
-// const homeImage = 'https://www.youtube.com/watch?v=l9D1HPb6kVA';
-// const homeImage = 'https://haieng.com/wp-content/uploads/2017/10/test-image-500x500.jpg';
-
 
 const Home = () => {
   const navigate = useNavigate();
@@ -27,6 +23,18 @@ const Home = () => {
   }, [home, fetchAllData]);
 
   const homeImage = home?.link;
+
+  const handleMediaClick = () => {
+    if (!homeImage) return;
+    const link = homeImage.toLowerCase();
+    const isVideo = link.endsWith('.mp4') || link.includes('youtube.com') || link.includes('youtu.be');
+    
+    if (isVideo) {
+      setSelectedMedia({ type: 'video', src: homeImage, alt: "Home media" });
+    } else {
+      setSelectedMedia({ type: 'image', items: [{ link: homeImage, title: "Home media" }], index: 0 });
+    }
+  };
 
   return (
     <div className="home-container">
@@ -48,16 +56,24 @@ const Home = () => {
             alt="Home media" 
             className="profile-image" 
             autoplay={true} 
-            onClick={() => setSelectedMedia({ src: homeImage, alt: "Home media" })}
+            onClick={handleMediaClick}
           />
         )}
       </div>
 
-      {selectedMedia && (
+      {selectedMedia?.type === 'image' && (
         <ImageModal 
-          src={selectedMedia.src} 
-          alt={selectedMedia.alt} 
+          images={selectedMedia.items}
+          initialIndex={selectedMedia.index}
           onClose={() => setSelectedMedia(null)} 
+        />
+      )}
+
+      {selectedMedia?.type === 'video' && (
+        <VideoModal 
+          src={selectedMedia.src}
+          alt={selectedMedia.alt}
+          onClose={() => setSelectedMedia(null)}
         />
       )}
     </div>
