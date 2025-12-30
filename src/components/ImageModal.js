@@ -10,8 +10,13 @@ const ImageModal = ({ src, alt, onClose }) => {
   const isDragging = useRef(false);
   const hasMoved = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
+  
+  // 제스처 시작 시점의 상태를 저장하기 위한 Ref
   const pinchStartDist = useRef(0);
   const initialZoom = useRef(1);
+  const initialOffset = useRef({ x: 0, y: 0 });
+  const initialCenter = useRef({ x: 0, y: 0 });
+  
   const viewportRef = useRef(null);
 
   useEffect(() => {
@@ -57,7 +62,7 @@ const ImageModal = ({ src, alt, onClose }) => {
   const isVideo = src.endsWith('.mp4');
   const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
 
-  // 중심점 좌표 계산 함수
+  // 현재 터치 포인트들의 중심 좌표 계산 (뷰포트 중심 기준)
   const getTouchCenter = (touches) => {
     if (!viewportRef.current) return { x: 0, y: 0 };
     const rect = viewportRef.current.getBoundingClientRect();
@@ -71,9 +76,13 @@ const ImageModal = ({ src, alt, onClose }) => {
 
   const handleStart = (e) => {
     if (e.touches && e.touches.length === 2) {
+      // 핀치 줌 시작: 모든 초기 상태 기록
       pinchStartDist.current = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
       initialZoom.current = zoom;
+      initialOffset.current = offset;
+      initialCenter.current = getTouchCenter(e.touches);
     } else {
+      // 드래그 시작
       isDragging.current = true;
       hasMoved.current = false;
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -84,20 +93,21 @@ const ImageModal = ({ src, alt, onClose }) => {
 
   const handleMove = (e) => {
     if (e.touches && e.touches.length === 2 && pinchStartDist.current > 0) {
-      // 핀치 줌 좌표 보정 로직
-      const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-      const newZoom = Math.min(Math.max(initialZoom.current * (dist / pinchStartDist.current), 1), 5);
-      
-      if (newZoom === zoom) return;
+      // 핀치 줌 & 패닝 동시 처리
+      const currentDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      const newZoom = Math.min(Math.max(initialZoom.current * (currentDist / pinchStartDist.current), 1), 5);
+      const currentCenter = getTouchCenter(e.touches);
 
-      const center = getTouchCenter(e.touches);
-      const ratio = newZoom / zoom;
-      const newX = center.x - (center.x - offset.x) * ratio;
-      const newY = center.y - (center.y - offset.y) * ratio;
+      // 통합 공식: O2 = P2 - (P1 - O1) * (S2 / S1)
+      // P2: 현재 중심, P1: 초기 중심, O1: 초기 오프셋, S2: 새로운 배율, S1: 초기 배율
+      const ratio = newZoom / initialZoom.current;
+      const newX = currentCenter.x - (initialCenter.current.x - initialOffset.current.x) * ratio;
+      const newY = currentCenter.y - (initialCenter.current.y - initialOffset.current.y) * ratio;
 
       setZoom(newZoom);
       setOffset(getClampedOffset(newX, newY, newZoom));
     } else if (isDragging.current && zoom > 1) {
+      // 일반 드래그 이동
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       const dx = clientX - lastPos.current.x;
@@ -119,13 +129,18 @@ const ImageModal = ({ src, alt, onClose }) => {
     const delta = e.deltaY > 0 ? -0.2 : 0.2;
     const newZoom = Math.min(Math.max(zoom + delta, 1), 5);
     if (newZoom === zoom) return;
-    if (newZoom === 1) { setZoom(1); setOffset({ x: 0, y: 0 }); return; }
+    
     const rect = viewportRef.current.getBoundingClientRect();
     const mouseX = e.clientX - (rect.left + rect.width / 2);
     const mouseY = e.clientY - (rect.top + rect.height / 2);
+    
+    // 휠 줌 통합 공식 적용
     const ratio = newZoom / zoom;
+    const newX = mouseX - (mouseX - offset.x) * ratio;
+    const newY = mouseY - (mouseY - offset.y) * ratio;
+
     setZoom(newZoom);
-    setOffset(getClampedOffset(mouseX - (mouseX - offset.x) * ratio, mouseY - (mouseY - offset.y) * ratio, newZoom));
+    setOffset(getClampedOffset(newX, newY, newZoom));
   };
 
   const handleImageClick = (e) => {
@@ -134,11 +149,16 @@ const ImageModal = ({ src, alt, onClose }) => {
     if (zoom > 1) { setZoom(1); setOffset({ x: 0, y: 0 }); }
     else {
       const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - (rect.left + rect.width / 2);
-      const y = e.clientY - (rect.top + rect.height / 2);
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const x = e.clientX - centerX;
+      const y = e.clientY - centerY;
       const targetZoom = 2.5;
+      // 클릭 줌 통합 공식 적용
+      const targetX = x - (x - 0) * targetZoom;
+      const targetY = y - (y - 0) * targetZoom;
       setZoom(targetZoom);
-      setOffset(getClampedOffset(-x * (targetZoom - 1), -y * (targetZoom - 1), targetZoom));
+      setOffset(getClampedOffset(targetX, targetY, targetZoom));
     }
   };
 
