@@ -13,6 +13,22 @@ const ExhibitionDetail = () => {
   const { exhibitions, fetchAllData, toggleMenu } = useAppData();
   const [selectedMedia, setSelectedMedia] = useState(null);
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getNumColumns = () => {
+    if (windowWidth < 768) return 1;
+    if (windowWidth < 1080) return 2;
+    return 3;
+  };
+
+  const numColumns = getNumColumns();
+
   useEffect(() => {
     // exhibitions 데이터가 없으면 fetchAllData 호출
     if (!exhibitions) {
@@ -66,6 +82,12 @@ const ExhibitionDetail = () => {
 
   const allMedia = Array.isArray(exhibition.images) ? exhibition.images : [];
   
+  // 데이터를 열 개수에 맞춰 분배
+  const columns = Array.from({ length: numColumns }, () => []);
+  allMedia.forEach((item, index) => {
+    columns[index % numColumns].push(item);
+  });
+
   // 이미지들만 필터링 (네비게이션용)
   const imageItems = allMedia.filter(item => {
     const link = item.link?.toLowerCase() || "";
@@ -99,18 +121,22 @@ const ExhibitionDetail = () => {
       </div>
 
       <div className="exhibition-detail-images">
-        {allMedia.map((item) => (
-          <div key={item.id} className="exhibition-detail-image-container">
-            <MediaDisplay 
-              src={item.link} 
-              alt={item.label} 
-              className="exhibition-detail-image" 
-              onClick={() => handleMediaClick(item)}
-            />
-            <div className="exhibition-detail-work-info">
-              <div className="exhibition-detail-work-title">{item.title}</div>
-              <div className="exhibition-detail-work-meta">{item.meta}</div>
-            </div>
+        {columns.map((column, colIdx) => (
+          <div key={colIdx} className="exhibition-detail-column">
+            {column.map((item) => (
+              <div key={item.id} className="exhibition-detail-image-container">
+                <MediaDisplay 
+                  src={item.link} 
+                  alt={item.label} 
+                  className="exhibition-detail-image" 
+                  onClick={() => handleMediaClick(item)}
+                />
+                <div className="exhibition-detail-work-info">
+                  <div className="exhibition-detail-work-title">{item.title}</div>
+                  <div className="exhibition-detail-work-meta">{item.meta}</div>
+                </div>
+              </div>
+            ))}
           </div>
         ))}
       </div>

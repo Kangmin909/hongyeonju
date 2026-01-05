@@ -3,7 +3,7 @@
     position: relative;
     width: 100%;
     min-width: 340px; /* 최소 폭 설정 */
-    max-width: 1200px; /* 1440px -> 1200px */
+    max-width: 1200px;
     min-height: 100vh;
     background: #FFFFFF;
     margin: 0 auto; /* 중앙 정렬 */
@@ -14,16 +14,9 @@
     display: flex;
     flex-direction: column;
   }
-
-/* ... existing styles ... */
-
-@media (max-width: 402px) {
-  /* removed padding override */
-}
   
   /* 연도 네비게이션 */
 .works-container .year-nav {
-    /* absolute 제거 */
     position: relative;
     width: 100%;
     display: flex;
@@ -60,21 +53,27 @@
     border-radius: 20px;
   }
   
-  /* 작품 목록 */
+  /* 작품 목록 - Flex Row로 열들 배치 */
   .works-list {
-    /* absolute 제거 */
     position: relative;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
     gap: 30px;
-    /* padding-bottom removed, handled by container padding */
+  }
+
+  /* 각 열 설정 */
+  .works-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* 열 내부 아이템 간격 */
   }
   
   /* 각 작품 아이템 */
   .work-item {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
   }
 
   .work-image {
@@ -110,12 +109,6 @@
     line-height: 14px;
     color: #6E6E6E;
   }
-  
-  .work-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
 
   .media-container {
     width: 100%;
@@ -133,16 +126,27 @@
     height: 100%;
   }
 
-  /* Media queries can be simplified or removed for layout positioning */
-  @media (max-width: 402px) {
-    .works-container {
-      padding: 40px 24px 50px 24px;
+  /* 반응형 간격 설정 */
+  @media (min-width: 768px) {
+    .works-list {
+      gap: 40px;
     }
-    /* ... specific element overrides if needed ... */
+    .works-column {
+      gap: 40px;
+    }
+    .work-title, .work-meta {
+      font-size: 13px;
+    }
   }
 
-  @media (max-width: 360px) {
-    .works-container {
-      padding: 40px 24px 50px 24px;
+  @media (min-width: 1080px) {
+    .works-list {
+      gap: 50px;
+    }
+    .works-column {
+      gap: 50px;
+    }
+    .work-title, .work-meta {
+      font-size: 14px;
     }
   }

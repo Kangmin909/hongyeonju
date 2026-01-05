@@ -50,7 +50,7 @@
   font-size: 20px;
   font-weight: 400;
   color: #000;
-  margin-top: 40px;
+  margin-top: 0; /* 40px -> 0 */
   margin-bottom: 20px;
 }
 
@@ -82,8 +82,16 @@
   margin-bottom: 38px;
 }
 
-/* 이미지 목록 */
+/* 이미지 목록 - Masonry 레이아웃 적용 */
 .exhibition-detail-images {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.exhibition-detail-column {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -91,8 +99,7 @@
 
 /* 각 이미지 박스 */
 .exhibition-detail-image-container {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 
 .exhibition-detail-image {
@@ -135,11 +142,29 @@
   color: #6E6E6E;
 }
 
+/* 반응형 간격 설정 */
+@media (min-width: 768px) {
+  .exhibition-detail-images {
+    gap: 40px;
+  }
+  .exhibition-detail-column {
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .exhibition-detail-images {
+    gap: 50px;
+  }
+  .exhibition-detail-column {
+    gap: 50px;
+  }
+}
+
 /* Skeleton UI를 위한 추가 스타일 */
 .skeleton-badge {
   background-color: #f0f0f0; /* 스켈레톤 기본 색상 */
   border-radius: 20px;
-  /* shimmer 애니메이션은 Skeleton.css에서 이미 적용됨 */
 }
 
 /* 미디어 로딩 에러 플레이스홀더 */
@@ -161,11 +186,10 @@
   width: 100%;
   background-color: #ffffff;
   overflow: hidden;
-  /* 대략적인 기본 높이 확보 (16:9 기준) */
   aspect-ratio: 4 / 3;
 }
 
-/* 로딩 중 쉬머 애니메이션 (Skeleton.css 애니메이션 재활용 가능하면 좋음) */
+/* 로딩 중 쉬머 애니메이션 */
 .loading-shimmer {
   background: linear-gradient(
     110deg, 

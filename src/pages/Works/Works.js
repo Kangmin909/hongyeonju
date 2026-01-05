@@ -40,7 +40,28 @@ const Works = () => {
     navigate(`/works?year=${year}`);
   };
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getNumColumns = () => {
+    if (windowWidth < 768) return 1;
+    if (windowWidth < 1080) return 2;
+    return 3;
+  };
+
+  const numColumns = getNumColumns();
   const filteredWorks = worksArray.filter(work => work.year === selectedYear);
+  
+  // 데이터를 열 개수에 맞춰 분배 (좌->우 순서 유지)
+  const columns = Array.from({ length: numColumns }, () => []);
+  filteredWorks.forEach((work, index) => {
+    columns[index % numColumns].push(work);
+  });
 
   // 이미지들만 필터링 (네비게이션용)
   const imageItems = filteredWorks.filter(item => {
@@ -84,19 +105,23 @@ const Works = () => {
             <SkeletonWorkItem />
           </>
         ) : (
-          filteredWorks.map((work) => (
-            <div className="work-item" key={work.id}>
-              <MediaDisplay 
-                src={work.link} 
-                alt={work.title} 
-                className="work-image" 
-                controls={true} 
-                onClick={() => handleMediaClick(work)}
-              />
-              <div className="work-info">
-                <div className="work-title">{work.title}</div>
-                <div className="work-meta">{work.meta}</div>
-              </div>
+          columns.map((column, colIdx) => (
+            <div key={colIdx} className="works-column">
+              {column.map((work) => (
+                <div className="work-item" key={work.id}>
+                  <MediaDisplay 
+                    src={work.link} 
+                    alt={work.title} 
+                    className="work-image" 
+                    controls={true} 
+                    onClick={() => handleMediaClick(work)}
+                  />
+                  <div className="work-info">
+                    <div className="work-title">{work.title}</div>
+                    <div className="work-meta">{work.meta}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           ))
         )}
