@@ -2,10 +2,11 @@
 .works-container {
     position: relative;
     width: 100%;
-    max-width: 100%; /* 402px 제한 해제 */
+    min-width: 340px; /* 최소 폭 설정 */
+    max-width: 1200px; /* 800px -> 1200px */
     min-height: 100vh;
     background: #FFFFFF;
-    margin: 0; /* 중앙 정렬 해제 */
+    margin: 0 auto; /* 중앙 정렬 */
     font-family: 'Pretendard Variable', sans-serif;
     box-sizing: border-box;
     padding: 40px 24px 50px 24px; /* Flex layout padding */

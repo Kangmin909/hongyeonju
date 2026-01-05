@@ -16,6 +16,7 @@ html, body {
 
 #root {
   width: 100%;
+  min-width: 340px; /* 최소 폭 설정 */
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -34,7 +35,7 @@ code {
 .media-placeholder-wrapper {
   position: relative;
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: #ffffff; /* #f2f2f2 -> #ffffff */
   overflow: hidden;
   aspect-ratio: 4 / 3; /* 로딩 전 기본 비율을 4:3으로 변경 */
 }
@@ -59,7 +60,7 @@ code {
 }
 
 .media-placeholder-wrapper:not(.loading-shimmer) {
-  background-color: transparent;
+  background-color: #ffffff;
   aspect-ratio: auto;
 }
 

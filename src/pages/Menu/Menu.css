@@ -3,9 +3,11 @@
 .menu-container {
   position: fixed; /* 페이지 위에 고정 */
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
-  max-width: 100%;
+  min-width: 340px; /* 최소 폭 설정 */
+  max-width: 1200px; /* 800px -> 1200px */
   height: 100vh;
   background: #FFFFFF;
   font-family: 'Pretendard Variable', sans-serif;
@@ -27,10 +29,10 @@
 
 @keyframes slideInFromLeft {
   from {
-    transform: translateX(-100%); /* 화면 밖(왼쪽) */
+    transform: translate(-150%, 0); /* 확실히 화면 밖에서 시작 */
   }
   to {
-    transform: translateX(0); /* 원래 위치 */
+    transform: translate(-50%, 0); /* 중앙 정렬 유지 */
   }
 }
 
