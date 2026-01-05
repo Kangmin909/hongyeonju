@@ -6,7 +6,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [loadingStates, setLoadingStates] = useState({});
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [containerWidth, setContainerWidth] = useState(window.innerWidth);
   
   const isDragging = useRef(false);
   const hasMoved = useRef(false);
@@ -18,8 +18,21 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    const handleResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
+    
+    // ResizeObserver를 사용하여 정확한 컨테이너 너비 감지
+    const updateWidth = () => {
+      if (viewportRef.current) {
+        setContainerWidth(viewportRef.current.offsetWidth);
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateWidth();
+    });
+
+    if (viewportRef.current) {
+      resizeObserver.observe(viewportRef.current);
+    }
     
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowRight') handleNext();
@@ -30,10 +43,16 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
     return () => {
       document.body.style.overflow = 'unset';
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentIndex]);
+  }, [currentIndex, onClose]); // onClose added to dependencies
+
+  // ... (rest of the code)
+
+  // In render:
+  // transform: `translate3d(${-currentIndex * containerWidth + (zoom === 1 ? offset.x : 0)}px, 0, 0)`,
+
 
   const handleNext = useCallback(() => {
     if (currentIndex < images.length - 1) {
@@ -208,7 +227,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
             className="slider-container"
             style={{
               // 정밀한 픽셀 기반 이동으로 변경
-              transform: `translate3d(${-currentIndex * viewportWidth + (zoom === 1 ? offset.x : 0)}px, 0, 0)`,
+              transform: `translate3d(${-currentIndex * containerWidth + (zoom === 1 ? offset.x : 0)}px, 0, 0)`,
               transition: state.current.isDragging ? 'none' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
             onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} 

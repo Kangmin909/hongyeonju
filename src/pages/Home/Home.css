@@ -3,10 +3,10 @@
 .home-container {
   position: relative;
   width: 100%;
-  max-width: 402px;
+  max-width: 100%; /* 402px 제한 해제 */
   min-height: 100vh;
   background: #FFFFFF;
-  margin: 0 auto;
+  margin: 0; /* 중앙 정렬 해제 */
   font-family: 'Pretendard Variable', sans-serif;
   padding: 40px 24px 50px 24px;
   box-sizing: border-box;
@@ -16,6 +16,18 @@
   flex-direction: column;
 }
 
+/* ... existing styles ... */
+
+@media (min-width: 768px) {
+  .home-container {
+    padding: 40px 50px 50px 50px; /* PC 화면에서 여백 증가 */
+  }
+}
+
+@media (max-width: 402px) {
+  /* ... existing mobile styles if any ... */
+}
+
 .home-header {
   position: relative;
   width: 100%;
@@ -23,7 +35,7 @@
   justify-content: space-between;
   align-items: flex-start;
   z-index: 10;
-  margin-bottom: 20px; /* 제목과 영상 사이 최소 공백 */
+  margin-bottom: 60px; /* 제목과 영상 사이 최소 공백 늘림 */
   flex-shrink: 0;
 }
 

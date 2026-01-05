@@ -1,15 +1,23 @@
 .about-page {
   position: relative;
   width: 100%;
-  max-width: 402px;
+  max-width: 100%;
   min-height: 100vh;
   background: #FFFFFF;
-  margin: 0 auto;
+  margin: 0;
   font-family: 'Pretendard Variable', sans-serif;
   padding: 40px 24px 50px 24px; /* Reduced top padding */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+}
+
+/* ... existing styles ... */
+
+@media (min-width: 768px) {
+  .about-page {
+    padding: 40px 50px 50px 50px;
+  }
 }
 
 /* 섹션 제목 */

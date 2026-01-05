@@ -3,36 +3,40 @@
 .menu-container {
   position: fixed; /* 페이지 위에 고정 */
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100%;
-  max-width: 402px;
+  max-width: 100%;
   height: 100vh;
   background: #FFFFFF;
   font-family: 'Pretendard Variable', sans-serif;
   overflow-y: auto; /* 세로 스크롤 허용 */
   overflow-x: hidden;
   z-index: 3000; /* 모든 요소보다 위에 표시 */
-  /* 왼쪽에서 슬라이드 진입 애니메이션 */
-  animation: slideInFromLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   
   /* Flex layout for scrolling */
   display: flex;
   flex-direction: column;
+  
+  /* Consistent padding with other pages */
+  padding: 40px 24px 50px 24px;
+  box-sizing: border-box;
+
+  /* 왼쪽에서 슬라이드 진입 애니메이션 */
+  animation: slideInFromLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes slideInFromLeft {
   from {
-    transform: translateX(-150%); /* 확실히 화면 밖에서 시작 */
+    transform: translateX(-100%); /* 화면 밖(왼쪽) */
   }
   to {
-    transform: translateX(-50%); /* 중앙 정렬 유지 */
+    transform: translateX(0); /* 원래 위치 */
   }
 }
 
 .back-arrow {
-  margin-top: 40px; /* 95px -> 40px */
-  margin-left: 24px;
+  /* margin-top: 40px; -> removed, handled by container padding */
+  /* margin-left: 24px; -> removed, handled by container padding */
   width: 42px;
   height: 18px;
   cursor: pointer;
@@ -40,7 +44,7 @@
   justify-content: center;
   align-items: center;
   z-index: 10;
-  flex-shrink: 0; /* 스크롤 시에도 크기 유지 */
+  flex-shrink: 0;
 }
 
 .arrow-icon {
@@ -50,15 +54,15 @@
 }
 
 .menu-items {
-  margin-top: 60px;
-  margin-left: 24px;
+  margin-top: 60px; /* 화살표와의 간격 */
+  /* margin-left: 24px; -> removed */
   display: flex;
   flex-direction: column;
   gap: 40px;
-  /* flex-grow 제거하여 아래 요소들이 밀리지 않게 함 */
   padding-bottom: 40px; 
 }
 
+/* ... menu-button styles ... */
 .menu-button {
   all: unset;
   font-size: 32px;
@@ -97,11 +101,12 @@
 .menu-button:nth-child(4) { animation-delay: 0.24s; }
 .menu-button:nth-child(5) { animation-delay: 0.27s; }
 
+
 .refresh-button {
   all: unset;
   align-self: flex-end; /* 우측 정렬 */
-  margin-right: 24px;
-  margin-bottom: 40px; /* 하단 여백 */
+  /* margin-right: 24px; -> removed, container padding handles it */
+  margin-bottom: 0; /* container padding handles bottom spacing */
   margin-top: auto; /* 가능한 경우 맨 아래로 밀어냄 */
   font-size: 11px;
   font-weight: 300;
@@ -127,15 +132,17 @@
   border-bottom: 1px solid transparent;
 }
 
-@media (max-width: 402px) {
-  .refresh-button {
-    right: 24px;
+@media (min-width: 768px) {
+  .menu-container {
+    padding: 40px 50px 50px 50px; /* PC 화면에서 여백 증가 */
   }
 }
 
+@media (max-width: 402px) {
+  /* ... existing styles ... */
+}
+
 @media (max-width: 360px) {
-  .refresh-button {
-    right: 24px;
-  }
+  /* ... existing styles ... */
 }
 
