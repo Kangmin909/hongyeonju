@@ -2,23 +2,51 @@
   position: relative;
   width: 100%;
   min-width: 340px; /* 최소 폭 설정 */
-  max-width: 1200px; /* 800px -> 1200px */
+  max-width: 1200px;
   min-height: 100vh;
   background: #FFFFFF;
-  margin: 0 auto; /* 중앙 정렬 */
+  margin: 0 auto;
   font-family: 'Pretendard Variable', sans-serif;
-  padding: 40px 24px 50px 24px; /* Reduced top padding */
   box-sizing: border-box;
+  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
+  padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px clamp(24px, 1.212rem + 1.15vw, 50px);
   display: flex;
   flex-direction: column;
 }
 
-/* ... existing styles ... */
+/* 헤더 */
+.cv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 29px;
+  width: 100%;
+}
 
-@media (min-width: 768px) {
-  .cv-page {
-    padding: 40px 50px 50px 50px;
-  }
+/* 메뉴 버튼 */
+.cv-menu-button {
+  width: 23px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.cv-menu-line {
+  width: 23px;
+  height: 2px;
+  background-color: black;
+}
+
+/* 제목 */
+.cv-title {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 38px;
+  color: #000000;
+  margin: 0;
 }
 
 /* 이름 */
@@ -33,7 +61,7 @@
 /* 섹션 제목 */
 .cv-section-title {
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 400; /* 명시적으로 볼드 해제 */
   line-height: 24px;
   color: #000000;
   margin: 40px 0 40px 0;
@@ -62,21 +90,33 @@
   font-size: 14px;
   line-height: 22px;
   color: #6E6E6E;
-
-  /* 1. 기본 고정폭 글꼴 해제 (필요한 경우) */
   font-family: inherit; 
-
-  /* 2. 자동 줄바꿈 활성화 (중요!) */
   white-space: pre-wrap; 
   word-break: keep-all;
-
-  /* 3. 기본 여백 제거 */
   margin: 0;
 }
 
-@media (max-width: 402px) {
-  .cv-page {
-    width: 100%;
-    padding: 40px 24px 50px 24px;
+@media (min-width: 768px) {
+  .cv-name, .cv-list {
+    max-width: 75%; /* 768px 이상에서만 3/4 지점 제한 */
+  }
+  .cv-name, .cv-section-title {
+    font-size: 23px;
+    line-height: 27px;
+  }
+  .cv-year, .cv-content {
+    font-size: 15px;
+    line-height: 23px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .cv-name, .cv-section-title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+  .cv-year, .cv-content {
+    font-size: 16px;
+    line-height: 24px;
   }
 }

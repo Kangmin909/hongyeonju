@@ -2,23 +2,48 @@
   position: relative;
   width: 100%; 
   min-width: 340px; /* 최소 폭 설정 */
-  max-width: 1200px; /* 800px -> 1200px */
+  max-width: 1200px;
   min-height: 100vh;
   background: #FFFFFF;
   margin: 0 auto; /* 중앙 정렬 */
   font-family: 'Pretendard Variable', sans-serif;
-  padding: 40px 24px 50px 24px; /* Reduced top padding */
+  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
+  padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px clamp(24px, 1.212rem + 1.15vw, 50px);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
 
-/* ... existing styles ... */
+/* 상단 타이틀 + 메뉴 바 */
+.exhibition-detail-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
 
-@media (min-width: 768px) {
-  .exhibition-detail-page {
-    padding: 40px 50px 50px 50px;
-  }
+.exhibition-detail-title {
+  font-size: 32px;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 0;
+  line-height: 38px;
+}
+
+.menu-icon {
+  width: 23px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.menu-icon .line {
+  width: 23px;
+  height: 2px;
+  background-color: black;
 }
 
 .exhibition-detail-subtitle {
@@ -134,7 +159,7 @@
 .media-placeholder-wrapper {
   position: relative;
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   overflow: hidden;
   /* 대략적인 기본 높이 확보 (16:9 기준) */
   aspect-ratio: 4 / 3;
@@ -162,7 +187,7 @@
 
 /* 로딩이 완료된 래퍼 내부의 이미지/비디오 */
 .media-placeholder-wrapper:not(.loading-shimmer) {
-  background-color: transparent;
+  background-color: #ffffff;
   aspect-ratio: auto; /* 로딩 완료 후 실제 이미지 비율에 따름 */
 }
 

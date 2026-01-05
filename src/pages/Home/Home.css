@@ -16,10 +16,11 @@
 }
 
 .home-header {
-  position: absolute; /* 전체 화면 중앙 정렬을 위해 절대 위치 사용 */
+  position: absolute;
   top: 40px;
-  left: 24px;
-  right: 24px;
+  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
+  left: clamp(24px, 1.212rem + 1.15vw, 50px);
+  right: clamp(24px, 1.212rem + 1.15vw, 50px);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -56,34 +57,33 @@
   width: 100%;
   flex: 1;
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
+  align-items: center;
   justify-content: center;
   background: #ffffff;
   z-index: 1;
-  /* 상하 동일한 패딩을 주어 '페이지 전체의 중앙'에 오도록 함. 
-     상단 180px은 헤더(약 120px) + 최소 간격(60px)을 보장함. */
-  padding: 180px 24px;
+  padding-top: 180px;
+  padding-bottom: 180px;
+  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
+  padding-left: clamp(24px, 1.212rem + 1.15vw, 50px);
+  padding-right: clamp(24px, 1.212rem + 1.15vw, 50px);
   box-sizing: border-box;
-  overflow: hidden; /* 내부 요소 확대 시 잘림 방지 */
+  overflow: hidden;
 }
 
-/* 모든 미디어 요소 공통 (비디오, 이미지, iframe) */
 .profile-image, .media-element, .media-iframe {
   background: #ffffff !important;
 }
 
-/* 비디오 요소 스타일 */
 .media-element {
   position: relative;
-  width: calc(100% + 4px) !important; /* 4px 확장 */
+  width: calc(100% + 4px) !important;
   height: calc(100% + 4px) !important;
-  left: -2px; /* 중앙 정렬 */
+  left: -2px;
   top: -2px;
   object-fit: cover !important;
-  transform: scale(1.01); /* 미세 확대 */
+  transform: scale(1.01);
 }
 
-/* YouTube 컨테이너 및 iframe 스타일 */
 .media-container {
   width: 100%;
   position: relative;
@@ -101,15 +101,4 @@
   height: calc(100% + 4px) !important;
   border: none !important;
   transform: scale(1.01);
-}
-
-@media (min-width: 768px) {
-  .home-header {
-    left: 50px;
-    right: 50px;
-  }
-  .image-placeholder {
-    padding-left: 50px;
-    padding-right: 50px;
-  }
 }

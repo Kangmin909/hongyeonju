@@ -3,23 +3,22 @@
     position: relative;
     width: 100%;
     min-width: 340px; /* 최소 폭 설정 */
-    max-width: 1200px; /* 800px -> 1200px */
+    max-width: 1200px; /* 1440px -> 1200px */
     min-height: 100vh;
     background: #FFFFFF;
     margin: 0 auto; /* 중앙 정렬 */
     font-family: 'Pretendard Variable', sans-serif;
     box-sizing: border-box;
-    padding: 40px 24px 50px 24px; /* Flex layout padding */
+    /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
+    padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px clamp(24px, 1.212rem + 1.15vw, 50px);
     display: flex;
     flex-direction: column;
   }
 
 /* ... existing styles ... */
 
-@media (min-width: 768px) {
-  .works-container {
-    padding: 40px 50px 50px 50px;
-  }
+@media (max-width: 402px) {
+  /* removed padding override */
 }
   
   /* 연도 네비게이션 */
