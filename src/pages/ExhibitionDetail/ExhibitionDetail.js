@@ -10,7 +10,7 @@ import PageHeader from '../../components/PageHeader';
 
 const ExhibitionDetail = () => {
   const { id } = useParams();
-  const { exhibitions, fetchAllData, toggleMenu } = useAppData();
+  const { exhibitions, fetchAllData } = useAppData();
   const [selectedMedia, setSelectedMedia] = useState(null);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -44,7 +44,7 @@ const ExhibitionDetail = () => {
         <PageHeader title="EXHIBITION" />
         
         <div className="exhibition-detail-header">
-          <div className="exhibition-detail-subtitle" style={{ marginTop: '40px', marginBottom: '20px' }}>
+          <div className="exhibition-detail-subtitle" style={{ marginTop: '5px', marginBottom: '20px' }}>
             <SkeletonText lines={1} width="60%" />
           </div>
         </div>

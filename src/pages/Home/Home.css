@@ -16,7 +16,7 @@
 }
 
 .home-header {
-  position: absolute;
+  position: absolute; /* 전체 화면 중앙 정렬을 위해 절대 위치 사용 */
   top: 40px;
   /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
   left: clamp(24px, 1.212rem + 1.15vw, 50px);
@@ -57,7 +57,7 @@
   width: 100%;
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: center; /* 세로 중앙 정렬 */
   justify-content: center;
   background: #ffffff;
   z-index: 1;
@@ -67,27 +67,28 @@
   padding-left: clamp(24px, 1.212rem + 1.15vw, 50px);
   padding-right: clamp(24px, 1.212rem + 1.15vw, 50px);
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: hidden; /* 미세한 확대로 인한 경계선을 숨기기 위해 필수 */
 }
 
+/* 모든 미디어 요소 공통 (비디오, 이미지, iframe) */
 .profile-image, .media-element, .media-iframe {
   background: #ffffff !important;
 }
 
+/* 비디오 요소 스타일 - 좌우만 미세하게 넓혀서 검은 선을 숨기고 상하는 유지 */
 .media-element {
-  position: relative;
-  width: calc(100% + 4px) !important;
-  height: calc(100% + 4px) !important;
-  left: -2px;
-  top: -2px;
-  object-fit: cover !important;
-  transform: scale(1.01);
+  width: 101% !important; 
+  height: 100% !important;
+  margin-left: -0.5%; /* 가로 중앙 유지 */
+  object-fit: contain !important; /* 전체 영상 보존 */
+  background-color: #ffffff !important;
 }
 
+/* YouTube 컨테이너 및 iframe 스타일 */
 .media-container {
   width: 100%;
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: 56.25%; /* 16:9 비율 유지 */
   height: 0;
   overflow: hidden;
   background: #ffffff;
@@ -95,10 +96,14 @@
 
 .media-iframe {
   position: absolute;
-  top: -2px;
-  left: -2px;
-  width: calc(100% + 4px) !important;
-  height: calc(100% + 4px) !important;
+  top: 0;
+  left: -0.5%; /* 좌측으로 미세하게 밀어냄 */
+  width: 101% !important; /* 우측으로 미세하게 넓힘 */
+  height: 100% !important;
   border: none !important;
-  transform: scale(1.01);
+  background-color: #ffffff !important;
+}
+
+@media (min-width: 768px) {
+  /* PC 환경에서 필요 시 추가 조정 */
 }

@@ -10,7 +10,7 @@ import PageHeader from '../../components/PageHeader';
 const Exhibitions = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { exhibitions, fetchAllData, toggleMenu } = useAppData();
+  const { exhibitions, fetchAllData } = useAppData();
 
   // exhibitions 데이터가 없으면 fetchAllData 호출
   useEffect(() => {

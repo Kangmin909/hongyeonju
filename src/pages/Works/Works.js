@@ -12,7 +12,7 @@ import PageHeader from '../../components/PageHeader';
 const Works = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { works, fetchAllData, toggleMenu } = useAppData();
+  const { works, fetchAllData } = useAppData();
   const [selectedMedia, setSelectedMedia] = useState(null);
 
   // works 데이터가 없으면 fetchAllData 호출

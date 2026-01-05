@@ -50,7 +50,7 @@
   font-size: 20px;
   font-weight: 400;
   color: #000;
-  margin-top: 0; /* 40px -> 0 */
+  margin-top: 5px; /* 40px -> 5px */
   margin-bottom: 20px;
 }
 
@@ -77,7 +77,7 @@
   line-height: 20px;
   letter-spacing: -0.05em;
   color: #6E6E6E;
-  text-align: justify;
+  text-align: left;
   margin-top: 20px;
   margin-bottom: 38px;
 }
@@ -142,7 +142,7 @@
   color: #6E6E6E;
 }
 
-/* 반응형 간격 설정 */
+/* 반응형 설정 */
 @media (min-width: 768px) {
   .exhibition-detail-images {
     gap: 40px;
@@ -150,6 +150,17 @@
   .exhibition-detail-column {
     gap: 40px;
   }
+  
+  /* 3/4 폭 제한 */
+  .exhibition-detail-description {
+    max-width: 75%;
+  }
+
+  /* 부제목, 날짜, 장소, 설명글만 1px 키움 */
+  .exhibition-detail-subtitle { font-size: 21px; }
+  .exhibition-detail-date, .exhibition-detail-location { font-size: 12px; }
+  .exhibition-detail-description { font-size: 13px; }
+  /* 작품 정보(타이틀, 메타)는 고정 */
 }
 
 @media (min-width: 1080px) {
@@ -159,6 +170,11 @@
   .exhibition-detail-column {
     gap: 50px;
   }
+
+  /* 부제목, 날짜, 장소, 설명글만 1px 더 키움 */
+  .exhibition-detail-subtitle { font-size: 22px; }
+  .exhibition-detail-date, .exhibition-detail-location { font-size: 13px; }
+  .exhibition-detail-description { font-size: 14px; }
 }
 
 /* Skeleton UI를 위한 추가 스타일 */
