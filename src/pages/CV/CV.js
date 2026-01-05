@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
 import { SkeletonCVItem } from '../../components/Skeleton';
 import PageHeader from '../../components/PageHeader';
 import './CV.css';
 
 const CV = () => {
-  const navigate = useNavigate();
   const { cv1, cv2, fetchAllData, toggleMenu } = useAppData();
   
   // cv1 또는 cv2 데이터가 없으면 fetchAllData 호출

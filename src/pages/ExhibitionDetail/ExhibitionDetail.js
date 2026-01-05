@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './ExhibitionDetail.css';
 import { useAppData } from '../../context/AppDataContext';
 import MediaDisplay from '../../components/MediaDisplay';
@@ -9,7 +9,6 @@ import VideoModal from '../../components/VideoModal';
 import PageHeader from '../../components/PageHeader';
 
 const ExhibitionDetail = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const { exhibitions, fetchAllData, toggleMenu } = useAppData();
   const [selectedMedia, setSelectedMedia] = useState(null);

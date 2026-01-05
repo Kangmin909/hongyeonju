@@ -65,11 +65,11 @@ const YearNav = ({ years, selectedYear, onSelect, loading = false, className = '
 
   const renderSkeleton = () => (
     <>
-      <SkeletonBox width="48px" height="24px" />
-      <SkeletonBox width="48px" height="24px" />
-      <SkeletonBox width="48px" height="24px" />
-      <SkeletonBox width="48px" height="24px" />
-      <SkeletonBox width="48px" height="24px" />
+      <div className="year"><SkeletonBox width="40px" height="24px" /></div>
+      <div className="year"><SkeletonBox width="40px" height="24px" /></div>
+      <div className="year"><SkeletonBox width="40px" height="24px" /></div>
+      <div className="year"><SkeletonBox width="40px" height="24px" /></div>
+      <div className="year"><SkeletonBox width="40px" height="24px" /></div>
     </>
   );
 

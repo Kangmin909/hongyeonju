@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
-import { SkeletonText, SkeletonBox } from '../../components/Skeleton';
+import { SkeletonText } from '../../components/Skeleton';
 import PageHeader from '../../components/PageHeader';
 import './About.css';
 
 const About = () => {
-  const navigate = useNavigate();
   const { about, fetchAllData, toggleMenu } = useAppData();
   
   // about 데이터가 없으면 fetchAllData 호출

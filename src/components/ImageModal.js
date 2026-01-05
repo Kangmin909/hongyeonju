@@ -5,16 +5,31 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [loadingStates, setLoadingStates] = useState({});
   const [containerWidth, setContainerWidth] = useState(window.innerWidth);
   
-  const isDragging = useRef(false);
-  const hasMoved = useRef(false);
-  const lastPos = useRef({ x: 0, y: 0 });
-  const pinchStartDist = useRef(0);
-  const initialZoom = useRef(1);
   const viewportRef = useRef(null);
+  const lastTapTime = useRef(0);
   const state = useRef({ dragType: null, isDragging: false, hasMoved: false, lastPos: { x: 0, y: 0 }, initialZoom: 1, initialOffset: { x: 0, y: 0 }, initialCenter: { x: 0, y: 0 }, pinchStartDist: 0 });
+
+  const resetZoom = useCallback(() => {
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
+    state.current.dragType = null;
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (currentIndex < images.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      resetZoom();
+    }
+  }, [currentIndex, images.length, resetZoom]);
+
+  const handlePrev = useCallback(() => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+      resetZoom();
+    }
+  }, [currentIndex, resetZoom]);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -46,33 +61,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       resizeObserver.disconnect();
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentIndex, onClose]); // onClose added to dependencies
-
-  // ... (rest of the code)
-
-  // In render:
-  // transform: `translate3d(${-currentIndex * containerWidth + (zoom === 1 ? offset.x : 0)}px, 0, 0)`,
-
-
-  const handleNext = useCallback(() => {
-    if (currentIndex < images.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      resetZoom();
-    }
-  }, [currentIndex, images.length]);
-
-  const handlePrev = useCallback(() => {
-    if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
-      resetZoom();
-    }
-  }, [currentIndex]);
-
-  const resetZoom = () => {
-    setZoom(1);
-    setOffset({ x: 0, y: 0 });
-    state.current.dragType = null;
-  };
+  }, [currentIndex, onClose, handleNext, handlePrev]); 
 
   const getClampedOffset = useCallback((newX, newY, currentZoom) => {
     if (!viewportRef.current) return { x: newX, y: newY };
@@ -126,7 +115,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     } else if (e.touches.length === 1) {
       const dx = info.center.x - state.current.lastPos.x;
       const dy = info.center.y - state.current.lastPos.y;
-      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) state.current.hasMoved = true;
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) state.current.hasMoved = true;
 
       if (zoom > 1) {
         setOffset(prev => getClampedOffset(prev.x + dx, prev.y + dy, zoom));
@@ -142,8 +131,22 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     state.current.lastPos = info.center;
   };
 
+  const handleDoubleTapZoom = (clientX, clientY, target) => {
+    if (zoom > 1) {
+      resetZoom();
+    } else {
+      const rect = target.getBoundingClientRect();
+      const x = clientX - (rect.left + rect.width / 2);
+      const y = clientY - (rect.top + rect.height / 2);
+      const targetZoom = 2.5;
+      setZoom(targetZoom);
+      setOffset(getClampedOffset(-x * (targetZoom - 1), -y * (targetZoom - 1), targetZoom));
+    }
+  };
+
   const handleTouchEnd = (e) => {
     if (e.touches.length > 0) { handleTouchStart(e); return; }
+
     if (state.current.isDragging && zoom === 1) {
       if (state.current.dragType === 'dismiss' && offset.y > 100) onClose();
       else if (state.current.dragType === 'swipe') {
@@ -154,6 +157,14 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     }
     state.current.isDragging = false;
     state.current.dragType = null;
+  };
+
+  const handleContainerClick = (e) => {
+    const now = Date.now();
+    if (now - lastTapTime.current < 300) {
+      handleDoubleTapZoom(e.clientX, e.clientY, e.target);
+    }
+    lastTapTime.current = now;
   };
 
   // PC 마우스 핸들러
@@ -199,20 +210,6 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     setOffset(getClampedOffset(mouseX - (mouseX - offset.x) * ratio, mouseY - (mouseY - offset.y) * ratio, newZoom));
   };
 
-  const handleImageClick = (e) => {
-    e.stopPropagation();
-    if (state.current.hasMoved) return;
-    if (zoom > 1) resetZoom();
-    else {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - (rect.left + rect.width / 2);
-      const y = e.clientY - (rect.top + rect.height / 2);
-      const targetZoom = 2.5;
-      setZoom(targetZoom);
-      setOffset(getClampedOffset(-x * (targetZoom - 1), -y * (targetZoom - 1), targetZoom));
-    }
-  };
-
   return (
     <div className="image-modal-overlay">
       <button className="modal-universal-close-btn" onClick={onClose} aria-label="Close">&times;</button>
@@ -232,6 +229,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
             }}
             onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} 
             onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}
+            onClick={handleContainerClick}
           >
             {images.map((img, idx) => (
               <div key={idx} className="slide-item">
@@ -244,7 +242,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
                   } : {}}
                   onWheel={idx === currentIndex ? handleWheel : null}
                 >
-                  <img src={img.link} alt={img.title || ''} className="image-modal-img-internal fullscreen" onLoad={(e) => setLoadingStates(prev => ({ ...prev, [idx]: false }))} draggable="false" onClick={handleImageClick} />
+                  <img src={img.link} alt={img.title || ''} className="image-modal-img-internal fullscreen" draggable="false" />
                 </div>
               </div>
             ))}
