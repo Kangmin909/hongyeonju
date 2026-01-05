@@ -7,6 +7,7 @@ import MediaDisplay from '../../components/MediaDisplay';
 import YearNav from '../../components/YearNav';
 import ImageModal from '../../components/ImageModal';
 import VideoModal from '../../components/VideoModal';
+import PageHeader from '../../components/PageHeader';
 
 const Works = () => {
   const navigate = useNavigate();
@@ -66,14 +67,7 @@ const Works = () => {
 
   return (
     <div className="works-container">
-      <header className="works-header">
-        <h1 className="works-title">WORKS</h1>
-        <div className="menu-icon" onClick={toggleMenu}>
-          <div className="line" />
-          <div className="line" />
-          <div className="line" />
-        </div>
-      </header>
+      <PageHeader title="WORKS" />
 
       <YearNav
         years={wholeYears}

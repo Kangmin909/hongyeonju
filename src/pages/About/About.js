@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
 import { SkeletonText, SkeletonBox } from '../../components/Skeleton';
+import PageHeader from '../../components/PageHeader';
 import './About.css';
 
 const About = () => {
@@ -16,21 +17,11 @@ const About = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [about, fetchAllData]);
 
-  const handleBackClick = () => {
-    toggleMenu();
-  };
-
   // about이 null일 때 스켈레톤 표시
   if (!about) {
     return (
       <div className="about-page">
-        <div className="about-menu-button" onClick={handleBackClick}>
-          <div className="about-menu-line"></div>
-          <div className="about-menu-line"></div>
-          <div className="about-menu-line"></div>
-        </div>
-
-        <h1 className="about-title">ABOUT</h1>
+        <PageHeader title="ABOUT" />
 
         <div>
           <h2 className="about-section-title">MAIL</h2>
@@ -58,13 +49,7 @@ const About = () => {
 
   return (
     <div className="about-page">
-      <div className="about-menu-button" onClick={handleBackClick}>
-        <div className="about-menu-line"></div>
-        <div className="about-menu-line"></div>
-        <div className="about-menu-line"></div>
-      </div>
-
-      <h1 className="about-title">ABOUT</h1>
+      <PageHeader title="ABOUT" />
 
       <div>
         <h2 className="about-section-title">MAIL</h2>

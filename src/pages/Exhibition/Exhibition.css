@@ -8,57 +8,30 @@
     margin: 0 auto;
     font-family: 'Pretendard Variable', sans-serif;
     box-sizing: border-box;
-  }
-  
-  /* 헤더 */
-  .exhibitions-title {
-    position: absolute;
-    width: 111px;
-    height: 38px;
-    left: 25px;
-    top: 80px;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 38px;
-    color: #000000;
-  }
-
-  
-  .exhibition-menu-button {
-    position: absolute;
-    top: 111px;
-    right: 24px;
-    width: 23px;
-    height: 16px;
+    padding: 40px 24px 50px 24px; /* Flex layout padding */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-  }
-  .menu-icon .line {
-    width: 23px;
-    height: 2px;
-    background-color: black;
   }
   
  /* 연도 네비게이션 */
  .exhibitions-container .year-nav {
-  position: absolute;
-  top: 170px;
-  left: 24px;
-  width: 354px;
+  /* absolute 제거 */
+  position: relative;
+  width: 100%;
   display: flex;
   gap: 12px;
   justify-content: space-between;
   flex-wrap: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-bottom: 40px; /* 연도와 리스트 사이 간격 */
+  flex-shrink: 0;
 }
 
 .exhibitions-container .year-nav::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 .exhibitions-container .year-nav .year {
@@ -81,14 +54,13 @@
   
   /* 작품 목록 */
   .exhibitions-list {
-    position: absolute;
-    top: 228px;
-    left: 24px;
-    width: 354px;
+    /* absolute 제거 */
+    position: relative;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 66px; /* 첫 이미지와 두 번째 이미지 사이 여백 */
-    padding-bottom: 50px; /* 마지막 항목 아래에 여백 추가 */
+    gap: 66px;
+    /* padding-bottom removed, handled by container padding */
   }
   
   /* 각 작품 아이템 */
@@ -155,15 +127,15 @@
     color: #6E6E6E;
   }
     .exhibition-image {
-    width: 100%; /* 화면 크기에 맞춰서 이미지 크기 조정 */
-    height: auto; /* 비율에 맞게 높이 자동 조정 */
-    object-fit: cover; /* 이미지 비율을 맞추면서 잘리게 함 */
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
 
   .media-container {
     width: 100%;
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 비율 */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
   }
@@ -178,64 +150,12 @@
 
   @media (max-width: 402px) {
     .exhibitions-container {
-      padding: 0 24px;
-    }
-    
-    .exhibitions-title {
-      left: 24px;
-    }
-    
-    .menu-icon {
-      left: calc(100% - 24px - 23px);
-    }
-    
-    .exhibitions-container .year-nav {
-      left: 24px;
-    gap: 13px;
-    justify-content: space-between;
-      width: calc(100% - 48px);
-    }
-    
-    .exhibitions-container .year-nav .year {
-      font-size: 18px;
-      padding: 0 8px;
-      min-width: 36px;
-    }
-    
-    .exhibitions-list {
-      left: 24px;
-      width: calc(100% - 48px);
+      padding: 40px 24px 50px 24px;
     }
   }
 
   @media (max-width: 360px) {
     .exhibitions-container {
-      padding: 0 24px;
-    }
-    
-    .exhibitions-title {
-      left: 24px;
-    }
-    
-    .menu-icon {
-      left: calc(100% - 24px - 23px);
-    }
-    
-    .exhibitions-container .year-nav {
-      left: 24px;
-    gap: 13px;
-    justify-content: space-between;
-      width: calc(100% - 48px);
-    }
-    
-    .exhibitions-container .year-nav .year {
-      font-size: 18px;
-      padding: 0 8px;
-      min-width: 36px;
-    }
-    
-    .exhibitions-list {
-      left: 24px;
-      width: calc(100% - 48px);
+      padding: 40px 24px 50px 24px;
     }
   }

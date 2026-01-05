@@ -5,6 +5,7 @@ import { useAppData } from '../../context/AppDataContext';
 import { SkeletonExhibitionItem } from '../../components/Skeleton';
 import MediaDisplay from '../../components/MediaDisplay';
 import YearNav from '../../components/YearNav';
+import PageHeader from '../../components/PageHeader';
 
 const Exhibitions = () => {
   const navigate = useNavigate();
@@ -53,14 +54,7 @@ const Exhibitions = () => {
 
   return (
     <div className="exhibitions-container">
-      <header className="exhibitions-header">
-        <h1 className="exhibitions-title">EXHIBITION</h1>
-        <div className="menu-icon" onClick={toggleMenu}>
-          <div className="line" />
-          <div className="line" />
-          <div className="line" />
-        </div>
-      </header>
+      <PageHeader title="EXHIBITION" />
 
       <YearNav
         years={wholeYears}

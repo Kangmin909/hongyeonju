@@ -40,6 +40,17 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
   // 로딩 중이거나 에러가 아닐 때 공통으로 적용할 래퍼 스타일
   const wrapperClass = `media-placeholder-wrapper ${!isLoaded ? 'loading-shimmer' : ''} ${className || ''}`;
 
+  const clickOverlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    cursor: 'pointer',
+    zIndex: 10,
+    background: 'transparent'
+  };
+
   if (isYouTubeUrl(src)) {
     const videoId = getYouTubeVideoId(src);
     const autoplayParams = 'autoplay=1&mute=1&loop=1&playlist=' + videoId;
@@ -58,6 +69,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
             onLoad={() => setIsLoaded(true)}
             onError={() => setHasError(true)}
           />
+          {onClick && <div style={clickOverlayStyle} onClick={onClick} />}
         </div>
       </div>
     );
@@ -79,6 +91,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
           onClick={onClick}
           style={onClick ? { cursor: 'pointer' } : {}}
         />
+        {onClick && !controls && <div style={clickOverlayStyle} onClick={onClick} />}
       </div>
     );
   }

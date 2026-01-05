@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
 import { SkeletonCVItem } from '../../components/Skeleton';
+import PageHeader from '../../components/PageHeader';
 import './CV.css';
 
 const CV = () => {
@@ -16,22 +17,13 @@ const CV = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cv1, cv2, fetchAllData]);
 
-  const handleBackClick = () => {
-    toggleMenu();
-  };
-
   const education = cv1 || [];
   const exhibitions = cv2 || [];
 
   return (
     <div className="cv-page">
-      <div className="cv-menu-button" onClick={handleBackClick}>
-        <div className="cv-menu-line"></div>
-        <div className="cv-menu-line"></div>
-        <div className="cv-menu-line"></div>
-      </div>
+      <PageHeader title="CV" />
 
-      <h1 className="cv-title">CV</h1>
       <h2 className="cv-name">홍연주 b.1999</h2>
 
       <div className="cv-section">

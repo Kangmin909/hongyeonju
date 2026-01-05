@@ -31,7 +31,7 @@
 }
 
 .back-arrow {
-  margin-top: 95px; /* absolute top: 95px 대신 margin 사용 */
+  margin-top: 40px; /* 95px -> 40px */
   margin-left: 24px;
   width: 42px;
   height: 18px;
@@ -50,7 +50,7 @@
 }
 
 .menu-items {
-  margin-top: 129px;
+  margin-top: 60px;
   margin-left: 24px;
   display: flex;
   flex-direction: column;

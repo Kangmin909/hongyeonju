@@ -6,6 +6,7 @@ import MediaDisplay from '../../components/MediaDisplay';
 import { SkeletonImage, SkeletonText, SkeletonBox } from '../../components/Skeleton';
 import ImageModal from '../../components/ImageModal';
 import VideoModal from '../../components/VideoModal';
+import PageHeader from '../../components/PageHeader';
 
 const ExhibitionDetail = () => {
   const navigate = useNavigate();
@@ -25,14 +26,9 @@ const ExhibitionDetail = () => {
   if (!exhibitions) {
     return (
       <div className="exhibition-detail-page">
-        <div className="menu-icon" onClick={toggleMenu}>
-          <div className="line" />
-          <div className="line" />
-          <div className="line" />
-        </div>
+        <PageHeader title="EXHIBITION" />
         
         <div className="exhibition-detail-header">
-          <h1 className="exhibition-detail-title">EXHIBITION</h1>
           <div className="exhibition-detail-subtitle" style={{ marginTop: '40px', marginBottom: '20px' }}>
             <SkeletonText lines={1} width="60%" />
           </div>
@@ -91,14 +87,9 @@ const ExhibitionDetail = () => {
 
   return (
     <div className="exhibition-detail-page">
-      <div className="menu-icon" onClick={toggleMenu}>
-        <div className="line" />
-        <div className="line" />
-        <div className="line" />
-      </div>
+      <PageHeader title="EXHIBITION" />
 
       <div className="exhibition-detail-header">
-        <h1 className="exhibition-detail-title">EXHIBITION</h1>
         <h2 className="exhibition-detail-subtitle">{exhibition.exhibitionTitle}</h2>
       </div>
 
