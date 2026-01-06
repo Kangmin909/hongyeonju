@@ -85,6 +85,12 @@
   line-height: 1;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.video-modal-close-btn:active {
+  transform: scale(0.9);
+  opacity: 0.5;
 }
 
 .video-modal-close-btn.hidden {
@@ -93,9 +99,11 @@
   visibility: hidden;
 }
 
-.video-modal-close-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
+@media (hover: hover) {
+  .video-modal-close-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
 
 .video-modal-loader {

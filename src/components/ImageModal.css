@@ -166,12 +166,20 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.modal-universal-back-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateX(-3px);
-  border-color: rgba(255, 255, 255, 0.3);
+.modal-universal-back-btn:active {
+  transform: scale(0.9);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@media (hover: hover) {
+  .modal-universal-back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-3px);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 .modal-nav-btn {
@@ -191,25 +199,30 @@
   justify-content: center;
   align-items: center;
   z-index: 4100;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.modal-nav-btn:hover:not(.disabled) {
-  color: #fff;
-  transform: translateY(-50%) scale(1.1);
+.modal-nav-btn:active:not(.disabled) {
+  opacity: 0.3;
+}
+
+@media (hover: hover) {
+  .modal-nav-btn:hover:not(.disabled) {
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .modal-nav-btn.prev:hover:not(.disabled) {
+    transform: translateY(-50%) translateX(-5px) scale(1.1);
+  }
+
+  .modal-nav-btn.next:hover:not(.disabled) {
+    transform: translateY(-50%) translateX(5px) scale(1.1);
+  }
 }
 
 .modal-nav-btn.prev { 
   left: 10px; 
-}
-.modal-nav-btn.prev:hover:not(.disabled) {
-  transform: translateY(-50%) translateX(-5px) scale(1.1);
-}
-
-.modal-nav-btn.next { 
-  right: 10px; 
-}
-.modal-nav-btn.next:hover:not(.disabled) {
-  transform: translateY(-50%) translateX(5px) scale(1.1);
 }
 
 

@@ -108,9 +108,11 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
 
-    // 뒤로가기 제어를 위한 히스토리 상태 추가
-    const currentUrl = window.location.pathname + window.location.search;
-    window.history.pushState({ modal: 'image' }, '', currentUrl);
+    // 약간의 지연 후 히스토리 상태를 추가하여 마운트 과정과의 충돌을 방지합니다.
+    const historyTimer = setTimeout(() => {
+      const currentUrl = window.location.pathname + window.location.search;
+      window.history.pushState({ modal: 'image' }, '', currentUrl);
+    }, 10);
     
     const handlePopState = (e) => {
       isPopStateRef.current = true;
@@ -147,7 +149,13 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
     return () => {
       window.removeEventListener('popstate', handlePopState);
+      clearTimeout(historyTimer);
       
+      // 뒤로가기 버튼이 아닌 UI를 통해 닫힌 경우에만 히스토리 백 수행
+      if (!isPopStateRef.current && window.history.state?.modal === 'image') {
+        window.history.back();
+      }
+
       const savedScrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
@@ -157,10 +165,10 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       }
       
       clearTimeout(timer);
-      if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       resizeObserver.disconnect();
     };
-  }, []); // resetZoom은 useCallback으로 안정화되어 있으므로 포함하지 않음 (히스토리 중복 실행 방지)
+  }, []);
 
   // Effect 2: Event Listeners (Runs when handlers change)
   useEffect(() => {

@@ -33,9 +33,11 @@ const VideoModal = ({ src, alt, onClose }) => {
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
 
-    // 뒤로가기 제어를 위한 히스토리 상태 추가
-    const currentUrl = window.location.pathname + window.location.search;
-    window.history.pushState({ modal: 'video' }, '', currentUrl);
+    // 약간의 지연 후 히스토리 상태 추가
+    const historyTimer = setTimeout(() => {
+      const currentUrl = window.location.pathname + window.location.search;
+      window.history.pushState({ modal: 'video' }, '', currentUrl);
+    }, 10);
     
     const handlePopState = () => {
       isPopStateRef.current = true;
@@ -46,7 +48,13 @@ const VideoModal = ({ src, alt, onClose }) => {
 
     return () => {
       window.removeEventListener('popstate', handlePopState);
+      clearTimeout(historyTimer);
       
+      // 뒤로가기 버튼이 아닌 UI를 통해 닫힌 경우에만 히스토리 백 수행
+      if (!isPopStateRef.current && window.history.state?.modal === 'video') {
+        window.history.back();
+      }
+
       const savedScrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';

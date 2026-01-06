@@ -51,11 +51,19 @@
   z-index: 10;
   flex-shrink: 0;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.back-arrow:hover {
-  opacity: 0.6;
-  transform: translateX(-5px);
+.back-arrow:active {
+  transform: scale(0.9);
+  opacity: 0.5;
+}
+
+@media (hover: hover) {
+  .back-arrow:hover {
+    opacity: 0.6;
+    transform: translateX(-5px);
+  }
 }
 
 .arrow-icon {
@@ -95,12 +103,19 @@
   }
 }
 
-.menu-button:hover {
-  color: #ACACAC;
+@media (hover: hover) {
+  .menu-button:hover {
+    color: #ACACAC;
+  }
 }
 
 .menu-button:focus {
   outline: none;
+}
+
+.menu-button:active {
+  opacity: 0.5;
+  transform: scale(0.98);
 }
 
 /* 각 항목 애니메이션 지연 시간 */
@@ -137,11 +152,14 @@
   border-bottom: 1px solid transparent;
 }
 
-.refresh-button:hover {
-  color: #ACACAC; 
+@media (hover: hover) {
+  .refresh-button:hover {
+    color: #ACACAC; 
+  }
 }
 
 .refresh-button:active {
+  opacity: 0.5;
   border-bottom: 1px solid #ACACAC; 
 }
 
