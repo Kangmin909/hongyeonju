@@ -129,23 +129,43 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
           
     
-          const handleKeyDown = (e) => {
+              const handleKeyDown = (e) => {
     
-            setShowControls(true);
+          
     
-            resetHideTimer();
+                setShowControls(true);
     
-            if (e.key === 'ArrowRight') handleNext();
+          
     
-            if (e.key === 'ArrowLeft') handlePrev();
+                resetHideTimer();
     
-            if (e.key === 'Escape') onClose();
+          
     
-          };
+                if (e.key === 'ArrowRight') handleNext();
     
-      
+          
     
-          const handleGlobalMouseMove = () => {
+                if (e.key === 'ArrowLeft') handlePrev();
+    
+          
+    
+                if (e.key === 'Escape') onClose(currentIndex);
+    
+          
+    
+              };
+    
+          
+    
+          
+    
+          
+    
+              const handleGlobalMouseMove = () => {
+    
+          
+    
+          
     
             if (window.matchMedia('(pointer: fine)').matches) {
     
@@ -488,7 +508,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
   const handleMouseUp = useCallback(() => {
     if (state.current.isDragging && zoom === 1) {
       if (state.current.dragType === 'dismiss' && offset.y > 100) {
-        onClose();
+        onClose(currentIndex);
         return;
       }
       else if (state.current.dragType === 'swipe') {
@@ -543,12 +563,18 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       >
         {/* 상단바 배경 및 컨트롤 */}
         <div className={`image-modal-header-bar ${!showControls ? 'hidden' : ''}`}>
+          <button className="modal-universal-back-btn" onClick={(e) => { e.stopPropagation(); onClose(currentIndex); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} aria-label="Back">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
           <div className="image-modal-info">{currentIndex + 1} / {images.length}</div>
-          <button className="modal-universal-close-btn" onClick={(e) => { e.stopPropagation(); onClose(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} aria-label="Close">&times;</button>
         </div>
         
-        <button className={`modal-nav-btn prev ${currentIndex === 0 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handlePrev(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} disabled={currentIndex === 0}>&#60;</button>
-        <button className={`modal-nav-btn next ${currentIndex === images.length - 1 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handleNext(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} disabled={currentIndex === images.length - 1}>&#62;</button>
+        <button className={`modal-nav-btn prev ${currentIndex === 0 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handlePrev(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} disabled={currentIndex === 0}>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button className={`modal-nav-btn next ${currentIndex === images.length - 1 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handleNext(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} disabled={currentIndex === images.length - 1}>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
 
         <div className="image-modal-wrapper fullscreen">
           <div className="image-modal-viewport fullscreen" ref={viewportRef}>
