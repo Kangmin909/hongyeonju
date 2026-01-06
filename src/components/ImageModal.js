@@ -8,6 +8,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     const [containerWidth, setContainerWidth] = useState(window.innerWidth);
     const [showControls, setShowControls] = useState(true);
     const [isDraggingState, setIsDraggingState] = useState(false); // 드래그 중임을 알리는 상태
+    const [isMounting, setIsMounting] = useState(true); // 초기 마운트 상태 추가
     
       const viewportRef = useRef(null);
     
@@ -179,17 +180,55 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       
     
-          window.addEventListener('keydown', handleKeyDown);
+              window.addEventListener('keydown', handleKeyDown);
     
-          window.addEventListener('mousemove', handleGlobalMouseMove);
+      
+    
+              window.addEventListener('mousemove', handleGlobalMouseMove);
+    
+      
+    
+              
+    
+      
+    
+              // 첫 렌더링 후 애니메이션 활성화를 위해 약간의 지연 후 Mounting 상태 해제
+    
+      
+    
+              const timer = setTimeout(() => {
+    
+      
+    
+                setIsMounting(false);
+    
+      
+    
+              }, 50);
+    
+      
+    
+              
+    
+      
+    
+              return () => {
+    
+      
+    
+                document.body.style.overflow = 'unset';
+    
+      
+    
+                clearTimeout(timer);
+    
+      
+    
+                if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    
+      
     
           
-    
-          return () => {
-    
-            document.body.style.overflow = 'unset';
-    
-            if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     
             if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
     
@@ -353,8 +392,8 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
         if (offset.x > threshold) handlePrev();
         else if (offset.x < -threshold) handleNext();
       }
+      setOffset({ x: 0, y: 0 });
     }
-    setOffset({ x: 0, y: 0 });
     state.current.isDragging = false;
     setIsDraggingState(false);
     state.current.dragType = null;
@@ -501,7 +540,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     state.current.isDragging = false;
     setIsDraggingState(false);
     state.current.dragType = null;
-  }, [zoom, offset.y, offset.x, handleNext, handlePrev, onClose]);
+  }, [zoom, offset.y, offset.x, handleNext, handlePrev, onClose, currentIndex]);
 
   const handleWheel = useCallback((e) => {
     e.preventDefault();
@@ -563,7 +602,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
               className="slider-container"
               style={{
                 transform: `translate3d(${-currentIndex * containerWidth + (state.current.dragType === 'swipe' ? offset.x : 0)}px, 0, 0)`,
-                transition: isDraggingState ? 'none' : 'transform 0.5s cubic-bezier(0.2, 0, 0, 1)'
+                transition: (isDraggingState || isMounting) ? 'none' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
               {images.map((img, idx) => (
@@ -571,8 +610,8 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
                   <div 
                     className="media-movable-content"
                     style={idx === currentIndex ? { 
-                      transform: `translate(${zoom === 1 ? 0 : offset.x}px, ${zoom === 1 ? 0 : offset.y}px) scale(${zoom})`,
-                      transition: isDraggingState ? 'none' : 'transform 0.25s ease-out' 
+                      transform: `translate(${zoom > 1 ? offset.x : 0}px, ${zoom > 1 ? offset.y : 0}px) scale(${zoom})`,
+                      transition: isDraggingState ? 'none' : 'transform 0.3s cubic-bezier(0.2, 0, 0, 1)' 
                     } : {}}
                     onWheel={idx === currentIndex ? handleWheel : null}
                   >
