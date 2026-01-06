@@ -12,6 +12,16 @@ const Menu = () => {
   const navigate = useNavigate();
   const { isMenuOpen, toggleMenu, refreshData, loading } = useAppData();
 
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        toggleMenu();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMenuOpen, toggleMenu]);
+
   const handleRefresh = async () => {
     await refreshData();
   };

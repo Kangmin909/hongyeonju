@@ -8,6 +8,7 @@ const VideoModal = ({ src, alt, onClose }) => {
   const [isDraggingState, setIsDraggingState] = useState(false);
   const isDragging = useRef(false);
   const startY = useRef(0);
+  const initialOffsetY = useRef(0);
   const hideTimerRef = useRef(null); // 자동 숨김 타이머
 
   // 컨트롤 자동 숨김 타이머 초기화
@@ -51,7 +52,8 @@ const VideoModal = ({ src, alt, onClose }) => {
     isDragging.current = true;
     setIsDraggingState(true);
     const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-    startY.current = clientY - offsetY;
+    startY.current = clientY; // 현재 clientY 저장
+    initialOffsetY.current = offsetY; // 현재 오프셋 저장
   };
 
   const handleMove = (e) => {
@@ -59,10 +61,11 @@ const VideoModal = ({ src, alt, onClose }) => {
     setShowControls(true);
     resetHideTimer();
     const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-    const currentY = clientY - startY.current;
+    const dy = clientY - startY.current;
+    const newY = initialOffsetY.current + dy;
     
-    if (currentY >= 0) {
-      setOffsetY(currentY);
+    if (newY >= 0) {
+      setOffsetY(newY);
     }
   };
 

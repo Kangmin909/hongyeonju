@@ -126,54 +126,42 @@
     height: 100%;
   }
 
-      /* 반응형 간격 설정 */
+        /* 반응형 간격 설정 */
 
-      @media (min-width: 532px) {
+        @media (min-width: 532px) {
 
-        .works-list {
+          .works-list {
 
-          gap: 20px;
+            gap: 20px;
 
-        }
+          }
 
-        .works-column {
+          .works-column {
 
-          gap: 30px;
+            gap: 30px;
 
-        }
-
-        .work-title, .work-meta {
-
-          font-size: 13px;
+          }
 
         }
 
-      }
+      
 
-    
+        @media (min-width: 1080px) {
 
-  
+          .works-list {
 
-    @media (min-width: 1080px) {
+            gap: 24px;
 
-      .works-list {
+          }
 
-        gap: 24px;
+          .works-column {
 
-      }
+            gap: 36px;
 
-      .works-column {
+          }
 
-        gap: 36px;
+        }
 
-      }
-
-      .work-title, .work-meta {
-
-        font-size: 14px;
-
-      }
-
-    }
+      
 
   

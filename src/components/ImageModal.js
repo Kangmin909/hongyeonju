@@ -17,287 +17,239 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       const hideTimerRef = useRef(null);
     
-      const state = useRef({
+        const state = useRef({
     
-        dragType: null,
+          dragType: null,
     
-        isDragging: false,
+          isDragging: false,
     
-        hasMoved: false,
+          hasMoved: false,
     
-        lastPos: { x: 0, y: 0 },
+          initialClient: { x: 0, y: 0 }, // 절대 좌표 저장용
     
-        initialZoom: 1,
+          initialZoom: 1,
     
-        initialOffset: { x: 0, y: 0 },
-    
-        initialCenter: { x: 0, y: 0 }
-    
-      });
-    
-    
-    
-      const resetHideTimer = useCallback(() => {
-    
-        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    
-        // PC 뷰(마우스 포인터 사용)에서만 자동 숨김 작동
-    
-        if (window.matchMedia('(pointer: fine)').matches) {
-    
-          hideTimerRef.current = setTimeout(() => {
-    
-            setShowControls(false);
-    
-          }, 2500);
-    
-        }
-    
-      }, []);
-    
-    
-    
-      const resetZoom = useCallback(() => {
-    
-        setZoom(1);
-    
-        setOffset({ x: 0, y: 0 });
-    
-        state.current.dragType = null;
-    
-      }, []);
-    
-    
-    
-      const handleNext = useCallback(() => {
-    
-        if (currentIndex < images.length - 1) {
-    
-          setCurrentIndex(prev => prev + 1);
-    
-          resetZoom();
-    
-        }
-    
-      }, [currentIndex, images.length, resetZoom]);
-    
-    
-    
-      const handlePrev = useCallback(() => {
-    
-        if (currentIndex > 0) {
-    
-          setCurrentIndex(prev => prev - 1);
-    
-          resetZoom();
-    
-        }
-    
-      }, [currentIndex, resetZoom]);
-    
-    
-    
-      useEffect(() => {
-    
-        document.body.style.overflow = 'hidden';
-    
-        resetHideTimer();
-    
-        
-    
-        const updateWidth = () => {
-    
-          if (viewportRef.current) {
-    
-            setContainerWidth(viewportRef.current.getBoundingClientRect().width);
-    
-          }
-    
-        };
-    
-    
-    
-        const resizeObserver = new ResizeObserver(() => {
-    
-          updateWidth();
+          initialOffset: { x: 0, y: 0 }
     
         });
     
+      
     
-    
-        if (viewportRef.current) {
-    
-          resizeObserver.observe(viewportRef.current);
-    
-        }
-    
-        
-    
-        const handleKeyDown = (e) => {
-    
-          setShowControls(true);
-    
-          resetHideTimer();
-    
-          if (e.key === 'ArrowRight') handleNext();
-    
-          if (e.key === 'ArrowLeft') handlePrev();
-    
-          if (e.key === 'Escape') onClose();
-    
-        };
-    
-    
-    
-        const handleGlobalMouseMove = () => {
-    
-          if (window.matchMedia('(pointer: fine)').matches) {
-    
-            setShowControls(true);
-    
-            resetHideTimer();
-    
-          }
-    
-        };
-    
-    
-    
-        window.addEventListener('keydown', handleKeyDown);
-    
-        window.addEventListener('mousemove', handleGlobalMouseMove);
-    
-        
-    
-        return () => {
-    
-          document.body.style.overflow = 'unset';
+        const resetHideTimer = useCallback(() => {
     
           if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     
-          if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+          if (window.matchMedia('(pointer: fine)').matches) {
     
-          resizeObserver.disconnect();
+            hideTimerRef.current = setTimeout(() => {
     
-          window.removeEventListener('keydown', handleKeyDown);
+              setShowControls(false);
     
-          window.removeEventListener('mousemove', handleGlobalMouseMove);
+            }, 2500);
     
-        };
+          }
     
-      }, [onClose, handleNext, handlePrev, resetHideTimer]);
+        }, []);
     
+      
     
+        const resetZoom = useCallback(() => {
     
-      const getClampedOffset = useCallback((newX, newY, currentZoom) => {
+          setZoom(1);
     
-        if (!viewportRef.current) return { x: newX, y: newY };
+          setOffset({ x: 0, y: 0 });
     
-        const vWidth = viewportRef.current.offsetWidth;
+          state.current.dragType = null;
     
-        const vHeight = viewportRef.current.offsetHeight;
+        }, []);
     
-        const iWidth = vWidth * currentZoom;
+      
     
-        const iHeight = vHeight * currentZoom;
+        const handleNext = useCallback(() => {
     
-        let maxX = 0, maxY = 0;
+          if (currentIndex < images.length - 1) {
     
-        if (iWidth > vWidth) maxX = (iWidth - vWidth) / 2;
+            setCurrentIndex(prev => prev + 1);
     
-        if (iHeight > vHeight) maxY = (iHeight - vHeight) / 2;
+            resetZoom();
     
-        return {
+          }
     
-          x: Math.max(-maxX, Math.min(maxX, newX)),
+        }, [currentIndex, images.length, resetZoom]);
     
-          y: Math.max(-maxY, Math.min(maxY, newY))
+      
     
-        };
+        const handlePrev = useCallback(() => {
     
-      }, []);
+          if (currentIndex > 0) {
     
+            setCurrentIndex(prev => prev - 1);
     
+            resetZoom();
     
-      const getTouchInfo = (e) => {
+          }
     
-        if (!viewportRef.current) return { center: { x: 0, y: 0 } };
+        }, [currentIndex, resetZoom]);
     
-        const rect = viewportRef.current.getBoundingClientRect();
+      
     
-        const centerX = rect.left + rect.width / 2;
+        useEffect(() => {
     
-        const centerY = rect.top + rect.height / 2;
+          document.body.style.overflow = 'hidden';
     
-        if (e.touches.length >= 2) {
+          resetHideTimer();
     
-          return { 
+          
     
-            center: { 
+          const updateWidth = () => {
     
-              x: (e.touches[0].clientX + e.touches[1].clientX) / 2 - centerX, 
+            if (viewportRef.current) {
     
-              y: (e.touches[0].clientY + e.touches[1].clientY) / 2 - centerY 
+              setContainerWidth(viewportRef.current.getBoundingClientRect().width);
     
             }
     
           };
     
-        }
+      
     
-        return { center: { x: e.touches[0].clientX - centerX, y: e.touches[0].clientY - centerY } };
+          const resizeObserver = new ResizeObserver(() => {
     
-      };
+            updateWidth();
     
+          });
     
+      
     
-      const handleTouchStart = (e) => {
+          if (viewportRef.current) {
     
-        resetHideTimer();
+            resizeObserver.observe(viewportRef.current);
     
-        const info = getTouchInfo(e);
-    
-        state.current.isDragging = true;
-    
-        setIsDraggingState(true);
-    
-        state.current.lastPos = info.center;
-    
-        state.current.initialCenter = info.center;
-    
-        state.current.initialZoom = zoom;
-    
-        state.current.initialOffset = offset;
-    
-        state.current.hasMoved = false;
-    
-        state.current.dragType = null;
-    
-      };
-    
-    
-    
-      const handleTouchMove = (e) => {
-    
-        if (!state.current.isDragging) return;
-    
-        const info = getTouchInfo(e);
-    
-    
-    
-        if (e.touches.length >= 2) {
-    
-          // 핀치 줌 로직은 복잡성을 위해 제외하거나 나중에 보강
-    
-        } else if (e.touches.length === 1) {
-    
-          const dx = info.center.x - state.current.initialCenter.x;
-    
-          const dy = info.center.y - state.current.initialCenter.y;
+          }
     
           
     
-          // 움직임이 감지되면 hasMoved만 설정 (모바일 자동 나타남 제거)
+          const handleKeyDown = (e) => {
+    
+            setShowControls(true);
+    
+            resetHideTimer();
+    
+            if (e.key === 'ArrowRight') handleNext();
+    
+            if (e.key === 'ArrowLeft') handlePrev();
+    
+            if (e.key === 'Escape') onClose();
+    
+          };
+    
+      
+    
+          const handleGlobalMouseMove = () => {
+    
+            if (window.matchMedia('(pointer: fine)').matches) {
+    
+              setShowControls(true);
+    
+              resetHideTimer();
+    
+            }
+    
+          };
+    
+      
+    
+          window.addEventListener('keydown', handleKeyDown);
+    
+          window.addEventListener('mousemove', handleGlobalMouseMove);
+    
+          
+    
+          return () => {
+    
+            document.body.style.overflow = 'unset';
+    
+            if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    
+            if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    
+            resizeObserver.disconnect();
+    
+            window.removeEventListener('keydown', handleKeyDown);
+    
+            window.removeEventListener('mousemove', handleGlobalMouseMove);
+    
+          };
+    
+        }, [onClose, handleNext, handlePrev, resetHideTimer]);
+    
+      
+    
+        const getClampedOffset = useCallback((newX, newY, currentZoom) => {
+    
+          if (!viewportRef.current) return { x: newX, y: newY };
+    
+          const vWidth = viewportRef.current.offsetWidth;
+    
+          const vHeight = viewportRef.current.offsetHeight;
+    
+          const iWidth = vWidth * currentZoom;
+    
+          const iHeight = vHeight * currentZoom;
+    
+          let maxX = 0, maxY = 0;
+    
+          if (iWidth > vWidth) maxX = (iWidth - vWidth) / 2;
+    
+          if (iHeight > vHeight) maxY = (iHeight - vHeight) / 2;
+    
+          return {
+    
+            x: Math.max(-maxX, Math.min(maxX, newX)),
+    
+            y: Math.max(-maxY, Math.min(maxY, newY))
+    
+          };
+    
+        }, []);
+    
+      
+    
+        const handleTouchStart = (e) => {
+    
+          resetHideTimer();
+    
+          const touch = e.touches[0];
+    
+          state.current.isDragging = true;
+    
+          setIsDraggingState(true);
+    
+          state.current.initialClient = { x: touch.clientX, y: touch.clientY };
+    
+          state.current.initialZoom = zoom;
+    
+          state.current.initialOffset = offset;
+    
+          state.current.hasMoved = false;
+    
+          state.current.dragType = null;
+    
+        };
+    
+      
+    
+        const handleTouchMove = (e) => {
+    
+          if (!state.current.isDragging || e.touches.length > 1) return;
+    
+          const touch = e.touches[0];
+    
+          const dx = touch.clientX - state.current.initialClient.x;
+    
+          const dy = touch.clientY - state.current.initialClient.y;
+    
+          
     
           if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
     
@@ -305,7 +257,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
           }
     
-    
+      
     
           if (zoom > 1) {
     
@@ -321,6 +273,8 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
             }
     
+            
+    
             if (state.current.dragType === 'dismiss') {
     
               setOffset({ x: 0, y: Math.max(0, dy) });
@@ -333,172 +287,203 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
           }
     
-        }
+        };
     
-      };
+      
     
+        const handleDoubleTapZoom = useCallback((clientX, clientY, target) => {
     
+          if (zoom > 1) {
     
-      const handleDoubleTapZoom = useCallback((clientX, clientY, target) => {
+            resetZoom();
     
-        if (zoom > 1) {
+          } else {
     
-          resetZoom();
+            const rect = target.getBoundingClientRect();
     
-        } else {
+            const x = clientX - (rect.left + rect.width / 2);
     
-          const rect = target.getBoundingClientRect();
+            const y = clientY - (rect.top + rect.height / 2);
     
-          const x = clientX - (rect.left + rect.width / 2);
+            const targetZoom = 2.5;
     
-          const y = clientY - (rect.top + rect.height / 2);
+            setZoom(targetZoom);
     
-          const targetZoom = 2.5;
-    
-          setZoom(targetZoom);
-    
-          setOffset(getClampedOffset(-x * (targetZoom - 1), -y * (targetZoom - 1), targetZoom));
-    
-        }
-    
-      }, [zoom, resetZoom, getClampedOffset]);
-    
-    
-    
-      const handleTouchEnd = (e) => {
-    
-        if (e.touches.length > 0) { handleTouchStart(e); return; }
-    
-    
-    
-        if (state.current.isDragging && zoom === 1) {
-    
-          if (state.current.dragType === 'dismiss' && offset.y > 100) {
-    
-            onClose();
-    
-            return;
+            setOffset(getClampedOffset(-x * (targetZoom - 1), -y * (targetZoom - 1), targetZoom));
     
           }
     
-          else if (state.current.dragType === 'swipe') {
+        }, [zoom, resetZoom, getClampedOffset]);
     
-            if (offset.x > 80) handlePrev();
+      
     
-            else if (offset.x < -80) handleNext();
+        const handleTouchEnd = (e) => {
+    
+          if (e.touches.length > 0) { 
+    
+            // 다중 터치 시 처리
+    
+            return; 
+    
+          }
+    
+      
+    
+          if (state.current.isDragging && zoom === 1) {
+    
+            if (state.current.dragType === 'dismiss' && offset.y > 100) {
+    
+              onClose();
+    
+              return;
+    
+            }
+    
+            else if (state.current.dragType === 'swipe') {
+    
+              if (offset.x > 80) handlePrev();
+    
+              else if (offset.x < -80) handleNext();
+    
+            }
     
           }
     
           setOffset({ x: 0, y: 0 });
     
-        }
+          state.current.isDragging = false;
     
-        state.current.isDragging = false;
+          setIsDraggingState(false);
     
-        setIsDraggingState(false);
+          state.current.dragType = null;
     
-        state.current.dragType = null;
+        };
     
-      };
+      
     
+        const handleContainerClick = (e) => {
     
+          if (state.current.hasMoved) return;
     
-      const handleContainerClick = (e) => {
+          
     
-        if (state.current.hasMoved) return;
+          const clientX = e.clientX;
     
-        
+          const clientY = e.clientY;
     
-        const clientX = e.clientX;
+          const target = e.target;
     
-        const clientY = e.clientY;
+      
     
-        const target = e.target;
+          if (clickTimerRef.current) {
     
-    
-    
-        if (clickTimerRef.current) {
-    
-          // 두 번째 클릭 발생: 더블 탭으로 처리
-    
-          clearTimeout(clickTimerRef.current);
-    
-          clickTimerRef.current = null;
-    
-          handleDoubleTapZoom(clientX, clientY, target);
-    
-        } else {
-    
-          // 첫 번째 클릭 발생: 잠시 대기
-    
-          clickTimerRef.current = setTimeout(() => {
-    
-            setShowControls(prev => {
-    
-              const next = !prev;
-    
-              if (next) resetHideTimer();
-    
-              else if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    
-              return next;
-    
-            });
+            clearTimeout(clickTimerRef.current);
     
             clickTimerRef.current = null;
     
-          }, 250);
+            handleDoubleTapZoom(clientX, clientY, target);
     
-        }
+          } else {
     
-      };
+            clickTimerRef.current = setTimeout(() => {
     
+              setShowControls(prev => {
     
-
-  const handleMouseDown = useCallback((e) => {
-    resetHideTimer();
-    state.current.isDragging = true;
-    setIsDraggingState(true);
-    state.current.hasMoved = false;
-    if (!viewportRef.current) return;
-    const rect = viewportRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const pos = { x: e.clientX - centerX, y: e.clientY - centerY };
-    state.current.initialCenter = pos;
-    state.current.initialOffset = offset;
-    state.current.dragType = null;
-  }, [offset, resetHideTimer]);
-
-  const handleMouseMove = useCallback((e) => {
-    if (!state.current.isDragging || e.touches) return;
-    setShowControls(true);
-    resetHideTimer();
-    if (!viewportRef.current) return;
-    const rect = viewportRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const currentPos = { x: e.clientX - centerX, y: e.clientY - centerY };
+                const next = !prev;
     
-    const dx = currentPos.x - state.current.initialCenter.x;
-    const dy = currentPos.y - state.current.initialCenter.y;
+                if (next) resetHideTimer();
     
-    if (Math.abs(dx) > 10 || Math.abs(dy) > 10) state.current.hasMoved = true;
+                else if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     
-    if (zoom > 1) {
-      setOffset(getClampedOffset(state.current.initialOffset.x + dx, state.current.initialOffset.y + dy, zoom));
-    } else {
-      if (!state.current.dragType) {
-        if (Math.abs(dy) > Math.abs(dx) && dy > 0) state.current.dragType = 'dismiss';
-        else if (Math.abs(dx) > Math.abs(dy)) state.current.dragType = 'swipe';
-      }
-      if (state.current.dragType === 'dismiss') {
-        setOffset({ x: 0, y: Math.max(0, dy) });
-      } else if (state.current.dragType === 'swipe') {
-        setOffset({ x: state.current.initialOffset.x + dx, y: 0 });
-      }
-    }
-  }, [zoom, getClampedOffset, resetHideTimer]);
+                return next;
+    
+              });
+    
+              clickTimerRef.current = null;
+    
+            }, 250);
+    
+          }
+    
+        };
+    
+      
+    
+        const handleMouseDown = useCallback((e) => {
+    
+          resetHideTimer();
+    
+          state.current.isDragging = true;
+    
+          setIsDraggingState(true);
+    
+          state.current.initialClient = { x: e.clientX, y: e.clientY };
+    
+          state.current.initialOffset = offset;
+    
+          state.current.hasMoved = false;
+    
+          state.current.dragType = null;
+    
+        }, [offset, resetHideTimer]);
+    
+      
+    
+        const handleMouseMove = useCallback((e) => {
+    
+          if (!state.current.isDragging || e.touches) return;
+    
+          
+    
+          const dx = e.clientX - state.current.initialClient.x;
+    
+          const dy = e.clientY - state.current.initialClient.y;
+    
+          
+    
+          if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+    
+            state.current.hasMoved = true;
+    
+            setShowControls(true);
+    
+            resetHideTimer();
+    
+          }
+    
+          
+    
+          if (zoom > 1) {
+    
+            setOffset(getClampedOffset(state.current.initialOffset.x + dx, state.current.initialOffset.y + dy, zoom));
+    
+          } else {
+    
+            if (!state.current.dragType) {
+    
+              if (Math.abs(dy) > Math.abs(dx) && dy > 0) state.current.dragType = 'dismiss';
+    
+              else if (Math.abs(dx) > Math.abs(dy)) state.current.dragType = 'swipe';
+    
+            }
+    
+            
+    
+            if (state.current.dragType === 'dismiss') {
+    
+              setOffset({ x: 0, y: Math.max(0, dy) });
+    
+            } else if (state.current.dragType === 'swipe') {
+    
+              setOffset({ x: state.current.initialOffset.x + dx, y: 0 });
+    
+            }
+    
+          }
+    
+        }, [zoom, getClampedOffset, resetHideTimer]);
+    
+      
 
   const handleMouseUp = useCallback(() => {
     if (state.current.isDragging && zoom === 1) {
@@ -594,10 +579,9 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
 
         {/* 하단바 배경 및 컨트롤 */}
         <div className={`image-modal-footer-bar ${!showControls ? 'hidden' : ''}`}>
-          <div className="image-modal-controls" onClick={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
-            <button onClick={() => { const nz = Math.max(zoom - 0.5, 1); if(nz === 1) resetZoom(); else { setZoom(nz); setOffset(o => getClampedOffset(o.x, o.y, nz)); } }} className="control-btn-small">−</button>
-            <span className="zoom-level-small" onClick={resetZoom} style={{ cursor: 'pointer' }}>{Math.round(zoom * 100)}%</span>
-            <button onClick={() => { const nz = Math.min(zoom + 0.5, 5); setZoom(nz); setOffset(o => getClampedOffset(o.x, o.y, nz)); }} className="control-btn-small">+</button>
+          <div className="image-modal-caption">
+            <div className="caption-title">{images[currentIndex]?.title}</div>
+            <div className="caption-meta">{images[currentIndex]?.meta}</div>
           </div>
         </div>
       </div>

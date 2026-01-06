@@ -186,61 +186,6 @@
   transition: all 0.3s ease;
 }
 
-.image-modal-controls {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  z-index: 4100;
-  background: rgba(40, 40, 40, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 6px 16px;
-  border-radius: 30px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all 0.3s ease;
-  pointer-events: auto;
-}
-
-.control-btn-small {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 22px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-.zoom-level-small {
-  color: white;
-  font-size: 11px;
-  min-width: 50px;
-  text-align: center;
-}
-
-.image-modal-info {
-  position: fixed;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 13px;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-  z-index: 4100;
-  user-select: none;
-  transition: all 0.3s ease;
-}
-
 .modal-nav-btn {
   position: fixed;
   top: 50%;
@@ -280,6 +225,31 @@
   pointer-events: none;
 }
 
+.image-modal-caption {
+  position: absolute;
+  bottom: 35px;
+  left: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 4100;
+  pointer-events: none;
+}
+
+.caption-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.caption-meta {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 300;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 @media (max-width: 480px) {
   .modal-universal-close-btn {
     top: 20px;
@@ -289,8 +259,14 @@
     font-size: 28px;
   }
   .modal-nav-btn { display: none; }
-  .image-modal-controls { bottom: 30px; }
+  .image-modal-caption {
+    left: 24px;
+    bottom: 30px;
+  }
+  .caption-title { font-size: 13px; }
+  .caption-meta { font-size: 11px; }
 }
+
 
 @keyframes modalFadeIn {
   from { opacity: 0; }
