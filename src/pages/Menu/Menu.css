@@ -12,6 +12,7 @@
   font-family: 'Pretendard Variable', sans-serif;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
   z-index: 3000;
   
   display: flex;

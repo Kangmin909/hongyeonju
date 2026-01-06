@@ -16,16 +16,6 @@ const Menu = () => {
   const [isClosing, setIsClosing] = React.useState(false); // 닫히는 중인지 확인
   const touchStartPos = React.useRef(0);
 
-  React.useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isMenuOpen) {
-        handleClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isMenuOpen, toggleMenu]);
-
   // 애니메이션을 동반한 닫기 함수
   const handleClose = React.useCallback(() => {
     setIsClosing(true);
@@ -36,6 +26,37 @@ const Menu = () => {
       setOffsetX(0);
     }, 300);
   }, [toggleMenu]);
+
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      // 복구 로직
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) window.scrollTo(0, parseInt(scrollY) * -1);
+    };
+  }, [isMenuOpen, handleClose]);
 
   const handleTouchStart = (e) => {
     if (isClosing) return;

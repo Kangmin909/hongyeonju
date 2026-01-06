@@ -94,15 +94,43 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       
     
-        useEffect(() => {
+          useEffect(() => {
     
-          document.body.style.overflow = 'hidden';
+      
     
-          resetHideTimer();
+            const scrollY = window.scrollY;
     
-          
+      
     
-          const updateWidth = () => {
+            document.body.style.position = 'fixed';
+    
+      
+    
+            document.body.style.top = `-${scrollY}px`;
+    
+      
+    
+            document.body.style.width = '100%';
+    
+      
+    
+            
+    
+      
+    
+            resetHideTimer();
+    
+      
+    
+            
+    
+      
+    
+            const updateWidth = () => {
+    
+      
+    
+        
     
             if (viewportRef.current) {
     
@@ -184,67 +212,107 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       
     
-              window.addEventListener('keydown', handleKeyDown);
+                  window.addEventListener('keydown', handleKeyDown);
     
       
     
-              window.addEventListener('mousemove', handleGlobalMouseMove);
+                  window.addEventListener('mousemove', handleGlobalMouseMove);
+    
+      
+    
+                  
+    
+      
+    
+                  // 첫 렌더링 후 애니메이션 활성화를 위해 약간의 지연 후 Mounting 상태 해제
+    
+      
+    
+                  const timer = setTimeout(() => {
+    
+      
+    
+                    setIsMounting(false);
+    
+      
+    
+                  }, 50);
+    
+      
+    
+                  
+    
+      
+    
+                  return () => {
+    
+      
+    
+                    const savedScrollY = document.body.style.top;
+    
+      
+    
+                    document.body.style.position = '';
+    
+      
+    
+                    document.body.style.top = '';
+    
+      
+    
+                    document.body.style.width = '';
+    
+      
+    
+                    if (savedScrollY) {
+    
+      
+    
+                      window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+    
+      
+    
+                    }
+    
+      
+    
+                    
+    
+      
+    
+                    clearTimeout(timer);
+    
+      
+    
+                    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    
+      
+    
+                    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    
+      
+    
+                    resizeObserver.disconnect();
+    
+      
+    
+                    window.removeEventListener('keydown', handleKeyDown);
+    
+      
+    
+                    window.removeEventListener('mousemove', handleGlobalMouseMove);
+    
+      
+    
+                  };
+    
+      
+    
+                }, [onClose, handleNext, handlePrev, resetHideTimer]);
     
       
     
               
-    
-      
-    
-              // 첫 렌더링 후 애니메이션 활성화를 위해 약간의 지연 후 Mounting 상태 해제
-    
-      
-    
-              const timer = setTimeout(() => {
-    
-      
-    
-                setIsMounting(false);
-    
-      
-    
-              }, 50);
-    
-      
-    
-              
-    
-      
-    
-              return () => {
-    
-      
-    
-                document.body.style.overflow = 'unset';
-    
-      
-    
-                clearTimeout(timer);
-    
-      
-    
-                if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    
-      
-    
-          
-    
-            if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
-    
-            resizeObserver.disconnect();
-    
-            window.removeEventListener('keydown', handleKeyDown);
-    
-            window.removeEventListener('mousemove', handleGlobalMouseMove);
-    
-          };
-    
-        }, [onClose, handleNext, handlePrev, resetHideTimer]);
     
       
     
