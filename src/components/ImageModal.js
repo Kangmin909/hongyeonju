@@ -290,7 +290,10 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
             } else if (state.current.dragType === 'swipe') {
     
-              setOffset({ x: state.current.initialOffset.x + dx, y: 0 });
+              let newX = state.current.initialOffset.x + dx;
+              if (currentIndex === 0 && newX > 0) newX = 0;
+              if (currentIndex === images.length - 1 && newX < 0) newX = 0;
+              setOffset({ x: newX, y: 0 });
     
             }
     
@@ -465,13 +468,16 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
             } else if (state.current.dragType === 'swipe') {
     
-              setOffset({ x: state.current.initialOffset.x + dx, y: 0 });
+              let newX = state.current.initialOffset.x + dx;
+              if (currentIndex === 0 && newX > 0) newX = 0;
+              if (currentIndex === images.length - 1 && newX < 0) newX = 0;
+              setOffset({ x: newX, y: 0 });
     
             }
     
           }
     
-        }, [zoom, getClampedOffset, resetHideTimer]);
+        }, [zoom, getClampedOffset, resetHideTimer, currentIndex, images.length]);
     
       
 

@@ -78,7 +78,13 @@ const Menu = () => {
 
   const handleTouchStart = (e) => {
     if (isClosing) return;
-    touchStartPos.current = e.touches[0].clientX;
+    const startX = e.touches[0].clientX;
+    
+    // 아이폰의 시스템 뒤로가기 제스처(왼쪽 엣지 스와이프)와 충돌을 방지하기 위해 
+    // 화면 왼쪽 끝(40px 이내)에서 시작되는 터치는 드래그 로직에서 제외합니다.
+    if (startX < 40) return; 
+    
+    touchStartPos.current = startX;
     setIsDragging(true);
   };
 
