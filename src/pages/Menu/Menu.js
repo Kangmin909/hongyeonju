@@ -11,6 +11,7 @@ import arrowIcon from '../../assets/icons/back-arrow.png'; // 실제 아이콘 �
 const Menu = () => {
   const navigate = useNavigate();
   const { isMenuOpen, toggleMenu, refreshData, loading } = useAppData();
+  const touchStartPos = React.useRef(0);
 
   React.useEffect(() => {
     const handleKeyDown = (e) => {
@@ -21,6 +22,20 @@ const Menu = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isMenuOpen, toggleMenu]);
+
+  const handleTouchStart = (e) => {
+    touchStartPos.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    const touchEndPos = e.changedTouches[0].clientX;
+    const distance = touchEndPos - touchStartPos.current;
+
+    // 오른쪽으로 50px 이상 스와이프했을 때 메뉴 닫기
+    if (distance > 50) {
+      toggleMenu();
+    }
+  };
 
   const handleRefresh = async () => {
     await refreshData();
@@ -34,7 +49,11 @@ const Menu = () => {
   if (!isMenuOpen) return null;
 
   return (
-    <div className="menu-container">
+    <div 
+      className="menu-container"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="back-arrow" onClick={toggleMenu}>
         <img src={arrowIcon} alt="Back Arrow" className="arrow-icon" />
       </div>

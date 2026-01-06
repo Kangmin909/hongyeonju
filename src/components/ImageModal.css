@@ -108,6 +108,7 @@
   width: 100%;
   will-change: transform;
   gap: 0;
+  transition: transform 0.45s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .slide-item {

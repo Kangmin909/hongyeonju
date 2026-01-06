@@ -337,47 +337,28 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       
     
-        const handleTouchEnd = (e) => {
-    
-          if (e.touches.length > 0) { 
-    
-            // 다중 터치 시 처리
-    
-            return; 
-    
-          }
-    
-      
-    
-          if (state.current.isDragging && zoom === 1) {
-    
-            if (state.current.dragType === 'dismiss' && offset.y > 100) {
-    
-              onClose();
-    
-              return;
-    
-            }
-    
-            else if (state.current.dragType === 'swipe') {
-    
-              if (offset.x > 80) handlePrev();
-    
-              else if (offset.x < -80) handleNext();
-    
-            }
-    
-          }
-    
-          setOffset({ x: 0, y: 0 });
-    
-          state.current.isDragging = false;
-    
-          setIsDraggingState(false);
-    
-          state.current.dragType = null;
-    
-        };
+  const handleTouchEnd = (e) => {
+    if (e.touches.length > 0) { 
+      // 다중 터치 시 처리
+      return; 
+    }
+
+    if (state.current.isDragging && zoom === 1) {
+      if (state.current.dragType === 'dismiss' && offset.y > 100) {
+        onClose(currentIndex); // 인덱스 전달 확인
+        return;
+      }
+      else if (state.current.dragType === 'swipe') {
+        const threshold = containerWidth * 0.2; // 화면 너비의 20% 이상 스와이프해야 넘어가도록
+        if (offset.x > threshold) handlePrev();
+        else if (offset.x < -threshold) handleNext();
+      }
+    }
+    setOffset({ x: 0, y: 0 });
+    state.current.isDragging = false;
+    setIsDraggingState(false);
+    state.current.dragType = null;
+  };
     
       
     
@@ -582,7 +563,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
               className="slider-container"
               style={{
                 transform: `translate3d(${-currentIndex * containerWidth + (state.current.dragType === 'swipe' ? offset.x : 0)}px, 0, 0)`,
-                transition: isDraggingState ? 'none' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                transition: isDraggingState ? 'none' : 'transform 0.5s cubic-bezier(0.2, 0, 0, 1)'
               }}
             >
               {images.map((img, idx) => (
