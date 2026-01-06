@@ -5,7 +5,7 @@ import PageHeader from '../../components/PageHeader';
 import './CV.css';
 
 const CV = () => {
-  const { cv1, cv2, fetchAllData, toggleMenu } = useAppData();
+  const { cv1, cv2, fetchAllData } = useAppData();
   
   // cv1 또는 cv2 데이터가 없으면 fetchAllData 호출
   useEffect(() => {

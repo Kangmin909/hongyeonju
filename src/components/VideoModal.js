@@ -19,17 +19,54 @@ const VideoModal = ({ src, alt, onClose }) => {
     }, 2500);
   }, []);
 
+  const onCloseRef = useRef(onClose);
+
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    resetHideTimer(); // 초기 로드 시 타이머 시작
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  // Effect 1: History & Scroll Locking (Runs ONCE)
+  useEffect(() => {
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+
+    // 뒤로가기 제어를 위한 히스토리 상태 추가
+    const currentUrl = window.location.pathname + window.location.search;
+    window.history.pushState({ modal: 'video' }, '', currentUrl);
+    
+    const handlePopState = () => {
+      if (onCloseRef.current) onCloseRef.current();
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      
+      const savedScrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (savedScrollY) {
+        window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+      }
+    };
+  }, []);
+
+  // Effect 2: Event Listeners
+  useEffect(() => {
+    resetHideTimer();
 
     const handleKeyDown = (e) => {
       setShowControls(true);
       resetHideTimer();
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (onCloseRef.current) onCloseRef.current();
+      }
     };
     
-    // 마우스 움직임 감지하여 컨트롤 표시
     const handleMouseMove = () => {
       setShowControls(true);
       resetHideTimer();
@@ -39,12 +76,11 @@ const VideoModal = ({ src, alt, onClose }) => {
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      document.body.style.overflow = 'unset';
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [onClose, resetHideTimer]);
+  }, [resetHideTimer]);
 
   const handleStart = (e) => {
     setShowControls(true);

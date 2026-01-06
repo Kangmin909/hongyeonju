@@ -14,8 +14,6 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       const clickTimerRef = useRef(null);
     
-      const lastTapTime = useRef(0);
-    
       const hideTimerRef = useRef(null);
     
         const state = useRef({
@@ -94,221 +92,99 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       
     
-          useEffect(() => {
+  const onCloseRef = useRef(onClose);
+  
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  // Effect 1: History & Scroll Locking (Runs ONCE on mount/unmount)
+  useEffect(() => {
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+
+    // 뒤로가기 제어를 위한 히스토리 상태 추가
+    const currentUrl = window.location.pathname + window.location.search;
+    window.history.pushState({ modal: 'image' }, '', currentUrl);
+    
+    const handlePopState = (e) => {
+      if (onCloseRef.current) onCloseRef.current();
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    
+    // 첫 렌더링 후 애니메이션 활성화를 위해 약간의 지연 후 Mounting 상태 해제
+    const timer = setTimeout(() => {
+      setIsMounting(false);
+    }, 50);
+
+    const updateWidth = () => {
+      if (viewportRef.current) {
+        setContainerWidth(viewportRef.current.getBoundingClientRect().width);
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateWidth();
+    });
+
+    if (viewportRef.current) {
+      resizeObserver.observe(viewportRef.current);
+    }
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      
+      const savedScrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (savedScrollY) {
+        window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+      }
+      
+      clearTimeout(timer);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // Effect 2: Event Listeners (Runs when handlers change)
+  useEffect(() => {
+    resetHideTimer();
+
+    const handleKeyDown = (e) => {
+      setShowControls(true);
+      resetHideTimer();
+      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowLeft') handlePrev();
+      if (e.key === 'Escape') {
+        if (onCloseRef.current) onCloseRef.current();
+      }
+    };
+
+    const handleGlobalMouseMove = () => {
+      if (window.matchMedia('(pointer: fine)').matches) {
+        setShowControls(true);
+        resetHideTimer();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+
+    return () => {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+    };
+  }, [handleNext, handlePrev, resetHideTimer]);
     
       
-    
-            const scrollY = window.scrollY;
-    
-      
-    
-            document.body.style.position = 'fixed';
-    
-      
-    
-            document.body.style.top = `-${scrollY}px`;
-    
-      
-    
-            document.body.style.width = '100%';
-    
-      
-    
-            
-    
-      
-    
-            resetHideTimer();
-    
-      
-    
-            
-    
-      
-    
-            const updateWidth = () => {
-    
-      
-    
-        
-    
-            if (viewportRef.current) {
-    
-              setContainerWidth(viewportRef.current.getBoundingClientRect().width);
-    
-            }
-    
-          };
-    
-      
-    
-          const resizeObserver = new ResizeObserver(() => {
-    
-            updateWidth();
-    
-          });
-    
-      
-    
-          if (viewportRef.current) {
-    
-            resizeObserver.observe(viewportRef.current);
-    
-          }
     
           
-    
-                  const handleKeyDown = (e) => {
-    
-          
-    
-                    setShowControls(true);
-    
-          
-    
-                    resetHideTimer();
-    
-          
-    
-                    if (e.key === 'ArrowRight') handleNext();
-    
-          
-    
-                    if (e.key === 'ArrowLeft') handlePrev();
-    
-          
-    
-                    if (e.key === 'Escape') onClose();
-    
-          
-    
-                  };
-    
-          
-    
-              
-    
-          
-    
-          
-    
-          
-    
-              const handleGlobalMouseMove = () => {
-    
-          
-    
-          
-    
-            if (window.matchMedia('(pointer: fine)').matches) {
-    
-              setShowControls(true);
-    
-              resetHideTimer();
-    
-            }
-    
-          };
-    
-      
-    
-                  window.addEventListener('keydown', handleKeyDown);
-    
-      
-    
-                  window.addEventListener('mousemove', handleGlobalMouseMove);
-    
-      
-    
-                  
-    
-      
-    
-                  // 첫 렌더링 후 애니메이션 활성화를 위해 약간의 지연 후 Mounting 상태 해제
-    
-      
-    
-                  const timer = setTimeout(() => {
-    
-      
-    
-                    setIsMounting(false);
-    
-      
-    
-                  }, 50);
-    
-      
-    
-                  
-    
-      
-    
-                  return () => {
-    
-      
-    
-                    const savedScrollY = document.body.style.top;
-    
-      
-    
-                    document.body.style.position = '';
-    
-      
-    
-                    document.body.style.top = '';
-    
-      
-    
-                    document.body.style.width = '';
-    
-      
-    
-                    if (savedScrollY) {
-    
-      
-    
-                      window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
-    
-      
-    
-                    }
-    
-      
-    
-                    
-    
-      
-    
-                    clearTimeout(timer);
-    
-      
-    
-                    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    
-      
-    
-                    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
-    
-      
-    
-                    resizeObserver.disconnect();
-    
-      
-    
-                    window.removeEventListener('keydown', handleKeyDown);
-    
-      
-    
-                    window.removeEventListener('mousemove', handleGlobalMouseMove);
-    
-      
-    
-                  };
-    
-      
-    
-                }, [onClose, handleNext, handlePrev, resetHideTimer]);
     
       
     
@@ -612,7 +488,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     state.current.isDragging = false;
     setIsDraggingState(false);
     state.current.dragType = null;
-  }, [zoom, offset.y, offset.x, handleNext, handlePrev, onClose, currentIndex]);
+  }, [zoom, offset.y, offset.x, handleNext, handlePrev, onClose]);
 
   const handleWheel = useCallback((e) => {
     e.preventDefault();

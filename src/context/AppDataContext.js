@@ -153,12 +153,11 @@ export const AppDataProvider = ({ children }) => {
     return fetchAllData(true);
   }, [fetchAllData]);
 
-  // 앱 시작 시 캐시가 있다면 프리로딩 한 번 실행
   useEffect(() => {
     if (data.home || data.exhibitions) {
       preloadMedia(data);
     }
-  }, []); // 마운트 시 1회 실행
+  }, [data]); // data 변경 시 실행
 
   const value = {
     ...data,

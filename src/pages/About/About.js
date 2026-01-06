@@ -5,7 +5,7 @@ import PageHeader from '../../components/PageHeader';
 import './About.css';
 
 const About = () => {
-  const { about, fetchAllData, toggleMenu } = useAppData();
+  const { about, fetchAllData } = useAppData();
   
   // about 데이터가 없으면 fetchAllData 호출
   useEffect(() => {

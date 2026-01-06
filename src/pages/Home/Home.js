@@ -1,7 +1,6 @@
 // src/pages/Home.js
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppData } from '../../context/AppDataContext';
 import MediaDisplay from '../../components/MediaDisplay';
 import { SkeletonHomeImage } from '../../components/Skeleton';
@@ -10,7 +9,6 @@ import VideoModal from '../../components/VideoModal';
 import './Home.css';
 
 const Home = () => {
-  const navigate = useNavigate();
   const { home, fetchAllData, toggleMenu } = useAppData();
   const [selectedMedia, setSelectedMedia] = useState(null);
 

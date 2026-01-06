@@ -28,18 +28,22 @@ const Menu = () => {
   }, [toggleMenu]);
 
   React.useEffect(() => {
-    if (isMenuOpen) {
-      const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-    } else {
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    }
+    if (!isMenuOpen) return;
+
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+
+    // 뒤로가기 제어를 위한 히스토리 상태 추가
+    window.history.pushState({ modal: 'menu' }, '');
+    
+    const handlePopState = () => {
+      // 뒤로가기 발생 시 메뉴 닫기 (이미 애니메이션 효과가 포함된 handleClose 호출)
+      handleClose();
+    };
+    
+    window.addEventListener('popstate', handlePopState);
     
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isMenuOpen) {
@@ -47,14 +51,22 @@ const Menu = () => {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+
     return () => {
+      window.removeEventListener('popstate', handlePopState);
       window.removeEventListener('keydown', handleKeyDown);
+      
+      // UI를 통해 닫힌 경우에만 히스토리 백 수행
+      if (window.history.state?.modal === 'menu') {
+        window.history.back();
+      }
+
       // 복구 로직
-      const scrollY = document.body.style.top;
+      const savedScrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
-      if (scrollY) window.scrollTo(0, parseInt(scrollY) * -1);
+      if (savedScrollY) window.scrollTo(0, parseInt(savedScrollY) * -1);
     };
   }, [isMenuOpen, handleClose]);
 
