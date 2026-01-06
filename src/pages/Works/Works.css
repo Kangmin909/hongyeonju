@@ -126,27 +126,54 @@
     height: 100%;
   }
 
-  /* 반응형 간격 설정 */
-  @media (min-width: 768px) {
-    .works-list {
-      gap: 40px;
-    }
-    .works-column {
-      gap: 40px;
-    }
-    .work-title, .work-meta {
-      font-size: 13px;
-    }
-  }
+      /* 반응형 간격 설정 */
 
-  @media (min-width: 1080px) {
-    .works-list {
-      gap: 50px;
+      @media (min-width: 532px) {
+
+        .works-list {
+
+          gap: 20px;
+
+        }
+
+        .works-column {
+
+          gap: 30px;
+
+        }
+
+        .work-title, .work-meta {
+
+          font-size: 13px;
+
+        }
+
+      }
+
+    
+
+  
+
+    @media (min-width: 1080px) {
+
+      .works-list {
+
+        gap: 24px;
+
+      }
+
+      .works-column {
+
+        gap: 36px;
+
+      }
+
+      .work-title, .work-meta {
+
+        font-size: 14px;
+
+      }
+
     }
-    .works-column {
-      gap: 50px;
-    }
-    .work-title, .work-meta {
-      font-size: 14px;
-    }
-  }
+
+  

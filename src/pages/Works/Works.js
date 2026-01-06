@@ -49,7 +49,7 @@ const Works = () => {
   }, []);
 
   const getNumColumns = () => {
-    if (windowWidth < 768) return 1;
+    if (windowWidth < 532) return 1;
     if (windowWidth < 1080) return 2;
     return 3;
   };
