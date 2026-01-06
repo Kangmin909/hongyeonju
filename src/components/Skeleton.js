@@ -58,7 +58,7 @@ export const SkeletonExhibitionItem = () => {
     <div className="skeleton-exhibition-item">
       <SkeletonImage height="auto" className="skeleton-exhibition-image" />
       <div className="skeleton-exhibition-info">
-        <SkeletonText lines={1} width="70%" />
+        <SkeletonBox width="70%" height="24px" style={{ marginBottom: '10px' }} />
         <SkeletonText lines={1} width="50%" />
         <SkeletonText lines={1} width="60%" />
       </div>

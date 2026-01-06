@@ -81,9 +81,11 @@ const Exhibitions = () => {
 
       <div className="exhibitions-list">
         {!exhibitions ? (
-          // 로딩 중일 때도 열 구조를 맞춰서 스켈레톤 표시
+          // 로딩 중일 때도 열 구조를 맞춰서 스켈레톤 표시 (3개 행으로 늘림)
           Array.from({ length: numColumns }).map((_, colIdx) => (
             <div key={colIdx} className="exhibitions-column">
+              <SkeletonExhibitionItem />
+              <SkeletonExhibitionItem />
               <SkeletonExhibitionItem />
             </div>
           ))

@@ -60,12 +60,11 @@ const ExhibitionDetail = () => {
         <div className="exhibition-detail-images">
           {Array.from({ length: numColumns }).map((_, colIdx) => (
             <div key={colIdx} className="exhibition-detail-column">
-              {[...Array(2)].map((_, index) => (
+              {[...Array(3)].map((_, index) => (
                 <div key={index} className="exhibition-detail-image-container">
                   <SkeletonImage width="100%" height="auto" className="skeleton-work-image" />
                   <div className="exhibition-detail-work-info" style={{ marginTop: '12px' }}>
-                    <SkeletonText lines={1} width="70%" />
-                    <SkeletonText lines={1} width="50%" style={{ marginTop: '5px' }}/>
+                    <SkeletonText lines={2} width="70%" />
                   </div>
                 </div>
               ))}
