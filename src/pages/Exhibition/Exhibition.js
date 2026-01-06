@@ -47,7 +47,8 @@ const Exhibitions = () => {
 
   const handleYearClick = (year) => {
     setSelectedYear(year);
-    navigate(`/exhibition?year=${year}`);
+    // replace: true를 사용하여 히스토리에 연도별로 쌓이지 않게 합니다.
+    navigate(`/exhibition?year=${year}`, { replace: true });
   };
 
   const filteredExhibitions = safeExhibitions.filter(exhibition => exhibition.year === selectedYear);

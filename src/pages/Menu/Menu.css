@@ -26,6 +26,15 @@
   will-change: transform, opacity;
 }
 
+.menu-container.no-animation {
+  animation: none;
+}
+
+.menu-container.no-animation .menu-button {
+  animation: none;
+  opacity: 1;
+}
+
 @keyframes slideInFromRight {
   from {
     transform: translateX(100%);
