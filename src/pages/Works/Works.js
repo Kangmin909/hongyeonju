@@ -81,21 +81,8 @@ const Works = () => {
     }
   };
 
-  const handleCloseImageModal = (finalIndex) => {
-    if (typeof finalIndex === 'number' && selectedMedia?.items[finalIndex]) {
-      const lastViewedWork = selectedMedia.items[finalIndex];
-      setSelectedMedia(null);
-      
-      // 모달이 닫힌 후 브라우저가 레이아웃을 정리할 시간을 줌
-      setTimeout(() => {
-        const element = document.getElementById(`work-${lastViewedWork.id}`);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 50);
-    } else {
-      setSelectedMedia(null);
-    }
+  const handleCloseImageModal = () => {
+    setSelectedMedia(null);
   };
 
   useEffect(() => {
@@ -127,7 +114,7 @@ const Works = () => {
           columns.map((column, colIdx) => (
             <div key={colIdx} className="works-column">
               {column.map((work) => (
-                <div className="work-item" key={work.id} id={`work-${work.id}`}>
+                <div className="work-item" key={work.id}>
                   <MediaDisplay 
                     src={work.link} 
                     alt={work.title} 

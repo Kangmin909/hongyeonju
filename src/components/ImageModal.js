@@ -130,31 +130,35 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
           
     
-              const handleKeyDown = (e) => {
+                  const handleKeyDown = (e) => {
     
           
     
-                setShowControls(true);
+                    setShowControls(true);
     
           
     
-                resetHideTimer();
+                    resetHideTimer();
     
           
     
-                if (e.key === 'ArrowRight') handleNext();
+                    if (e.key === 'ArrowRight') handleNext();
     
           
     
-                if (e.key === 'ArrowLeft') handlePrev();
+                    if (e.key === 'ArrowLeft') handlePrev();
     
           
     
-                if (e.key === 'Escape') onClose(currentIndex);
+                    if (e.key === 'Escape') onClose();
     
           
     
-              };
+                  };
+    
+          
+    
+              
     
           
     
@@ -384,7 +388,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
 
     if (state.current.isDragging && zoom === 1) {
       if (state.current.dragType === 'dismiss' && offset.y > 100) {
-        onClose(currentIndex); // 인덱스 전달 확인
+        onClose();
         return;
       }
       else if (state.current.dragType === 'swipe') {
@@ -528,7 +532,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
   const handleMouseUp = useCallback(() => {
     if (state.current.isDragging && zoom === 1) {
       if (state.current.dragType === 'dismiss' && offset.y > 100) {
-        onClose(currentIndex);
+        onClose();
         return;
       }
       else if (state.current.dragType === 'swipe') {
@@ -583,7 +587,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       >
         {/* 상단바 배경 및 컨트롤 */}
         <div className={`image-modal-header-bar ${!showControls ? 'hidden' : ''}`}>
-          <button className="modal-universal-back-btn" onClick={(e) => { e.stopPropagation(); onClose(currentIndex); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} aria-label="Back">
+          <button className="modal-universal-back-btn" onClick={(e) => { e.stopPropagation(); onClose(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} aria-label="Back">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           </button>
           <div className="image-modal-info">{currentIndex + 1} / {images.length}</div>

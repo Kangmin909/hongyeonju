@@ -11,29 +11,56 @@ import arrowIcon from '../../assets/icons/back-arrow.png'; // 실제 아이콘 �
 const Menu = () => {
   const navigate = useNavigate();
   const { isMenuOpen, toggleMenu, refreshData, loading } = useAppData();
+  const [offsetX, setOffsetX] = React.useState(0);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [isClosing, setIsClosing] = React.useState(false); // 닫히는 중인지 확인
   const touchStartPos = React.useRef(0);
 
   React.useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isMenuOpen) {
-        toggleMenu();
+        handleClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isMenuOpen, toggleMenu]);
 
+  // 애니메이션을 동반한 닫기 함수
+  const handleClose = React.useCallback(() => {
+    setIsClosing(true);
+    setOffsetX(window.innerWidth); // 오른쪽 화면 밖으로 이동
+    setTimeout(() => {
+      toggleMenu();
+      setIsClosing(false);
+      setOffsetX(0);
+    }, 300);
+  }, [toggleMenu]);
+
   const handleTouchStart = (e) => {
+    if (isClosing) return;
     touchStartPos.current = e.touches[0].clientX;
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging || isClosing) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - touchStartPos.current;
+    
+    if (diff > 0) {
+      setOffsetX(diff);
+    }
   };
 
   const handleTouchEnd = (e) => {
-    const touchEndPos = e.changedTouches[0].clientX;
-    const distance = touchEndPos - touchStartPos.current;
-
-    // 오른쪽으로 50px 이상 스와이프했을 때 메뉴 닫기
-    if (distance > 50) {
-      toggleMenu();
+    if (!isDragging || isClosing) return;
+    setIsDragging(false);
+    
+    if (offsetX > 100) {
+      handleClose();
+    } else {
+      setOffsetX(0);
     }
   };
 
@@ -43,18 +70,24 @@ const Menu = () => {
 
   const handleNavigate = (path) => {
     navigate(path);
-    toggleMenu(); // 페이지 이동 후 메뉴 닫기
+    toggleMenu(); 
   };
 
   if (!isMenuOpen) return null;
 
   return (
     <div 
-      className="menu-container"
+      className={`menu-container ${isDragging ? 'is-dragging' : ''} ${isClosing ? 'is-closing' : ''}`}
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      style={{
+        transform: `translate3d(${offsetX}px, 0, 0)`,
+        opacity: Math.max(1 - offsetX / (window.innerWidth * 0.8), 0),
+        transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease'
+      }}
     >
-      <div className="back-arrow" onClick={toggleMenu}>
+      <div className="back-arrow" onClick={handleClose}>
         <img src={arrowIcon} alt="Back Arrow" className="arrow-icon" />
       </div>
 

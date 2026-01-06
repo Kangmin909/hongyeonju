@@ -1,36 +1,33 @@
 .menu-container {
-  position: fixed; /* 페이지 위에 고정 */
+  position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin: 0 auto; /* 수평 중앙 정렬 */
   width: 100%;
-  min-width: 340px; /* 최소 폭 설정 */
+  min-width: 340px;
   max-width: 1200px;
   height: 100vh;
   background: #FFFFFF;
   font-family: 'Pretendard Variable', sans-serif;
-  overflow-y: auto; /* 세로 스크롤 허용 */
+  overflow-y: auto;
   overflow-x: hidden;
-  z-index: 3000; /* 모든 요소보다 위에 표시 */
+  z-index: 3000;
   
-  /* Flex layout for scrolling */
   display: flex;
   flex-direction: column;
   
-  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
   padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px clamp(24px, 1.212rem + 1.15vw, 50px);
   box-sizing: border-box;
 
-  /* 오른쪽에서 슬라이드 진입 애니메이션 */
-  animation: slideInFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* 애니메이션 기준점 변경 */
+  animation: slideInFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
 }
 
 @keyframes slideInFromRight {
   from {
-    transform: translate(50%, 0); /* 화면 밖(오른쪽)에서 시작 (left: 50% 기준) */
-  }
-  to {
-    transform: translate(-50%, 0); /* 중앙 정렬 유지 */
+    transform: translateX(100%);
   }
 }
 
