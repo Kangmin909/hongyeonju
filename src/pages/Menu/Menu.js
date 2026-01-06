@@ -20,6 +20,13 @@ const Menu = () => {
 
   // 애니메이션을 동반한 닫기 함수
   const handleClose = React.useCallback(() => {
+    // 만약 뒤로가기 제스처(popstate)로 인한 닫기라면, 
+    // 브라우저가 이미 화면 이동을 처리 중일 수 있으므로 추가 애니메이션 없이 즉시 닫습니다.
+    if (isPopStateRef.current) {
+      toggleMenu();
+      return;
+    }
+
     setIsClosing(true);
     setOffsetX(window.innerWidth); // 오른쪽 화면 밖으로 이동
     setTimeout(() => {
@@ -64,6 +71,8 @@ const Menu = () => {
       
       // UI를 통해 닫힌 경우에만 히스토리 백 수행
       if (!isPopStateRef.current && window.history.state?.modal === 'menu') {
+        // 백 버튼을 누르기 전에 먼저 메뉴를 닫아 DOM에서 제거합니다 (플래시 방지)
+        toggleMenu(); 
         window.history.back();
       }
 
