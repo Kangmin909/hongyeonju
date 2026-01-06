@@ -102,6 +102,17 @@
 .menu-button:nth-child(5) { animation-delay: 0.27s; }
 
 
+.menu-container.is-closing {
+  pointer-events: none;
+  animation: slideOutToRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideOutToRight {
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .refresh-button {
   all: unset;
   align-self: flex-end; /* 우측 정렬 */
