@@ -93,6 +93,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       
     
   const onCloseRef = useRef(onClose);
+  const isPopStateRef = useRef(false);
   
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -110,6 +111,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     window.history.pushState({ modal: 'image' }, '', currentUrl);
     
     const handlePopState = (e) => {
+      isPopStateRef.current = true;
       if (onCloseRef.current) onCloseRef.current();
     };
     

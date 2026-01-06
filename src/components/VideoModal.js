@@ -20,6 +20,7 @@ const VideoModal = ({ src, alt, onClose }) => {
   }, []);
 
   const onCloseRef = useRef(onClose);
+  const isPopStateRef = useRef(false);
 
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -37,6 +38,7 @@ const VideoModal = ({ src, alt, onClose }) => {
     window.history.pushState({ modal: 'video' }, '', currentUrl);
     
     const handlePopState = () => {
+      isPopStateRef.current = true;
       if (onCloseRef.current) onCloseRef.current();
     };
     

@@ -16,6 +16,8 @@ const Menu = () => {
   const [isClosing, setIsClosing] = React.useState(false); // 닫히는 중인지 확인
   const touchStartPos = React.useRef(0);
 
+  const isPopStateRef = React.useRef(false);
+
   // 애니메이션을 동반한 닫기 함수
   const handleClose = React.useCallback(() => {
     setIsClosing(true);
@@ -28,7 +30,10 @@ const Menu = () => {
   }, [toggleMenu]);
 
   React.useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMenuOpen) {
+      isPopStateRef.current = false; // 메뉴가 닫혀있을 때 초기화
+      return;
+    }
 
     const scrollY = window.scrollY;
     document.body.style.position = 'fixed';
@@ -40,6 +45,7 @@ const Menu = () => {
     
     const handlePopState = () => {
       // 뒤로가기 발생 시 메뉴 닫기 (이미 애니메이션 효과가 포함된 handleClose 호출)
+      isPopStateRef.current = true;
       handleClose();
     };
     
@@ -57,7 +63,7 @@ const Menu = () => {
       window.removeEventListener('keydown', handleKeyDown);
       
       // UI를 통해 닫힌 경우에만 히스토리 백 수행
-      if (window.history.state?.modal === 'menu') {
+      if (!isPopStateRef.current && window.history.state?.modal === 'menu') {
         window.history.back();
       }
 
