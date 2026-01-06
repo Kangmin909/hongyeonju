@@ -62,123 +62,77 @@ const Menu = () => {
 
 
 
+  // Effect 1: 히스토리 감지 (컴포넌트 마운트 시 1회 등록)
   React.useEffect(() => {
-
-    // 메뉴가 열릴 때만 히스토리 상태 추가
-
-    if (isMenuOpen) {
-
-      const currentUrl = window.location.pathname + window.location.search;
-
-      if (window.history.state?.modal !== 'menu') {
-
-        window.history.pushState({ modal: 'menu' }, '', currentUrl);
-
-      }
-
-    } else {
-
-      // 메뉴가 완전히 닫히면 즉시 열기 플래그 초기화
-
-      setOpeningImmediate(false);
-
-    }
-
-
-
     const handlePopState = (e) => {
-
       isPopStateRef.current = true;
-
       const isMenuState = e.state?.modal === 'menu';
-
       
-
       if (isMenuState && !isMenuOpen) {
-
         // 뒤로가기 해서 메뉴 상태로 왔는데 메뉴가 닫혀있으면 애니메이션 없이 엶
-
         setOpeningImmediate(true);
-
         toggleMenu();
-
       } else if (!isMenuState && isMenuOpen) {
-
-        // 뒤로가기 해서 메뉴 없는 상태로 왔는데 메뉴가 열려있으면 닫음
-
+        // 뒤로가기 해서 메뉴 없는 상태로 왔는데 메뉴가 열려있으면 즉시 닫음
         handleClose(true);
-
       }
-
       
-
       // 플래그 초기화
-
       setTimeout(() => { isPopStateRef.current = false; }, 100);
-
     };
-
-    
 
     window.addEventListener('popstate', handlePopState);
-
     
-
-    const handleKeyDown = (e) => {
-
-      if (e.key === 'Escape' && isMenuOpen) {
-
-        window.history.back();
-
-      }
-
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-
+    // 초기 로드 시 히스토리 상태가 메뉴라면 복원
+    if (window.history.state?.modal === 'menu' && !isMenuOpen) {
+      setOpeningImmediate(true);
+      toggleMenu();
+    }
 
     return () => {
-
       window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isMenuOpen, toggleMenu, handleClose]);
 
-      window.removeEventListener('keydown', handleKeyDown);
+  // Effect 2: 메뉴 상태에 따른 부가 효과 (스크롤 잠금 등)
+  React.useEffect(() => {
+    if (!isMenuOpen) return;
 
-      
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
 
-      // 메뉴가 열린 상태에서 컴포넌트가 사라질 때 (페이지 이동 등)
-
-      // UI를 통한 일반적인 닫기가 아니고, 뒤로가기도 아니며, 네비게이션 중도 아닐 때만 백 수행
-
-      if (isMenuOpen && !isPopStateRef.current && !isNavigatingRef.current && window.history.state?.modal === 'menu') {
-
+    // 메뉴 진입 시 히스토리 push (이미 메뉴 상태가 아닐 때만)
+    if (window.history.state?.modal !== 'menu') {
+      window.history.pushState({ modal: 'menu' }, '');
+    }
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
         window.history.back();
-
       }
+    };
+    window.addEventListener('keydown', handleKeyDown);
 
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
       
-
-      // 스크롤 및 네비게이션 플래그 초기화
+      if (isMenuOpen && !isPopStateRef.current && !isNavigatingRef.current && window.history.state?.modal === 'menu') {
+        toggleMenu(); 
+        window.history.back();
+      }
 
       if (isMenuOpen) {
-
         const savedScrollY = document.body.style.top;
-
         document.body.style.position = '';
-
         document.body.style.top = '';
-
         document.body.style.width = '';
-
         if (savedScrollY) window.scrollTo(0, parseInt(savedScrollY) * -1);
-
       }
-
       isNavigatingRef.current = false;
-
     };
-
-  }, [isMenuOpen, toggleMenu, handleClose]);
+  }, [isMenuOpen, toggleMenu]);
 
 
 
@@ -210,19 +164,7 @@ const Menu = () => {
 
 
 
-  if (!isMenuOpen) {
-
-    // 메뉴가 닫혀있더라도 히스토리 상태가 'menu'라면 다시 열어줌 (뒤로가기 대응)
-
-    if (window.history.state?.modal === 'menu' && !isPopStateRef.current) {
-
-      toggleMenu();
-
-    }
-
-    return null;
-
-  }
+  if (!isMenuOpen) return null;
 
 
 

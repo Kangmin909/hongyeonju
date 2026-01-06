@@ -14,6 +14,7 @@
   animation: modalFadeIn 0.3s ease-out;
   transition: background-color 0.3s ease;
   user-select: none;
+  -webkit-text-size-adjust: 100%; /* 가로 모드 시 글자 커짐 방지 */
 }
 
 /* 드래그 중일 때 트랜지션 제거 및 커서 변경 */
@@ -198,14 +199,14 @@
 }
 
 .modal-nav-btn.prev { 
-  left: 20px; 
+  left: 10px; 
 }
 .modal-nav-btn.prev:hover:not(.disabled) {
   transform: translateY(-50%) translateX(-5px) scale(1.1);
 }
 
 .modal-nav-btn.next { 
-  right: 20px; 
+  right: 10px; 
 }
 .modal-nav-btn.next:hover:not(.disabled) {
   transform: translateY(-50%) translateX(5px) scale(1.1);
@@ -263,7 +264,8 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 480px) {
+/* 모바일 모드 최적화 (세로/가로 통합 처리) */
+@media (max-width: 768px) {
   .modal-universal-back-btn {
     top: 20px;
     left: 20px;
@@ -275,17 +277,32 @@
     height: 18px;
   }
   .image-modal-info {
-    top: 28px; /* 버튼 중앙 높이에 맞춤 */
+    top: 28px;
     font-size: 12px;
     letter-spacing: 0.15em;
   }
-  .modal-nav-btn { display: none; }
+  
+  /* 모바일에서도 화살표 버튼을 작게 표시하도록 변경 (가로 모드 시 유용) */
+  .modal-nav-btn {
+    width: 40px;
+    height: 60px;
+  }
+  .modal-nav-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
   .image-modal-caption {
     left: 20px;
     bottom: 25px;
   }
   .caption-title { font-size: 14px; }
   .caption-meta { font-size: 12px; }
+}
+
+/* 아주 작은 화면에서만 화살표 숨김 */
+@media (max-width: 400px) and (orientation: portrait) {
+  .modal-nav-btn { display: none; }
 }
 
 

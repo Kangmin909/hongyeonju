@@ -9,12 +9,14 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     const [showControls, setShowControls] = useState(true);
     const [isDraggingState, setIsDraggingState] = useState(false); // 드래그 중임을 알리는 상태
     const [isMounting, setIsMounting] = useState(true); // 초기 마운트 상태 추가
+    const [isResizing, setIsResizing] = useState(false); // 화면 회전/리사이즈 상태 추가
     
       const viewportRef = useRef(null);
     
       const clickTimerRef = useRef(null);
     
       const hideTimerRef = useRef(null);
+      const resizeTimerRef = useRef(null);
     
         const state = useRef({
     
@@ -129,7 +131,14 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     };
 
     const resizeObserver = new ResizeObserver(() => {
+      setIsResizing(true);
       updateWidth();
+      resetZoom(); // 회전 시 확대/이동 초기화
+      
+      if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
+      resizeTimerRef.current = setTimeout(() => {
+        setIsResizing(false);
+      }, 300); // 레이아웃 안정화 대기
     });
 
     if (viewportRef.current) {
@@ -148,9 +157,10 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       }
       
       clearTimeout(timer);
+      if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
       resizeObserver.disconnect();
     };
-  }, []);
+  }, []); // resetZoom은 useCallback으로 안정화되어 있으므로 포함하지 않음 (히스토리 중복 실행 방지)
 
   // Effect 2: Event Listeners (Runs when handlers change)
   useEffect(() => {
@@ -229,6 +239,10 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
           resetHideTimer();
     
           const touch = e.touches[0];
+
+          // 아이폰의 시스템 뒤로가기 제스처(왼쪽 엣지 스와이프)와 충돌을 방지하기 위해 
+          // 화면 왼쪽 끝(40px 이내)에서 시작되는 터치는 드래그 로직에서 제외합니다.
+          if (touch.clientX < 40) return; 
     
           state.current.isDragging = true;
     
@@ -558,7 +572,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
               className="slider-container"
               style={{
                 transform: `translate3d(${-currentIndex * containerWidth + (state.current.dragType === 'swipe' ? offset.x : 0)}px, 0, 0)`,
-                transition: (isDraggingState || isMounting) ? 'none' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                transition: (isDraggingState || isMounting || isResizing) ? 'none' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
               {images.map((img, idx) => (
