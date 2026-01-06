@@ -4,18 +4,28 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 1);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   z-index: 4000;
   display: flex;
-  justify-content: center; /* PC에서 max-width 적용 시 중앙 정렬 */
-  min-width: 375px; /* 최소폭 일관성 */
+  justify-content: center;
+  min-width: 340px;
   animation: modalFadeIn 0.3s ease-out;
-  transition: background-color 0.1s ease; /* 드래그 시 빠른 반응을 위해 */
+  transition: background-color 0.3s ease;
+  user-select: none;
 }
 
-/* 모달 전체 컨텐츠를 담는 컨테이너 */
+/* 드래그 중일 때 트랜지션 제거 및 커서 변경 */
+.image-modal-overlay.is-dragging {
+  transition: none !important;
+  cursor: grabbing !important;
+}
+
+.image-modal-overlay.is-dragging .image-modal-content-container {
+  transition: none !important;
+}
+
 .image-modal-content-container {
   width: 100%;
   height: 100%;
@@ -24,6 +34,41 @@
   justify-content: center;
   align-items: center;
   will-change: transform;
+  touch-action: none;
+}
+
+/* 상단바: 번호와 닫기 버튼 배경 */
+.image-modal-header-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+  z-index: 4050;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 하단바: 배율 컨트롤 배경 */
+.image-modal-footer-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+  z-index: 4050;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-modal-header-bar.hidden,
+.image-modal-footer-bar.hidden {
+  opacity: 0;
 }
 
 .image-modal-wrapper {
@@ -40,8 +85,8 @@
 
 .image-modal-viewport.fullscreen {
   width: 100%;
-  max-width: 1200px; /* 사이트 최대폭 준수 */
-  min-width: 340px; /* 사이트 최소폭 준수 */
+  max-width: 1200px;
+  min-width: 340px;
   height: 100vh;
   margin: 0 auto;
   border-radius: 0;
@@ -72,7 +117,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* 확대된 영역이 다른 슬라이드로 넘어가지 않도록 */
+  overflow: hidden;
   padding: 0;
   box-sizing: border-box;
 }
@@ -88,51 +133,59 @@
   touch-action: none;
 }
 
+.is-dragging .media-movable-content {
+  cursor: grabbing;
+}
+
 .image-modal-img-internal.fullscreen {
-  /* 저화질 이미지도 화면에 꽉 차도록 강제 확대 (contain 유지) */
   width: 100% !important;
   height: 100% !important;
   object-fit: contain;
 }
 
-/* 최상위 공통 닫기 버튼 */
 .modal-universal-close-btn {
   position: fixed;
-  top: 30px;
-  right: 30px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 32px;
-  font-weight: 100;
-  width: 44px;
-  height: 44px;
+  top: 25px;
+  right: 25px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 200;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 5000;
+  z-index: 4100;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 1;
-  transition: all 0.3s ease; /* transition 시간 조정 */
+  transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-}
-
-.modal-universal-close-btn.hidden,
-.image-modal-info.hidden,
-.modal-nav-btn.hidden,
-.image-modal-controls.hidden {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
+  pointer-events: auto;
 }
 
 .modal-universal-close-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
 
-/* 하단 세련된 컨트롤러 */
+.image-modal-info {
+  position: fixed;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  z-index: 4100;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
 .image-modal-controls {
   position: fixed;
   bottom: 40px;
@@ -143,13 +196,14 @@
   align-items: center;
   gap: 8px;
   z-index: 4100;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(40, 40, 40, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 6px 16px;
   border-radius: 30px;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: all 0.3s ease;
+  pointer-events: auto;
 }
 
 .control-btn-small {
@@ -187,7 +241,6 @@
   transition: all 0.3s ease;
 }
 
-/* 네비게이션 버튼 */
 .modal-nav-btn {
   position: fixed;
   top: 50%;
@@ -208,6 +261,12 @@
   backdrop-filter: blur(5px);
 }
 
+.modal-nav-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
 .modal-nav-btn.prev { left: 30px; }
 .modal-nav-btn.next { right: 30px; }
 
@@ -224,13 +283,16 @@
 @media (max-width: 480px) {
   .modal-universal-close-btn {
     top: 20px;
-    right: 24px; /* 여백 일관성 */
+    right: 24px;
     width: 40px;
     height: 40px;
     font-size: 28px;
   }
-  .modal-nav-btn { width: 32px; height: 32px; font-size: 14px; }
-  .modal-nav-btn.prev { left: 10px; }
-  .modal-nav-btn.next { right: 10px; }
+  .modal-nav-btn { display: none; }
   .image-modal-controls { bottom: 30px; }
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

@@ -5,6 +5,7 @@ const VideoModal = ({ src, alt, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [offsetY, setOffsetY] = useState(0);
   const [showControls, setShowControls] = useState(true); // 컨트롤 표시 여부
+  const [isDraggingState, setIsDraggingState] = useState(false);
   const isDragging = useRef(false);
   const startY = useRef(0);
   const hideTimerRef = useRef(null); // 자동 숨김 타이머
@@ -14,7 +15,7 @@ const VideoModal = ({ src, alt, onClose }) => {
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     hideTimerRef.current = setTimeout(() => {
       setShowControls(false);
-    }, 1000);
+    }, 2500);
   }, []);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const VideoModal = ({ src, alt, onClose }) => {
     setShowControls(true);
     resetHideTimer();
     isDragging.current = true;
+    setIsDraggingState(true);
     const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
     startY.current = clientY - offsetY;
   };
@@ -68,11 +70,13 @@ const VideoModal = ({ src, alt, onClose }) => {
     if (isDragging.current) {
       if (offsetY > 100) {
         onClose();
+        return;
       } else {
         setOffsetY(0);
       }
     }
     isDragging.current = false;
+    setIsDraggingState(false);
     startY.current = 0;
   }, [offsetY, onClose]);
 
@@ -103,31 +107,27 @@ const VideoModal = ({ src, alt, onClose }) => {
 
   return (
     <div 
-      className="video-modal-overlay" 
+      className={`video-modal-overlay ${isDraggingState ? 'is-dragging' : ''}`}
+      onMouseDown={handleStart}
+      onTouchStart={handleStart}
+      onMouseMove={handleMove}
+      onTouchMove={handleMove}
       onMouseUp={handleEnd} 
       onTouchEnd={handleEnd} 
       onMouseLeave={handleEnd}
       onClick={handleContainerClick}
       style={{ 
-        backgroundColor: `rgba(0, 0, 0, ${0.85 * overlayOpacity})`,
-        transition: isDragging.current ? 'none' : 'background-color 0.3s ease'
+        backgroundColor: `rgba(0, 0, 0, ${1.0 * overlayOpacity})`,
+        transform: `translate3d(0, ${offsetY}px, 0)`
       }}
     >
       <div 
         className="video-modal-content-container"
-        style={{
-          transform: `translate3d(0, ${offsetY}px, 0)`,
-          transition: isDragging.current ? 'none' : 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-        }}
       >
         <button className={`video-modal-close-btn ${!showControls ? 'hidden' : ''}`} onClick={onClose} aria-label="Close">&times;</button>
         
         <div 
           className="video-modal-wrapper" 
-          onMouseDown={handleStart}
-          onTouchStart={handleStart}
-          onMouseMove={handleMove}
-          onTouchMove={handleMove}
           onClick={(e) => e.stopPropagation()}
         >
           {loading && <div className="video-modal-loader" />}

@@ -56,7 +56,7 @@ export const SkeletonWorkItem = () => {
 export const SkeletonExhibitionItem = () => {
   return (
     <div className="skeleton-exhibition-item">
-      <SkeletonImage height="183px" className="skeleton-exhibition-image" />
+      <SkeletonImage height="auto" className="skeleton-exhibition-image" />
       <div className="skeleton-exhibition-info">
         <SkeletonText lines={1} width="70%" />
         <SkeletonText lines={1} width="50%" />

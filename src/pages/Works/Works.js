@@ -99,11 +99,13 @@ const Works = () => {
 
       <div className="works-list">
         {!works ? (
-          <>
-            <SkeletonWorkItem />
-            <SkeletonWorkItem />
-            <SkeletonWorkItem />
-          </>
+          // 로딩 중일 때도 열 구조를 맞춰서 스켈레톤 표시
+          Array.from({ length: numColumns }).map((_, colIdx) => (
+            <div key={colIdx} className="works-column">
+              <SkeletonWorkItem />
+              <SkeletonWorkItem />
+            </div>
+          ))
         ) : (
           columns.map((column, colIdx) => (
             <div key={colIdx} className="works-column">

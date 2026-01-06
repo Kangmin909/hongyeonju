@@ -21,13 +21,13 @@
   padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px clamp(24px, 1.212rem + 1.15vw, 50px);
   box-sizing: border-box;
 
-  /* 왼쪽에서 슬라이드 진입 애니메이션 */
-  animation: slideInFromLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* 오른쪽에서 슬라이드 진입 애니메이션 */
+  animation: slideInFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes slideInFromLeft {
+@keyframes slideInFromRight {
   from {
-    transform: translate(-150%, 0); /* 확실히 화면 밖에서 시작 */
+    transform: translate(50%, 0); /* 화면 밖(오른쪽)에서 시작 (left: 50% 기준) */
   }
   to {
     transform: translate(-50%, 0); /* 중앙 정렬 유지 */

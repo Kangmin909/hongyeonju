@@ -45,7 +45,7 @@ const ExhibitionDetail = () => {
         
         <div className="exhibition-detail-header">
           <div className="exhibition-detail-subtitle" style={{ marginTop: '5px', marginBottom: '20px' }}>
-            <SkeletonText lines={1} width="60%" />
+            <SkeletonBox width="40%" height="24px" />
           </div>
         </div>
 
@@ -57,14 +57,18 @@ const ExhibitionDetail = () => {
             <SkeletonText lines={4} />
         </div>
 
-        <div className="exhibition-detail-images" style={{ gap: '30px' }}>
-          {[...Array(3)].map((_, index) => (
-            <div key={index} className="exhibition-detail-image-container">
-              <SkeletonImage width="100%" height="226px" />
-              <div className="exhibition-detail-work-info" style={{ marginTop: '12px' }}>
-                <SkeletonText lines={1} width="70%" />
-                <SkeletonText lines={1} width="50%" style={{ marginTop: '5px' }}/>
-              </div>
+        <div className="exhibition-detail-images">
+          {Array.from({ length: numColumns }).map((_, colIdx) => (
+            <div key={colIdx} className="exhibition-detail-column">
+              {[...Array(2)].map((_, index) => (
+                <div key={index} className="exhibition-detail-image-container">
+                  <SkeletonImage width="100%" height="auto" className="skeleton-work-image" />
+                  <div className="exhibition-detail-work-info" style={{ marginTop: '12px' }}>
+                    <SkeletonText lines={1} width="70%" />
+                    <SkeletonText lines={1} width="50%" style={{ marginTop: '5px' }}/>
+                  </div>
+                </div>
+              ))}
             </div>
           ))}
         </div>
