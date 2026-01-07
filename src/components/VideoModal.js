@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import './VideoModal.css';
 
 const VideoModal = ({ src, alt, onClose }) => {
+  const isFinePointer = useMediaQuery('(pointer: fine)');
   const [loading, setLoading] = useState(true);
   const [offsetY, setOffsetY] = useState(0);
   const [showControls, setShowControls] = useState(true); // 컨트롤 표시 여부
@@ -79,7 +81,7 @@ const VideoModal = ({ src, alt, onClose }) => {
     };
     
     const handleMouseMove = () => {
-      if (window.matchMedia('(pointer: fine)').matches) {
+      if (isFinePointer) {
         setShowControls(true);
         resetHideTimer();
       }
@@ -93,7 +95,7 @@ const VideoModal = ({ src, alt, onClose }) => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [resetHideTimer]);
+  }, [resetHideTimer, isFinePointer]);
 
   const handleStart = (e) => {
     // resetHideTimer();
@@ -128,7 +130,7 @@ const VideoModal = ({ src, alt, onClose }) => {
     if (hasMoved.current || offsetY > 10) return;
 
     // PC(마우스) 환경에서는 클릭으로 인한 토글 비활성화 (마우스 이동으로 제어)
-    if (window.matchMedia('(pointer: fine)').matches) return;
+    if (isFinePointer) return;
 
     const now = Date.now();
     if (now - lastToggleTime.current < 300) return;
@@ -140,7 +142,7 @@ const VideoModal = ({ src, alt, onClose }) => {
       else if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       return next;
     });
-  }, [resetHideTimer, offsetY]);
+  }, [resetHideTimer, offsetY, isFinePointer]);
 
   const handleEnd = useCallback((e) => {
     if (!isDragging.current) return;

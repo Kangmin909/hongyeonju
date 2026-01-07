@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 
-// 전역 변수 객체 (컴포넌트 외부에서도 접근 가능)
+/**
+ * Global variable for non-React access to app data.
+ * Useful for legacy scripts or outside of React tree.
+ */
 export const appDataStore = {
   home: null,
   about: null,
@@ -12,13 +15,60 @@ export const appDataStore = {
   error: null,
 };
 
-// Context 생성
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+
+// Create Context
 const AppDataContext = createContext();
 
-// Provider 컴포넌트
-export const AppDataProvider = ({ children }) => {
-  const CACHE_DURATION = 30 * 60 * 1000; // 30분으로 변경
+/**
+ * Preload media (images) from the fetched data to improve UX.
+ * @param {Object} appData - The fetched application data.
+ */
+const preloadMedia = (appData) => {
+  const urls = [];
+  
+  // 1. Home Image
+  if (appData.home?.link) urls.push(appData.home.link);
+  
+  // 2. Exhibition Images
+  if (Array.isArray(appData.exhibitions)) {
+    appData.exhibitions.forEach(ex => {
+      if (ex.link) urls.push(ex.link);
+      if (Array.isArray(ex.images)) {
+        ex.images.forEach(img => {
+          if (img.link) urls.push(img.link);
+        });
+      }
+    });
+  }
+  
+  // 3. Works Images
+  if (Array.isArray(appData.works)) {
+    appData.works.forEach(work => {
+      if (work.link) urls.push(work.link);
+    });
+  }
 
+  // Deduplicate and preload
+  const uniqueUrls = [...new Set(urls)];
+  uniqueUrls.forEach(url => {
+    // Basic check: preload only if it looks like an image or not explicitly mp4
+    const isImage = /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url) || !url.includes('.mp4');
+    
+    if (isImage) {
+      const img = new Image();
+      img.src = url;
+    }
+  });
+};
+
+/**
+ * AppDataProvider Component
+ * Manages global application state, data fetching, and caching.
+ */
+export const AppDataProvider = ({ children }) => {
+  
+  // Initialize state from local storage cache if valid
   const getInitialData = () => {
     try {
       const cachedData = localStorage.getItem('appData');
@@ -31,7 +81,7 @@ export const AppDataProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      console.error("캐시 데이터를 불러오는 데 실패했습니다.", error);
+      console.error("Failed to load cached data:", error);
     }
     
     return {
@@ -54,14 +104,18 @@ export const AppDataProvider = ({ children }) => {
     setIsMenuOpen(prev => !prev);
   }, []);
 
-  // 모든 API를 한 번에 호출
+  /**
+   * Fetches all required data from the API.
+   * @param {boolean} force - If true, ignores cache and forces a fetch.
+   */
   const fetchAllData = useCallback(async (force = false) => {
     if (isLoading.current) return;
     
-    // 강제 호출이 아니고 이미 데이터가 유효 기간 내에 있다면 리턴
+    // Check cache validity unless forced
     if (!force) {
       const cachedTimestamp = localStorage.getItem('appDataTimestamp');
       if (cachedTimestamp && (Date.now() - parseInt(cachedTimestamp, 10)) < CACHE_DURATION) {
+        // If critical data exists, skip fetch
         if (data.home && data.exhibitions) return; 
       }
     }
@@ -89,14 +143,15 @@ export const AppDataProvider = ({ children }) => {
         works: worksRes,
       };
 
+      // Update cache
       localStorage.setItem('appData', JSON.stringify(newData));
       localStorage.setItem('appDataTimestamp', Date.now().toString());
 
       const finalState = { ...newData, loading: false, error: null };
       setData(finalState);
-      Object.assign(appDataStore, finalState);
+      Object.assign(appDataStore, finalState); // Update global store
 
-      // 데이터 로드 후 미디어 프리로딩 실행
+      // Preload media after fetch
       preloadMedia(newData);
 
     } catch (error) {
@@ -107,57 +162,18 @@ export const AppDataProvider = ({ children }) => {
     } finally {
       isLoading.current = false;
     }
-  }, [data, CACHE_DURATION]);
+  }, [data]);
 
-  // 미디어 프리로딩 함수 (이미지 위주)
-  const preloadMedia = (appData) => {
-    const urls = [];
-    
-    // 1. 홈 이미지 추출
-    if (appData.home?.link) urls.push(appData.home.link);
-    
-    // 2. 전시 이미지 추출
-    if (Array.isArray(appData.exhibitions)) {
-      appData.exhibitions.forEach(ex => {
-        if (ex.link) urls.push(ex.link);
-        if (Array.isArray(ex.images)) {
-          ex.images.forEach(img => {
-            if (img.link) urls.push(img.link);
-          });
-        }
-      });
-    }
-    
-    // 3. 작품 이미지 추출
-    if (Array.isArray(appData.works)) {
-      appData.works.forEach(work => {
-        if (work.link) urls.push(work.link);
-      });
-    }
-
-    // 중복 제거 후 프리로딩
-    const uniqueUrls = [...new Set(urls)];
-    uniqueUrls.forEach(url => {
-      // 영상은 프리로딩이 무거울 수 있으므로 이미지만 처리
-      const isImage = /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url) || !url.includes('.mp4');
-      
-      if (isImage) {
-        const img = new Image();
-        img.src = url;
-      }
-    });
-  };
-
-  // 강제 새로고침 함수
   const refreshData = useCallback(() => {
     return fetchAllData(true);
   }, [fetchAllData]);
 
+  // Effect: Preload media if data is already available (e.g. from cache)
   useEffect(() => {
     if (data.home || data.exhibitions) {
       preloadMedia(data);
     }
-  }, [data]); // data 변경 시 실행
+  }, [data]);
 
   const value = {
     ...data,
@@ -166,7 +182,6 @@ export const AppDataProvider = ({ children }) => {
     fetchAllData,
     refreshData,
   };
-
 
   return (
     <AppDataContext.Provider value={value}>
@@ -184,6 +199,5 @@ export const useAppData = () => {
   return context;
 };
 
-// 전역 변수 직접 접근 함수 (컴포넌트 외부에서도 사용 가능)
+// Access global store
 export const getAppData = () => appDataStore;
-

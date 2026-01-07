@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useTouchHandlers } from '../hooks/useTouchHandlers';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import './ImageModal.css';
 
 const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
+  const isFinePointer = useMediaQuery('(pointer: fine)');
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -18,21 +21,17 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       const hideTimerRef = useRef(null);
       const resizeTimerRef = useRef(null);
     
-        const state = useRef({
-    
-          dragType: null,
-    
-          isDragging: false,
-    
-          hasMoved: false,
-    
-          initialClient: { x: 0, y: 0 }, // 절대 좌표 저장용
-    
-          initialZoom: 1,
-    
-          initialOffset: { x: 0, y: 0 }
-    
-        });
+    const state = useRef({
+      dragType: null,
+      isDragging: false,
+      hasMoved: false,
+      initialClient: { x: 0, y: 0 },
+      initialZoom: 1,
+      initialOffset: { x: 0, y: 0 },
+      isPinching: false,
+      initialPinchDistance: 0,
+      initialPinchCenter: { x: 0, y: 0 }
+    });
     
       
     
@@ -185,7 +184,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     };
 
     const handleGlobalMouseMove = () => {
-      if (window.matchMedia('(pointer: fine)').matches) {
+      if (isFinePointer) {
         setShowControls(true);
         resetHideTimer();
       }
@@ -200,7 +199,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('mousemove', handleGlobalMouseMove);
     };
-  }, [handleNext, handlePrev, resetHideTimer]);
+  }, [handleNext, handlePrev, resetHideTimer, isFinePointer]);
     
       
     
@@ -212,239 +211,29 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
       
     
-        const getClampedOffset = useCallback((newX, newY, currentZoom) => {
-    
-          if (!viewportRef.current) return { x: newX, y: newY };
-    
-          const vWidth = viewportRef.current.offsetWidth;
-    
-          const vHeight = viewportRef.current.offsetHeight;
-    
-          const iWidth = vWidth * currentZoom;
-    
-          const iHeight = vHeight * currentZoom;
-    
-          let maxX = 0, maxY = 0;
-    
-          if (iWidth > vWidth) maxX = (iWidth - vWidth) / 2;
-    
-          if (iHeight > vHeight) maxY = (iHeight - vHeight) / 2;
-    
-          return {
-    
-            x: Math.max(-maxX, Math.min(maxX, newX)),
-    
-            y: Math.max(-maxY, Math.min(maxY, newY))
-    
-          };
-    
-        }, []);
-    
-      
-    
-        const handleTouchStart = (e) => {
-    
-          resetHideTimer();
-
-          if (e.touches.length === 2) {
-            state.current.isPinching = true;
-            
-            const t1 = e.touches[0];
-            const t2 = e.touches[1];
-            
-            state.current.initialPinchDistance = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
-            state.current.initialZoom = zoom;
-            state.current.initialOffset = offset;
-
-            // 뷰포트 기준 핀치 중심점 계산
-            if (viewportRef.current) {
-              const rect = viewportRef.current.getBoundingClientRect();
-              const vCenterX = rect.left + rect.width / 2;
-              const vCenterY = rect.top + rect.height / 2;
-              state.current.initialPinchCenter = {
-                x: (t1.clientX + t2.clientX) / 2 - vCenterX,
-                y: (t1.clientY + t2.clientY) / 2 - vCenterY
-              };
-            } else {
-              state.current.initialPinchCenter = { x: 0, y: 0 };
-            }
-            return;
-          }
-    
-          const touch = e.touches[0];
-
-          // 아이폰의 시스템 뒤로가기 제스처(왼쪽 엣지 스와이프)와 충돌을 방지하기 위해 
-          // 화면 왼쪽 끝(40px 이내)에서 시작되는 터치는 드래그 로직에서 제외합니다.
-          if (touch.clientX < 40) return; 
-    
-          state.current.isDragging = true;
-    
-          setIsDraggingState(true);
-    
-          state.current.initialClient = { x: touch.clientX, y: touch.clientY };
-    
-          state.current.initialZoom = zoom;
-    
-          state.current.initialOffset = offset;
-    
-          state.current.hasMoved = false;
-    
-          state.current.dragType = null;
-    
-        };
-    
-      
-    
-        const handleTouchMove = (e) => {
-          if (state.current.isPinching && e.touches.length === 2) {
-            const t1 = e.touches[0];
-            const t2 = e.touches[1];
-            
-            const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
-            const scale = dist / state.current.initialPinchDistance;
-            const newZoom = Math.min(Math.max(state.current.initialZoom * scale, 1), 5);
-            
-            // 줌 비율에 따른 새로운 오프셋 계산 (핀치 중심점 기준)
-            let newX = 0, newY = 0;
-            if (viewportRef.current) {
-               const rect = viewportRef.current.getBoundingClientRect();
-               const vCenterX = rect.left + rect.width / 2;
-               const vCenterY = rect.top + rect.height / 2;
-               const currentPinchCenter = {
-                 x: (t1.clientX + t2.clientX) / 2 - vCenterX,
-                 y: (t1.clientY + t2.clientY) / 2 - vCenterY
-               };
-
-               const ratio = newZoom / state.current.initialZoom;
-               const dx = state.current.initialPinchCenter.x - state.current.initialOffset.x;
-               const dy = state.current.initialPinchCenter.y - state.current.initialOffset.y;
-               
-               newX = currentPinchCenter.x - dx * ratio;
-               newY = currentPinchCenter.y - dy * ratio;
-            }
-
-            setZoom(newZoom);
-            setOffset(getClampedOffset(newX, newY, newZoom));
-            return;
-          }
-    
-          if (!state.current.isDragging || e.touches.length > 1) return;
-    
-          const touch = e.touches[0];
-    
-          const dx = touch.clientX - state.current.initialClient.x;
-    
-          const dy = touch.clientY - state.current.initialClient.y;
-    
-          
-    
-          if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
-    
-            state.current.hasMoved = true;
-    
-          }
-    
-      
-    
-          if (zoom > 1) {
-    
-            setOffset(getClampedOffset(state.current.initialOffset.x + dx, state.current.initialOffset.y + dy, zoom));
-    
-          } else {
-    
-            if (!state.current.dragType) {
-    
-              if (Math.abs(dy) > Math.abs(dx) && dy > 0) state.current.dragType = 'dismiss';
-    
-              else if (Math.abs(dx) > Math.abs(dy)) state.current.dragType = 'swipe';
-    
-            }
-    
-            
-    
-            if (state.current.dragType === 'dismiss') {
-    
-              setOffset({ x: 0, y: Math.max(0, dy) });
-    
-            } else if (state.current.dragType === 'swipe') {
-    
-              let newX = state.current.initialOffset.x + dx;
-              if (currentIndex === 0 && newX > 0) newX = newX * 0.3;
-              if (currentIndex === images.length - 1 && newX < 0) newX = newX * 0.3;
-              setOffset({ x: newX, y: 0 });
-    
-            }
-    
-          }
-    
-        };
-    
-      
-    
-        const handleDoubleTapZoom = useCallback((clientX, clientY, target) => {
-    
-          if (zoom > 1) {
-    
-            resetZoom();
-    
-          } else {
-    
-            const rect = target.getBoundingClientRect();
-    
-            const x = clientX - (rect.left + rect.width / 2);
-    
-            const y = clientY - (rect.top + rect.height / 2);
-    
-            const targetZoom = 2.5;
-    
-            setZoom(targetZoom);
-    
-            setOffset(getClampedOffset(-x * (targetZoom - 1), -y * (targetZoom - 1), targetZoom));
-    
-          }
-    
-        }, [zoom, resetZoom, getClampedOffset]);
-    
-      
-    
-  const handleTouchEnd = (e) => {
-    if (state.current.isPinching && e.touches.length < 2) {
-      state.current.isPinching = false;
-      // 핀치 종료 후 손가락이 하나 남았다면 드래그 상태로 부드럽게 전환
-      if (e.touches.length === 1) {
-        const touch = e.touches[0];
-        state.current.isDragging = true;
-        setIsDraggingState(true);
-        state.current.initialClient = { x: touch.clientX, y: touch.clientY };
-        state.current.initialOffset = offset; // 현재 오프셋을 기준으로 드래그 시작
-        state.current.initialZoom = zoom;
-        state.current.hasMoved = false;
-        state.current.dragType = null;
-      }
-      return;
-    }
-
-    if (e.touches.length > 0) { 
-      // 다중 터치 시 처리
-      return; 
-    }
-
-    if (state.current.isDragging && zoom === 1) {
-      if (state.current.dragType === 'dismiss' && offset.y > 100) {
-        onClose();
-        return;
-      }
-      else if (state.current.dragType === 'swipe') {
-        const threshold = containerWidth * 0.2; // 화면 너비의 20% 이상 스와이프해야 넘어가도록
-        if (offset.x > threshold) handlePrev();
-        else if (offset.x < -threshold) handleNext();
-      }
-      setOffset({ x: 0, y: 0 });
-    }
-    state.current.isDragging = false;
-    setIsDraggingState(false);
-    state.current.dragType = null;
-  };
+        const {
+          handleTouchStart,
+          handleTouchMove,
+          handleTouchEnd,
+          handleDoubleTapZoom,
+          getClampedOffset
+        } = useTouchHandlers({
+          zoom,
+          setZoom,
+          offset,
+          setOffset,
+          viewportRef,
+          currentIndex,
+          imagesLength: images.length,
+          containerWidth,
+          onClose,
+          handlePrev,
+          handleNext,
+          resetHideTimer,
+          setIsDraggingState,
+          state,
+          resetZoom
+        });
     
       
     
