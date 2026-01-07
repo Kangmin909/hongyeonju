@@ -8,110 +8,76 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const [containerWidth, setContainerWidth] = useState(window.innerWidth);
-    const [showControls, setShowControls] = useState(true);
-    const [isDraggingState, setIsDraggingState] = useState(false); // 드래그 중임을 알리는 상태
-    const [isMounting, setIsMounting] = useState(true); // 초기 마운트 상태 추가
-    const [isResizing, setIsResizing] = useState(false); // 화면 회전/리사이즈 상태 추가
+  const [containerWidth, setContainerWidth] = useState(window.innerWidth);
+  const [showControls, setShowControls] = useState(true);
+  const [isDraggingState, setIsDraggingState] = useState(false);
+  const [isMounting, setIsMounting] = useState(true);
+  const [isResizing, setIsResizing] = useState(false);
     
-      const viewportRef = useRef(null);
+  const viewportRef = useRef(null);
+  const clickTimerRef = useRef(null);
+  const hideTimerRef = useRef(null);
+  const resizeTimerRef = useRef(null);
     
-      const clickTimerRef = useRef(null);
-    
-      const hideTimerRef = useRef(null);
-      const resizeTimerRef = useRef(null);
-    
-    const state = useRef({
-      dragType: null,
-      isDragging: false,
-      hasMoved: false,
-      initialClient: { x: 0, y: 0 },
-      initialZoom: 1,
-      initialOffset: { x: 0, y: 0 },
-      isPinching: false,
-      initialPinchDistance: 0,
-      initialPinchCenter: { x: 0, y: 0 }
-    });
-    
-      
-    
-        const resetHideTimer = useCallback(() => {
-    
-          if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    
-          if (window.matchMedia('(pointer: fine)').matches) {
-    
-            hideTimerRef.current = setTimeout(() => {
-    
-              setShowControls(false);
-    
-            }, 2500);
-    
-          }
-    
-        }, []);
-    
-      
-    
-        const resetZoom = useCallback(() => {
-    
-          setZoom(1);
-    
-          setOffset({ x: 0, y: 0 });
-    
-          state.current.dragType = null;
-    
-        }, []);
-    
-      
-    
-        const handleNext = useCallback(() => {
-    
-          if (currentIndex < images.length - 1) {
-    
-            setCurrentIndex(prev => prev + 1);
-    
-            resetZoom();
-    
-          }
-    
-        }, [currentIndex, images.length, resetZoom]);
-    
-      
-    
-        const handlePrev = useCallback(() => {
-    
-          if (currentIndex > 0) {
-    
-            setCurrentIndex(prev => prev - 1);
-    
-            resetZoom();
-    
-          }
-    
-        }, [currentIndex, resetZoom]);
-    
-      
-    
+  const state = useRef({
+    dragType: null,
+    isDragging: false,
+    hasMoved: false,
+    initialClient: { x: 0, y: 0 },
+    initialZoom: 1,
+    initialOffset: { x: 0, y: 0 },
+    isPinching: false,
+    initialPinchDistance: 0,
+    initialPinchCenter: { x: 0, y: 0 }
+  });
+
+  const resetHideTimer = useCallback(() => {
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    if (isFinePointer) {
+      hideTimerRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 2500);
+    }
+  }, [isFinePointer]);
+
+  const resetZoom = useCallback(() => {
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
+    state.current.dragType = null;
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (currentIndex < images.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      resetZoom();
+    }
+  }, [currentIndex, images.length, resetZoom]);
+
+  const handlePrev = useCallback(() => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+      resetZoom();
+    }
+  }, [currentIndex, resetZoom]);
+
   const onCloseRef = useRef(onClose);
   const isPopStateRef = useRef(false);
-  const initialPathRef = useRef(window.location.pathname);
   
   useEffect(() => {
     onCloseRef.current = onClose;
   }, [onClose]);
 
-  // Effect 1: History & Scroll Locking (Runs ONCE on mount/unmount)
+  // Effect 1: History & Scroll Locking (Position: Fixed 방식 원복)
   useEffect(() => {
     const scrollY = window.scrollY;
-    
-    // 브라우저 기본 스크롤 복원 비활성화 (위치 튀는 현상 방지)
+    const initialPath = window.location.pathname;
     const originalScrollRestoration = window.history.scrollRestoration;
+
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
 
-    // 현재 스크롤 위치를 저장하고 body를 고정합니다.
+    // 현재 위치 고정
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
@@ -122,37 +88,27 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       window.history.pushState({ modal: 'image' }, '', currentUrl);
     }, 10);
     
-    const handlePopState = (e) => {
+    const handlePopState = () => {
       isPopStateRef.current = true;
       if (onCloseRef.current) onCloseRef.current();
     };
     
     window.addEventListener('popstate', handlePopState);
-    
-    const timer = setTimeout(() => {
-      setIsMounting(false);
-    }, 50);
+    const timer = setTimeout(() => setIsMounting(false), 50);
 
     const updateWidth = () => {
-      if (viewportRef.current) {
-        setContainerWidth(viewportRef.current.getBoundingClientRect().width);
-      }
+      if (viewportRef.current) setContainerWidth(viewportRef.current.getBoundingClientRect().width);
     };
 
     const resizeObserver = new ResizeObserver(() => {
       setIsResizing(true);
       updateWidth();
       resetZoom();
-      
       if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
-      resizeTimerRef.current = setTimeout(() => {
-        setIsResizing(false);
-      }, 300);
+      resizeTimerRef.current = setTimeout(() => setIsResizing(false), 300);
     });
 
-    if (viewportRef.current) {
-      resizeObserver.observe(viewportRef.current);
-    }
+    if (viewportRef.current) resizeObserver.observe(viewportRef.current);
     
     return () => {
       window.removeEventListener('popstate', handlePopState);
@@ -163,9 +119,9 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       }
 
       const scrollPos = document.body.style.top;
-      const isSamePage = window.location.pathname === initialPathRef.current;
+      const currentPath = window.location.pathname;
 
-      // 스타일 제거
+      // 스타일 복구
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
@@ -175,12 +131,10 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
         window.history.scrollRestoration = originalScrollRestoration || 'auto';
       }
 
-      // 같은 페이지일 때만 수동 스크롤 복구 (페이지 전환 시에는 브라우저에 맡김)
-      if (scrollPos && isSamePage) {
+      // 같은 페이지일 때만 수동 스크롤 복구
+      if (scrollPos && currentPath === initialPath) {
         const restoreY = Math.abs(parseInt(scrollPos, 10));
-        requestAnimationFrame(() => {
-          window.scrollTo(0, restoreY);
-        });
+        requestAnimationFrame(() => window.scrollTo(0, restoreY));
       }
       
       clearTimeout(timer);
@@ -189,30 +143,21 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     };
   }, [resetZoom]);
 
-  // Effect 2: Event Listeners (Runs when handlers change)
+  // Effect 2: Event Listeners
   useEffect(() => {
     resetHideTimer();
-
     const handleKeyDown = (e) => {
       setShowControls(true);
       resetHideTimer();
       if (e.key === 'ArrowRight') handleNext();
       if (e.key === 'ArrowLeft') handlePrev();
-      if (e.key === 'Escape') {
-        if (onCloseRef.current) onCloseRef.current();
-      }
+      if (e.key === 'Escape') onCloseRef.current?.();
     };
-
     const handleGlobalMouseMove = () => {
-      if (isFinePointer) {
-        setShowControls(true);
-        resetHideTimer();
-      }
+      if (isFinePointer) { setShowControls(true); resetHideTimer(); }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('mousemove', handleGlobalMouseMove);
-
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
@@ -220,186 +165,90 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       window.removeEventListener('mousemove', handleGlobalMouseMove);
     };
   }, [handleNext, handlePrev, resetHideTimer, isFinePointer]);
-    
-      
-    
-          
-    
-      
-    
-              
-    
-      
-    
-        const {
-          handleTouchStart,
-          handleTouchMove,
-          handleTouchEnd,
-          handleDoubleTapZoom,
-          getClampedOffset
-        } = useTouchHandlers({
-          zoom,
-          setZoom,
-          offset,
-          setOffset,
-          viewportRef,
-          currentIndex,
-          imagesLength: images.length,
-          containerWidth,
-          onClose,
-          handlePrev,
-          handleNext,
-          resetHideTimer,
-          setIsDraggingState,
-          state,
-          resetZoom
+
+  const {
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    handleDoubleTapZoom,
+    getClampedOffset
+  } = useTouchHandlers({
+    zoom, setZoom, offset, setOffset, viewportRef, currentIndex,
+    imagesLength: images.length, containerWidth, onClose,
+    handlePrev, handleNext, resetHideTimer, setIsDraggingState, state, resetZoom
+  });
+
+  const handleContainerClick = (e) => {
+    if (state.current.hasMoved) return;
+    const { clientX, clientY, target } = e;
+    if (clickTimerRef.current) {
+      clearTimeout(clickTimerRef.current);
+      clickTimerRef.current = null;
+      handleDoubleTapZoom(clientX, clientY, target);
+    } else {
+      clickTimerRef.current = setTimeout(() => {
+        setShowControls(prev => {
+          const next = !prev;
+          if (next) resetHideTimer();
+          else if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+          return next;
         });
-    
-      
-    
-        const handleContainerClick = (e) => {
-    
-          if (state.current.hasMoved) return;
-    
-          
-    
-          const clientX = e.clientX;
-    
-          const clientY = e.clientY;
-    
-          const target = e.target;
-    
-      
-    
-          if (clickTimerRef.current) {
-    
-            clearTimeout(clickTimerRef.current);
-    
-            clickTimerRef.current = null;
-    
-            handleDoubleTapZoom(clientX, clientY, target);
-    
-          } else {
-    
-            clickTimerRef.current = setTimeout(() => {
-    
-              setShowControls(prev => {
-    
-                const next = !prev;
-    
-                if (next) resetHideTimer();
-    
-                else if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    
-                return next;
-    
-              });
-    
-              clickTimerRef.current = null;
-    
-            }, 250);
-    
-          }
-    
-        };
-    
-      
-    
-        const handleMouseDown = useCallback((e) => {
-    
-          resetHideTimer();
-    
-          state.current.isDragging = true;
-    
-          setIsDraggingState(true);
-    
-          state.current.initialClient = { x: e.clientX, y: e.clientY };
-    
-          state.current.initialOffset = offset;
-    
-          state.current.hasMoved = false;
-    
-          state.current.dragType = null;
-    
-        }, [offset, resetHideTimer]);
-    
-      
-    
-        const handleMouseMove = useCallback((e) => {
-    
-          if (!state.current.isDragging || e.touches) return;
-    
-          
-    
-          const dx = e.clientX - state.current.initialClient.x;
-    
-          const dy = e.clientY - state.current.initialClient.y;
-    
-          
-    
-          if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
-    
-            state.current.hasMoved = true;
-    
-            setShowControls(true);
-    
-            resetHideTimer();
-    
-          }
-    
-          
-    
-          if (zoom > 1) {
-    
-            setOffset(getClampedOffset(state.current.initialOffset.x + dx, state.current.initialOffset.y + dy, zoom));
-    
-          } else {
-    
-            if (!state.current.dragType) {
-    
-              if (Math.abs(dy) > Math.abs(dx) && dy > 0) state.current.dragType = 'dismiss';
-    
-              else if (Math.abs(dx) > Math.abs(dy)) state.current.dragType = 'swipe';
-    
-            }
-    
-            
-    
-            if (state.current.dragType === 'dismiss') {
-    
-              setOffset({ x: 0, y: Math.max(0, dy) });
-    
-            } else if (state.current.dragType === 'swipe') {
-    
-              let newX = state.current.initialOffset.x + dx;
-              if (currentIndex === 0 && newX > 0) newX = newX * 0.3;
-              if (currentIndex === images.length - 1 && newX < 0) newX = newX * 0.3;
-              setOffset({ x: newX, y: 0 });
-    
-            }
-    
-          }
-    
-        }, [zoom, getClampedOffset, resetHideTimer, currentIndex, images.length]);
-    
-      
+        clickTimerRef.current = null;
+      }, 250);
+    }
+  };
+
+  const handleMouseDown = useCallback((e) => {
+    resetHideTimer();
+    state.current.isDragging = true;
+    setIsDraggingState(true);
+    state.current.initialClient = { x: e.clientX, y: e.clientY };
+    state.current.initialOffset = offset;
+    state.current.hasMoved = false;
+    state.current.dragType = null;
+  }, [offset, resetHideTimer]);
+
+  const handleMouseMove = useCallback((e) => {
+    if (!state.current.isDragging || e.touches) return;
+    const dx = e.clientX - state.current.initialClient.x;
+    const dy = e.clientY - state.current.initialClient.y;
+    if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+      state.current.hasMoved = true;
+      setShowControls(true);
+      resetHideTimer();
+    }
+    if (zoom > 1) {
+      setOffset(getClampedOffset(state.current.initialOffset.x + dx, state.current.initialOffset.y + dy, zoom));
+    } else {
+      if (!state.current.dragType) {
+        if (Math.abs(dy) > Math.abs(dx) && dy > 0) state.current.dragType = 'dismiss';
+        else if (Math.abs(dx) > Math.abs(dy)) state.current.dragType = 'swipe';
+      }
+      if (state.current.dragType === 'dismiss') {
+        setOffset({ x: 0, y: Math.max(0, dy) });
+      } else if (state.current.dragType === 'swipe') {
+        let newX = state.current.initialOffset.x + dx;
+        if (currentIndex === 0 && newX > 0) newX = newX * 0.3;
+        if (currentIndex === images.length - 1 && newX < 0) newX = newX * 0.3;
+        setOffset({ x: newX, y: 0 });
+      }
+    }
+  }, [zoom, getClampedOffset, resetHideTimer, currentIndex, images.length]);
 
   const handleMouseUp = useCallback(() => {
     if (state.current.isDragging && zoom === 1) {
-      if (state.current.dragType === 'dismiss' && offset.y > 100) {
-        onClose();
-        return;
-      }
+      if (state.current.dragType === 'dismiss' && offset.y > 100) { onClose(); return; }
       else if (state.current.dragType === 'swipe') {
-        if (offset.x > 80) handlePrev();
-        else if (offset.x < -80) handleNext();
+        const threshold = containerWidth * 0.2;
+        if (offset.x > threshold) handlePrev();
+        else if (offset.x < -threshold) handleNext();
       }
       setOffset({ x: 0, y: 0 });
     }
     state.current.isDragging = false;
     setIsDraggingState(false);
     state.current.dragType = null;
-  }, [zoom, offset.y, offset.x, handleNext, handlePrev, onClose]);
+  }, [zoom, offset.y, offset.x, handleNext, handlePrev, onClose, containerWidth]);
 
   const handleWheel = useCallback((e) => {
     e.preventDefault();
@@ -407,18 +256,15 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     const newZoom = Math.min(Math.max(zoom + delta, 1), 5);
     if (newZoom === zoom) return;
     if (newZoom === 1) { resetZoom(); return; }
-    
     if (!viewportRef.current) return;
     const rect = viewportRef.current.getBoundingClientRect();
     const mouseX = e.clientX - (rect.left + rect.width / 2);
     const mouseY = e.clientY - (rect.top + rect.height / 2);
     const ratio = newZoom / zoom;
-    
     setZoom(newZoom);
     setOffset(getClampedOffset(mouseX - (mouseX - offset.x) * ratio, mouseY - (mouseY - offset.y) * ratio, newZoom));
   }, [zoom, offset, resetZoom, getClampedOffset]);
 
-  // 오버레이 불투명도 계산
   const overlayOpacity = state.current.dragType === 'dismiss' ? Math.max(1 - offset.y / 600, 0) : 1;
 
   return (
@@ -428,52 +274,35 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
         backgroundColor: `rgba(0, 0, 0, ${1.0 * overlayOpacity})`,
         transform: state.current.dragType === 'dismiss' ? `translate3d(0, ${offset.y}px, 0)` : 'none'
       }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp} 
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} 
+      onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}
       onClick={handleContainerClick}
     >
-      <div 
-        className="image-modal-content-container"
-      >
-        {/* 상단바 배경 및 컨트롤 */}
+      <div className="image-modal-content-container">
         <div className={`image-modal-header-bar ${!showControls ? 'hidden' : ''}`}>
-          <button className="modal-universal-back-btn" onClick={(e) => { e.stopPropagation(); onClose(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} aria-label="Back">
+          <button className="modal-universal-back-btn" onClick={(e) => { e.stopPropagation(); onClose(); }} aria-label="Back">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           </button>
           <div className="image-modal-info">{currentIndex + 1} / {images.length}</div>
         </div>
-        
-        <button className={`modal-nav-btn prev ${currentIndex === 0 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handlePrev(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} disabled={currentIndex === 0}>
+        <button className={`modal-nav-btn prev ${currentIndex === 0 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handlePrev(); }} disabled={currentIndex === 0}>
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </button>
-        <button className={`modal-nav-btn next ${currentIndex === images.length - 1 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handleNext(); }} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} disabled={currentIndex === images.length - 1}>
+        <button className={`modal-nav-btn next ${currentIndex === images.length - 1 ? 'disabled' : ''} ${!showControls ? 'hidden' : ''}`} onClick={(e) => { e.stopPropagation(); handleNext(); }} disabled={currentIndex === images.length - 1}>
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
-
         <div className="image-modal-wrapper fullscreen">
           <div className="image-modal-viewport fullscreen" ref={viewportRef}>
-            <div 
-              className="slider-container"
-              style={{
+            <div className="slider-container" style={{
                 transform: `translate3d(${-currentIndex * (containerWidth + 40) + (state.current.dragType === 'swipe' ? offset.x : 0)}px, 0, 0)`,
                 transition: (isDraggingState || isMounting || isResizing) ? 'none' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
+              }}>
               {images.map((img, idx) => (
                 <div key={idx} className="slide-item">
-                  <div 
-                    className="media-movable-content"
-                    style={idx === currentIndex ? { 
+                  <div className="media-movable-content" style={idx === currentIndex ? { 
                       transform: `translate(${zoom > 1 ? offset.x : 0}px, ${zoom > 1 ? offset.y : 0}px) scale(${zoom})`,
                       transition: isDraggingState ? 'none' : 'transform 0.3s cubic-bezier(0.2, 0, 0, 1)' 
-                    } : {}}
-                    onWheel={idx === currentIndex ? handleWheel : null}
-                  >
+                    } : {}} onWheel={idx === currentIndex ? handleWheel : null}>
                     <img src={img.link} alt={img.title || ''} className="image-modal-img-internal fullscreen" draggable="false" />
                   </div>
                 </div>
@@ -481,8 +310,6 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
             </div>
           </div>
         </div>
-
-        {/* 하단바 배경 및 컨트롤 */}
         <div className={`image-modal-footer-bar ${!showControls ? 'hidden' : ''}`}>
           <div className="image-modal-caption">
             <div className="caption-title">{images[currentIndex]?.title}</div>

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// 한 번 로드된 이미지 URL을 기억하여 재방문 시 깜빡임을 방지합니다.
+const loadedImageCache = new Set();
 
 // 유튜브 URL에서 비디오 ID 추출
 const getYouTubeVideoId = (url) => {
@@ -27,7 +30,14 @@ const isYouTubeUrl = (url) => {
 // MediaDisplay 컴포넌트
 const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false, onClick }) => {
   const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  // 캐시에 있으면 즉시 로드된 상태로 시작합니다.
+  const [isLoaded, setIsLoaded] = useState(() => src ? loadedImageCache.has(src) : false);
+
+  useEffect(() => {
+    if (isLoaded && src) {
+      loadedImageCache.add(src);
+    }
+  }, [isLoaded, src]);
 
   if (hasError || !src) {
     return (
@@ -37,7 +47,6 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
     );
   }
 
-  // 로딩 중이거나 에러가 아닐 때 공통으로 적용할 래퍼 스타일
   const wrapperClass = `media-placeholder-wrapper ${!isLoaded ? 'loading-shimmer' : ''} ${className || ''}`;
 
   const clickOverlayStyle = {
@@ -96,7 +105,6 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
     );
   }
 
-  // 일반 이미지
   return (
     <div className={wrapperClass}>
       <img 
@@ -113,4 +121,3 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
 };
 
 export default MediaDisplay;
-
