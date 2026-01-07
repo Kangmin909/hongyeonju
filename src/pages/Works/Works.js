@@ -34,7 +34,7 @@ const Works = () => {
 
   const handleYearClick = (year) => {
     // replace: true를 사용하여 히스토리에 연도별로 쌓이지 않게 합니다.
-    navigate(`/works?year=${year}`, { replace: true });
+    navigate(`/works?year=${year}`, { replace: true, preventScrollReset: true });
   };
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

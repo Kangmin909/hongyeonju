@@ -48,7 +48,8 @@ const Exhibitions = () => {
 
   const handleYearClick = (year) => {
     // URL을 변경하면 컴포넌트가 자연스럽게 re-render 됩니다.
-    navigate(`/exhibition?year=${year}`, { replace: true });
+    // preventScrollReset: true를 사용하여 스크롤 위치 변화를 최소화합니다.
+    navigate(`/exhibition?year=${year}`, { replace: true, preventScrollReset: true });
   };
 
   const filteredExhibitions = safeExhibitions.filter(exhibition => exhibition.year === selectedYear);
