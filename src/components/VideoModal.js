@@ -26,6 +26,7 @@ const VideoModal = ({ src, alt, onClose }) => {
 
   const onCloseRef = useRef(onClose);
   const isPopStateRef = useRef(false);
+  const initialPathRef = useRef(window.location.pathname);
 
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -34,9 +35,16 @@ const VideoModal = ({ src, alt, onClose }) => {
   // Effect 1: History & Scroll Locking
   useEffect(() => {
     const scrollY = window.scrollY;
+
+    const originalScrollRestoration = window.history.scrollRestoration;
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
+    document.body.style.overflowY = 'hidden';
 
     const historyTimer = setTimeout(() => {
       const currentUrl = window.location.pathname + window.location.search;
@@ -58,12 +66,23 @@ const VideoModal = ({ src, alt, onClose }) => {
         window.history.back();
       }
 
-      const savedScrollY = document.body.style.top;
+      const scrollPos = document.body.style.top;
+      const isSamePage = window.location.pathname === initialPathRef.current;
+
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
-      if (savedScrollY) {
-        window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+      document.body.style.overflowY = '';
+      
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = originalScrollRestoration || 'auto';
+      }
+
+      if (scrollPos && isSamePage) {
+        const restoreY = Math.abs(parseInt(scrollPos, 10));
+        requestAnimationFrame(() => {
+          window.scrollTo(0, restoreY);
+        });
       }
     };
   }, []);

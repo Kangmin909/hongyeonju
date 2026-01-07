@@ -28,15 +28,11 @@ const Works = () => {
    .sort((a, b) => b - a);
   
   const queryParams = new URLSearchParams(location.search);
-  const initialYear = queryParams.get('year') || wholeYears[0] || '2025';
-  const [selectedYear, setSelectedYear] = useState(initialYear);
-
-  useEffect(() => {
-    setSelectedYear(initialYear);
-  }, [initialYear]);
+  const urlYear = queryParams.get('year');
+  // URL에서 연도를 가져오거나, 없으면 최신 연도를 사용합니다.
+  const selectedYear = urlYear || wholeYears[0] || '2025';
 
   const handleYearClick = (year) => {
-    setSelectedYear(year);
     // replace: true를 사용하여 히스토리에 연도별로 쌓이지 않게 합니다.
     navigate(`/works?year=${year}`, { replace: true });
   };
@@ -85,11 +81,6 @@ const Works = () => {
   const handleCloseImageModal = () => {
     setSelectedMedia(null);
   };
-
-  useEffect(() => {
-    setSelectedYear(initialYear);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search, initialYear]); // URL이 바뀌면 selectedYear도 다시 세팅
 
   return (
     <div className="works-container">

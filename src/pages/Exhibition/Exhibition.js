@@ -21,7 +21,7 @@ const Exhibitions = () => {
   }, [exhibitions, fetchAllData]);
 
   const queryParams = new URLSearchParams(location.search);
-  const [selectedYear, setSelectedYear] = useState(null);
+  const urlYear = queryParams.get('year');
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -43,11 +43,11 @@ const Exhibitions = () => {
   const wholeYears = [...new Set(safeExhibitions.map(exhibition => exhibition.year))]
    .sort((a, b) => b - a);
   
-  const initialYear = queryParams.get('year') || wholeYears[0] || '2025';
+  // URL에서 연도를 가져오거나, 없으면 최신 연도를 사용합니다. (상태 비저장형)
+  const selectedYear = urlYear || wholeYears[0] || '2025';
 
   const handleYearClick = (year) => {
-    setSelectedYear(year);
-    // replace: true를 사용하여 히스토리에 연도별로 쌓이지 않게 합니다.
+    // URL을 변경하면 컴포넌트가 자연스럽게 re-render 됩니다.
     navigate(`/exhibition?year=${year}`, { replace: true });
   };
 
@@ -62,11 +62,6 @@ const Exhibitions = () => {
   const handleExhibitionClick = (exhibition) => {
     navigate(`/exhibition/${exhibition.id}`); // 전시 세부페이지로 이동
   };
-
-  useEffect(() => {
-    setSelectedYear(initialYear);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search, initialYear]); // URL이 바뀌면 selectedYear도 다시 세팅
   
 
   return (

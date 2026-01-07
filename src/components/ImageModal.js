@@ -95,6 +95,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
   const onCloseRef = useRef(onClose);
   const isPopStateRef = useRef(false);
+  const initialPathRef = useRef(window.location.pathname);
   
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -103,11 +104,19 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
   // Effect 1: History & Scroll Locking (Runs ONCE on mount/unmount)
   useEffect(() => {
     const scrollY = window.scrollY;
+    
+    // 브라우저 기본 스크롤 복원 비활성화 (위치 튀는 현상 방지)
+    const originalScrollRestoration = window.history.scrollRestoration;
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    // 현재 스크롤 위치를 저장하고 body를 고정합니다.
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
+    document.body.style.overflowY = 'hidden';
 
-    // 약간의 지연 후 히스토리 상태를 추가하여 마운트 과정과의 충돌을 방지합니다.
     const historyTimer = setTimeout(() => {
       const currentUrl = window.location.pathname + window.location.search;
       window.history.pushState({ modal: 'image' }, '', currentUrl);
@@ -120,7 +129,6 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
     window.addEventListener('popstate', handlePopState);
     
-    // 첫 렌더링 후 애니메이션 활성화를 위해 약간의 지연 후 Mounting 상태 해제
     const timer = setTimeout(() => {
       setIsMounting(false);
     }, 50);
@@ -134,12 +142,12 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     const resizeObserver = new ResizeObserver(() => {
       setIsResizing(true);
       updateWidth();
-      resetZoom(); // 회전 시 확대/이동 초기화
+      resetZoom();
       
       if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
       resizeTimerRef.current = setTimeout(() => {
         setIsResizing(false);
-      }, 300); // 레이아웃 안정화 대기
+      }, 300);
     });
 
     if (viewportRef.current) {
@@ -150,24 +158,36 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       window.removeEventListener('popstate', handlePopState);
       clearTimeout(historyTimer);
       
-      // 뒤로가기 버튼이 아닌 UI를 통해 닫힌 경우에만 히스토리 백 수행
       if (!isPopStateRef.current && window.history.state?.modal === 'image') {
         window.history.back();
       }
 
-      const savedScrollY = document.body.style.top;
+      const scrollPos = document.body.style.top;
+      const isSamePage = window.location.pathname === initialPathRef.current;
+
+      // 스타일 제거
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
-      if (savedScrollY) {
-        window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+      document.body.style.overflowY = '';
+      
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = originalScrollRestoration || 'auto';
+      }
+
+      // 같은 페이지일 때만 수동 스크롤 복구 (페이지 전환 시에는 브라우저에 맡김)
+      if (scrollPos && isSamePage) {
+        const restoreY = Math.abs(parseInt(scrollPos, 10));
+        requestAnimationFrame(() => {
+          window.scrollTo(0, restoreY);
+        });
       }
       
       clearTimeout(timer);
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       resizeObserver.disconnect();
     };
-  }, [resetZoom]); // resetZoom은 useCallback으로 안정화되어 있음
+  }, [resetZoom]);
 
   // Effect 2: Event Listeners (Runs when handlers change)
   useEffect(() => {
