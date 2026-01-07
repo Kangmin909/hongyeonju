@@ -248,11 +248,26 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
 
           if (e.touches.length === 2) {
             state.current.isPinching = true;
-            state.current.initialPinchDistance = Math.hypot(
-              e.touches[0].clientX - e.touches[1].clientX,
-              e.touches[0].clientY - e.touches[1].clientY
-            );
+            
+            const t1 = e.touches[0];
+            const t2 = e.touches[1];
+            
+            state.current.initialPinchDistance = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
             state.current.initialZoom = zoom;
+            state.current.initialOffset = offset;
+
+            // 뷰포트 기준 핀치 중심점 계산
+            if (viewportRef.current) {
+              const rect = viewportRef.current.getBoundingClientRect();
+              const vCenterX = rect.left + rect.width / 2;
+              const vCenterY = rect.top + rect.height / 2;
+              state.current.initialPinchCenter = {
+                x: (t1.clientX + t2.clientX) / 2 - vCenterX,
+                y: (t1.clientY + t2.clientY) / 2 - vCenterY
+              };
+            } else {
+              state.current.initialPinchCenter = { x: 0, y: 0 };
+            }
             return;
           }
     
@@ -282,13 +297,34 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
     
         const handleTouchMove = (e) => {
           if (state.current.isPinching && e.touches.length === 2) {
-            const dist = Math.hypot(
-              e.touches[0].clientX - e.touches[1].clientX,
-              e.touches[0].clientY - e.touches[1].clientY
-            );
+            const t1 = e.touches[0];
+            const t2 = e.touches[1];
+            
+            const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
             const scale = dist / state.current.initialPinchDistance;
             const newZoom = Math.min(Math.max(state.current.initialZoom * scale, 1), 5);
+            
+            // 줌 비율에 따른 새로운 오프셋 계산 (핀치 중심점 기준)
+            let newX = 0, newY = 0;
+            if (viewportRef.current) {
+               const rect = viewportRef.current.getBoundingClientRect();
+               const vCenterX = rect.left + rect.width / 2;
+               const vCenterY = rect.top + rect.height / 2;
+               const currentPinchCenter = {
+                 x: (t1.clientX + t2.clientX) / 2 - vCenterX,
+                 y: (t1.clientY + t2.clientY) / 2 - vCenterY
+               };
+
+               const ratio = newZoom / state.current.initialZoom;
+               const dx = state.current.initialPinchCenter.x - state.current.initialOffset.x;
+               const dy = state.current.initialPinchCenter.y - state.current.initialOffset.y;
+               
+               newX = currentPinchCenter.x - dx * ratio;
+               newY = currentPinchCenter.y - dy * ratio;
+            }
+
             setZoom(newZoom);
+            setOffset(getClampedOffset(newX, newY, newZoom));
             return;
           }
     
@@ -374,6 +410,17 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
   const handleTouchEnd = (e) => {
     if (state.current.isPinching && e.touches.length < 2) {
       state.current.isPinching = false;
+      // 핀치 종료 후 손가락이 하나 남았다면 드래그 상태로 부드럽게 전환
+      if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        state.current.isDragging = true;
+        setIsDraggingState(true);
+        state.current.initialClient = { x: touch.clientX, y: touch.clientY };
+        state.current.initialOffset = offset; // 현재 오프셋을 기준으로 드래그 시작
+        state.current.initialZoom = zoom;
+        state.current.hasMoved = false;
+        state.current.dragType = null;
+      }
       return;
     }
 
