@@ -168,7 +168,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [resetZoom]); // resetZoom은 useCallback으로 안정화되어 있음
 
   // Effect 2: Event Listeners (Runs when handlers change)
   useEffect(() => {
@@ -245,6 +245,16 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
         const handleTouchStart = (e) => {
     
           resetHideTimer();
+
+          if (e.touches.length === 2) {
+            state.current.isPinching = true;
+            state.current.initialPinchDistance = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+            );
+            state.current.initialZoom = zoom;
+            return;
+          }
     
           const touch = e.touches[0];
 
@@ -271,6 +281,16 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       
     
         const handleTouchMove = (e) => {
+          if (state.current.isPinching && e.touches.length === 2) {
+            const dist = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+            );
+            const scale = dist / state.current.initialPinchDistance;
+            const newZoom = Math.min(Math.max(state.current.initialZoom * scale, 1), 5);
+            setZoom(newZoom);
+            return;
+          }
     
           if (!state.current.isDragging || e.touches.length > 1) return;
     
@@ -313,8 +333,8 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
             } else if (state.current.dragType === 'swipe') {
     
               let newX = state.current.initialOffset.x + dx;
-              if (currentIndex === 0 && newX > 0) newX = 0;
-              if (currentIndex === images.length - 1 && newX < 0) newX = 0;
+              if (currentIndex === 0 && newX > 0) newX = newX * 0.3;
+              if (currentIndex === images.length - 1 && newX < 0) newX = newX * 0.3;
               setOffset({ x: newX, y: 0 });
     
             }
@@ -352,6 +372,11 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
       
     
   const handleTouchEnd = (e) => {
+    if (state.current.isPinching && e.touches.length < 2) {
+      state.current.isPinching = false;
+      return;
+    }
+
     if (e.touches.length > 0) { 
       // 다중 터치 시 처리
       return; 
@@ -491,8 +516,8 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
             } else if (state.current.dragType === 'swipe') {
     
               let newX = state.current.initialOffset.x + dx;
-              if (currentIndex === 0 && newX > 0) newX = 0;
-              if (currentIndex === images.length - 1 && newX < 0) newX = 0;
+              if (currentIndex === 0 && newX > 0) newX = newX * 0.3;
+              if (currentIndex === images.length - 1 && newX < 0) newX = newX * 0.3;
               setOffset({ x: newX, y: 0 });
     
             }
@@ -579,7 +604,7 @@ const ImageModal = ({ images = [], initialIndex = 0, onClose }) => {
             <div 
               className="slider-container"
               style={{
-                transform: `translate3d(${-currentIndex * containerWidth + (state.current.dragType === 'swipe' ? offset.x : 0)}px, 0, 0)`,
+                transform: `translate3d(${-currentIndex * (containerWidth + 40) + (state.current.dragType === 'swipe' ? offset.x : 0)}px, 0, 0)`,
                 transition: (isDraggingState || isMounting || isResizing) ? 'none' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >

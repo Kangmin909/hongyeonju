@@ -8,8 +8,11 @@ const VideoModal = ({ src, alt, onClose }) => {
   const [isDraggingState, setIsDraggingState] = useState(false);
   const isDragging = useRef(false);
   const startY = useRef(0);
+  const startX = useRef(0);
   const initialOffsetY = useRef(0);
   const hideTimerRef = useRef(null); // 자동 숨김 타이머
+  const hasMoved = useRef(false);
+  const lastToggleTime = useRef(0);
 
   // 컨트롤 자동 숨김 타이머 초기화
   const resetHideTimer = useCallback(() => {
@@ -26,14 +29,13 @@ const VideoModal = ({ src, alt, onClose }) => {
     onCloseRef.current = onClose;
   }, [onClose]);
 
-  // Effect 1: History & Scroll Locking (Runs ONCE)
+  // Effect 1: History & Scroll Locking
   useEffect(() => {
     const scrollY = window.scrollY;
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
 
-    // 약간의 지연 후 히스토리 상태 추가
     const historyTimer = setTimeout(() => {
       const currentUrl = window.location.pathname + window.location.search;
       window.history.pushState({ modal: 'video' }, '', currentUrl);
@@ -50,7 +52,6 @@ const VideoModal = ({ src, alt, onClose }) => {
       window.removeEventListener('popstate', handlePopState);
       clearTimeout(historyTimer);
       
-      // 뒤로가기 버튼이 아닌 UI를 통해 닫힌 경우에만 히스토리 백 수행
       if (!isPopStateRef.current && window.history.state?.modal === 'video') {
         window.history.back();
       }
@@ -78,8 +79,10 @@ const VideoModal = ({ src, alt, onClose }) => {
     };
     
     const handleMouseMove = () => {
-      setShowControls(true);
-      resetHideTimer();
+      if (window.matchMedia('(pointer: fine)').matches) {
+        setShowControls(true);
+        resetHideTimer();
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -93,47 +96,73 @@ const VideoModal = ({ src, alt, onClose }) => {
   }, [resetHideTimer]);
 
   const handleStart = (e) => {
-    setShowControls(true);
-    resetHideTimer();
+    // resetHideTimer();
     isDragging.current = true;
     setIsDraggingState(true);
+    hasMoved.current = false;
     const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-    startY.current = clientY; // 현재 clientY 저장
-    initialOffsetY.current = offsetY; // 현재 오프셋 저장
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    startY.current = clientY;
+    startX.current = clientX;
+    initialOffsetY.current = offsetY;
   };
 
   const handleMove = (e) => {
     if (!isDragging.current) return;
-    setShowControls(true);
-    resetHideTimer();
     const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
     const dy = clientY - startY.current;
-    const newY = initialOffsetY.current + dy;
+    const dx = clientX - startX.current;
     
-    if (newY >= 0) {
-      setOffsetY(newY);
+    if (Math.abs(dy) > 20 || Math.abs(dx) > 20) {
+      hasMoved.current = true;
+      setShowControls(true);
+      resetHideTimer();
     }
+
+    const newY = initialOffsetY.current + dy;
+    if (newY >= 0) setOffsetY(newY);
   };
 
-  const handleEnd = useCallback(() => {
-    if (isDragging.current) {
-      if (offsetY > 100) {
-        onClose();
-        return;
-      } else {
-        setOffsetY(0);
+  const handleContainerClick = useCallback((e) => {
+    if (hasMoved.current || offsetY > 10) return;
+
+    // PC(마우스) 환경에서는 클릭으로 인한 토글 비활성화 (마우스 이동으로 제어)
+    if (window.matchMedia('(pointer: fine)').matches) return;
+
+    const now = Date.now();
+    if (now - lastToggleTime.current < 300) return;
+    lastToggleTime.current = now;
+
+    setShowControls(prev => {
+      const next = !prev;
+      if (next) resetHideTimer();
+      else if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      return next;
+    });
+  }, [resetHideTimer, offsetY]);
+
+  const handleEnd = useCallback((e) => {
+    if (!isDragging.current) return;
+
+    if (offsetY > 100) {
+      onClose();
+    } else {
+      setOffsetY(0);
+      // 배경 또는 내부 요소(비디오 등) 터치 시 토글
+      if (!hasMoved.current) {
+        handleContainerClick(e);
       }
     }
+
     isDragging.current = false;
     setIsDraggingState(false);
     startY.current = 0;
-  }, [offsetY, onClose]);
-
-  const handleContainerClick = (e) => {
-    // 클릭 시 컨트롤 토글
-    setShowControls(true);
-    resetHideTimer();
-  };
+    startX.current = 0;
+    setTimeout(() => {
+      hasMoved.current = false;
+    }, 150);
+  }, [offsetY, onClose, handleContainerClick]);
 
   const getYouTubeVideoId = (url) => {
     if (!url) return null;
@@ -151,7 +180,6 @@ const VideoModal = ({ src, alt, onClose }) => {
   const overlayOpacity = Math.max(1 - offsetY / 600, 0);
 
   if (!src) return null;
-
   const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
 
   return (
@@ -165,20 +193,24 @@ const VideoModal = ({ src, alt, onClose }) => {
       onTouchEnd={handleEnd} 
       onMouseLeave={handleEnd}
       onClick={handleContainerClick}
-      style={{ 
+      style={{
         backgroundColor: `rgba(0, 0, 0, ${1.0 * overlayOpacity})`,
         transform: `translate3d(0, ${offsetY}px, 0)`
       }}
     >
-      <div 
-        className="video-modal-content-container"
-      >
-        <button className={`video-modal-close-btn ${!showControls ? 'hidden' : ''}`} onClick={onClose} aria-label="Close">&times;</button>
+      <div className="video-modal-content-container">
+        <button 
+          className={`video-modal-close-btn ${!showControls ? 'hidden' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose(); 
+          }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          aria-label="Close"
+        >&times;</button>
         
-        <div 
-          className="video-modal-wrapper" 
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="video-modal-wrapper">
           {loading && <div className="video-modal-loader" />}
           
           {isYouTube ? (

@@ -108,7 +108,7 @@
   height: 100%;
   width: 100%;
   will-change: transform;
-  gap: 0 !important;
+  gap: 40px;
 }
 
 .slide-item {
@@ -225,6 +225,9 @@
   left: 10px; 
 }
 
+.modal-nav-btn.next { 
+  right: 10px; 
+}
 
 .modal-nav-btn.hidden {
   opacity: 0;
