@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './MediaDisplay.css';
 
 // 한 번 로드된 이미지 URL을 기억하여 재방문 시 깜빡임을 방지합니다.
 const loadedImageCache = new Set();
@@ -84,7 +85,10 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
     );
   }
 
-  if (src.endsWith('.mp4')) {
+  // Ensure src is a string before checking extension
+  const srcString = String(src || "");
+
+  if (srcString.toLowerCase().endsWith('.mp4')) {
     return (
       <div className={wrapperClass}>
         <video

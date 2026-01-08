@@ -1,0 +1,246 @@
+/* [project]/src/components/Skeleton.css [app-client] (css) */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-box, .skeleton-text, .skeleton-image, .skeleton-about-title, .skeleton-about-content {
+  background: linear-gradient(110deg, #f2f2f2 30%, #fff 50%, #f2f2f2 70%) 0 0 / 300% 100%;
+  animation: 4s ease-in-out infinite skeleton-shimmer;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-text-container {
+  width: 100%;
+}
+
+.skeleton-text {
+  height: 14px;
+}
+
+@media (min-width: 768px) {
+  .skeleton-text {
+    height: 15px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .skeleton-text {
+    height: 16px;
+  }
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 100%;
+}
+
+.skeleton-home-image, .skeleton-home-image-box {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.skeleton-work-item {
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 6px;
+  display: flex;
+}
+
+.skeleton-work-image {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.skeleton-work-info {
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
+}
+
+.skeleton-exhibition-item {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.skeleton-exhibition-image {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.skeleton-exhibition-info {
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
+}
+
+.skeleton-cv-item {
+  align-items: center;
+  gap: 34px;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.skeleton-about-title {
+  width: 120px;
+  height: 24px;
+  margin-bottom: 12px;
+}
+
+.skeleton-about-content {
+  width: 100%;
+  height: 17px;
+  margin-bottom: 14px;
+}
+
+/* [project]/src/components/PageHeader.css [app-client] (css) */
+.page-header {
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
+  display: flex;
+}
+
+.page-header-title {
+  color: #000;
+  margin: 0;
+  font-family: Pretendard Variable, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 38px;
+}
+
+.page-header-menu-icon {
+  cursor: pointer;
+  display: flex;
+}
+
+.menu-icon-img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/* [project]/src/app/about/page.css [app-client] (css) */
+.about-page {
+  box-sizing: border-box;
+  background: #fff;
+  flex-direction: column;
+  width: 100%;
+  min-width: 340px;
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px;
+  font-family: Pretendard Variable, sans-serif;
+  display: flex;
+  position: relative;
+}
+
+.about-header {
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 29px;
+  display: flex;
+}
+
+.about-menu-button {
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 23px;
+  height: 16px;
+  margin-top: 12px;
+  display: flex;
+}
+
+.about-menu-line {
+  background-color: #000;
+  width: 23px;
+  height: 2px;
+}
+
+.about-title {
+  color: #000;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 38px;
+}
+
+.about-section-title {
+  color: #000;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.about-contact-info {
+  color: #6e6e6e;
+  margin-bottom: 18px;
+  font-size: 14px;
+  line-height: 17px;
+  text-decoration: none;
+  display: block;
+}
+
+.about-text-section {
+  margin-top: 40px;
+}
+
+.about-text-content {
+  color: #6e6e6e;
+  text-align: justify;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.about-text-content p {
+  margin: 0 0 20px;
+}
+
+.about-text-content p:last-child {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .about-contact-info, .about-text-content {
+    max-width: 75%;
+  }
+
+  .about-section-title {
+    font-size: 23px;
+    line-height: 27px;
+  }
+
+  .about-contact-info, .about-text-content {
+    font-size: 15px;
+    line-height: 23px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .about-section-title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .about-contact-info, .about-text-content {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/*# sourceMappingURL=src_18a1302f._.css.map*/

@@ -1,0 +1,3 @@
+{
+  "/api/getThumbnail": "pages/api/getThumbnail.js"
+}

@@ -1,12 +1,35 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
-import { useLocation, useNavigationType } from 'react-router-dom';
+'use client';
+
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+
+// Shim for useNavigationType
+const useNavigationType = () => {
+  const [type, setType] = useState('PUSH');
+  
+  useEffect(() => {
+    const handlePopState = () => setType('POP');
+    const handlePushState = () => setType('PUSH'); // Next.js doesn't emit this natively for Link
+    // This is an imperfect shim. Ideally we'd wrap the router or use a library.
+    // For now, we rely on popstate.
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+  
+  return type;
+}
 
 /**
  * 페이지 이동 시 스크롤 위치를 고도로 정밀하게 관리하는 컴포넌트입니다.
  */
 const ScrollToTop = () => {
-  const location = useLocation();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  // Combine to mimic location object partially
+  const location = { pathname, key: pathname + searchParams.toString() }; 
+  
   const navType = useNavigationType();
+
   
   const isInitialAppLoad = useRef(true);
   const isRestoring = useRef(false);

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 
 /**
@@ -6,10 +8,14 @@ import { useState, useEffect } from 'react';
  * @returns {boolean} - Whether the query matches
  */
 export const useMediaQuery = (query) => {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const media = window.matchMedia(query);
+    setMatches(media.matches); // Set initial value on mount
+
     const listener = (e) => setMatches(e.matches);
 
     // Modern browsers
@@ -26,3 +32,4 @@ export const useMediaQuery = (query) => {
 
   return matches;
 };
+

@@ -21,7 +21,7 @@ export const SkeletonText = ({ lines = 1, width = '100%' }) => {
           className="skeleton-text"
           style={{ 
             width: index === lines - 1 ? '80%' : width,
-            marginBottom: index < lines - 1 ? '8px' : '0'
+            marginBottom: index < lines - 1 ? '6px' : '0'
           }}
         />
       ))}

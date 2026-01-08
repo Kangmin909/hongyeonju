@@ -1,0 +1,14 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/api/getAbout": "pages/api/getAbout.js",
+  "/api/getCV1": "pages/api/getCV1.js",
+  "/api/getCV2": "pages/api/getCV2.js",
+  "/api/getExhibition": "pages/api/getExhibition.js",
+  "/api/getHome": "pages/api/getHome.js",
+  "/api/getThumbnail": "pages/api/getThumbnail.js",
+  "/api/getWorks": "pages/api/getWorks.js",
+  "/api/notionImageSync": "pages/api/notionImageSync.js",
+  "/404": "pages/404.html"
+}

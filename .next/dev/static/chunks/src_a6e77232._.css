@@ -1,0 +1,274 @@
+/* [project]/src/app/exhibition/page.css [app-client] (css) */
+.exhibitions-container {
+  box-sizing: border-box;
+  background: #fff;
+  flex-direction: column;
+  width: 100%;
+  min-width: 340px;
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px;
+  font-family: Pretendard Variable, sans-serif;
+  display: flex;
+  position: relative;
+}
+
+.exhibitions-container .year-nav {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 40px;
+  display: flex;
+  position: relative;
+  overflow-x: auto;
+}
+
+.exhibitions-container .year-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.exhibitions-container .year-nav .year {
+  color: #acacac;
+  cursor: pointer;
+  text-align: center;
+  flex-shrink: 0;
+  min-width: 40px;
+  padding: 0 10px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.exhibitions-container .year-nav .year.active {
+  color: #fff;
+  background: #000;
+  border-radius: 20px;
+}
+
+.exhibitions-list {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 66px;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.exhibitions-column {
+  flex-direction: column;
+  flex: 1;
+  gap: 66px;
+  display: flex;
+}
+
+.exhibition-item {
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+}
+
+.exhibition-item:active .exhibition-image {
+  opacity: .7;
+}
+
+.exhibition-image {
+  object-fit: cover;
+  background: #d9d9d9;
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: hidden;
+}
+
+@media (hover: hover) {
+  .exhibition-image {
+    transition: opacity .3s;
+  }
+
+  .exhibition-item:hover .exhibition-image, .exhibition-item:hover .exhibition-image img, .exhibition-item:hover .exhibition-image video {
+    opacity: .7;
+  }
+}
+
+.exhibition-info {
+  margin-top: 12px;
+}
+
+.exhibition-title {
+  color: #000;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.exhibition-date, .exhibition-location {
+  color: #6e6e6e;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.media-container {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  position: relative;
+  overflow: hidden;
+}
+
+.media-iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@media (min-width: 768px) {
+  .exhibitions-list, .exhibitions-column {
+    gap: 40px;
+  }
+
+  .exhibition-title {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .exhibitions-list, .exhibitions-column {
+    gap: 50px;
+  }
+
+  .exhibition-title {
+    font-size: 24px;
+  }
+}
+
+/* [project]/src/components/Skeleton.css [app-client] (css) */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-box, .skeleton-text, .skeleton-image, .skeleton-about-title, .skeleton-about-content {
+  background: linear-gradient(110deg, #f2f2f2 30%, #fff 50%, #f2f2f2 70%) 0 0 / 300% 100%;
+  animation: 4s ease-in-out infinite skeleton-shimmer;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-text-container {
+  width: 100%;
+}
+
+.skeleton-text {
+  height: 16px;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 100%;
+}
+
+.skeleton-home-image, .skeleton-home-image-box {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.skeleton-work-item {
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 6px;
+  display: flex;
+}
+
+.skeleton-work-image {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.skeleton-work-info {
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
+}
+
+.skeleton-exhibition-item {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.skeleton-exhibition-image {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.skeleton-exhibition-info {
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
+}
+
+.skeleton-cv-item {
+  align-items: center;
+  gap: 34px;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.skeleton-about-title {
+  width: 120px;
+  height: 24px;
+  margin-bottom: 12px;
+}
+
+.skeleton-about-content {
+  width: 100%;
+  height: 17px;
+  margin-bottom: 14px;
+}
+
+/* [project]/src/components/PageHeader.css [app-client] (css) */
+.page-header {
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
+  display: flex;
+}
+
+.page-header-title {
+  color: #000;
+  margin: 0;
+  font-family: Pretendard Variable, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 38px;
+}
+
+.page-header-menu-icon {
+  cursor: pointer;
+  display: flex;
+}
+
+.menu-icon-img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/*# sourceMappingURL=src_a6e77232._.css.map*/

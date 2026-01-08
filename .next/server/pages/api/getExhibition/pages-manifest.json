@@ -1,0 +1,3 @@
+{
+  "/api/getExhibition": "pages/api/getExhibition.js"
+}

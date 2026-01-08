@@ -1,0 +1,8 @@
+{
+  "/api/getAbout": "pages/api/getAbout.js",
+  "/api/getCV1": "pages/api/getCV1.js",
+  "/api/getCV2": "pages/api/getCV2.js",
+  "/api/getExhibition": "pages/api/getExhibition.js",
+  "/api/getHome": "pages/api/getHome.js",
+  "/api/getWorks": "pages/api/getWorks.js"
+}

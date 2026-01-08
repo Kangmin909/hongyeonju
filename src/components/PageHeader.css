@@ -1,7 +1,7 @@
 .page-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   margin-bottom: 40px; /* Common bottom margin */
   flex-shrink: 0;
@@ -17,17 +17,14 @@
 }
 
 .page-header-menu-icon {
-  width: 23px;
-  height: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   cursor: pointer;
-  margin-top: 12px; /* Visual alignment with text */
+  display: flex;
 }
 
-.page-header-menu-icon .line {
-  width: 23px;
-  height: 2px;
-  background-color: black;
+.menu-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
+
+

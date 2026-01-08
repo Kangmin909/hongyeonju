@@ -39,8 +39,21 @@
 }
 
 .skeleton-text {
-  height: 16px;
+  height: 14px;
 }
+
+@media (min-width: 768px) {
+  .skeleton-text {
+    height: 15px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .skeleton-text {
+    height: 16px;
+  }
+}
+
 
 /* =========================
    IMAGE

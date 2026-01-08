@@ -1,4 +1,7 @@
+'use client';
+
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
+
 
 /**
  * Global variable for non-React access to app data.
@@ -68,8 +71,23 @@ const preloadMedia = (appData) => {
  */
 export const AppDataProvider = ({ children }) => {
   
-  // Initialize state from local storage cache if valid
-  const getInitialData = () => {
+  const defaultData = {
+    home: null,
+    about: null,
+    cv1: null,
+    cv2: null,
+    exhibitions: null,
+    works: null,
+    loading: false,
+    error: null,
+  };
+
+  const [data, setData] = useState(defaultData);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isLoading = useRef(false);
+
+  // Initialize state from local storage cache if valid (Client-side only)
+  useEffect(() => {
     try {
       const cachedData = localStorage.getItem('appData');
       const cachedTimestamp = localStorage.getItem('appDataTimestamp');
@@ -77,28 +95,17 @@ export const AppDataProvider = ({ children }) => {
       if (cachedData && cachedTimestamp) {
         const isCacheValid = (Date.now() - parseInt(cachedTimestamp, 10)) < CACHE_DURATION;
         if (isCacheValid) {
-          return { ...JSON.parse(cachedData), loading: false };
+          const parsedData = JSON.parse(cachedData);
+          const loadedState = { ...parsedData, loading: false };
+          setData(loadedState);
+          Object.assign(appDataStore, loadedState);
+          preloadMedia(loadedState);
         }
       }
     } catch (error) {
       console.error("Failed to load cached data:", error);
     }
-    
-    return {
-      home: null,
-      about: null,
-      cv1: null,
-      cv2: null,
-      exhibitions: null,
-      works: null,
-      loading: false,
-      error: null,
-    };
-  };
-
-  const [data, setData] = useState(getInitialData);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLoading = useRef(false);
+  }, []);
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
@@ -125,13 +132,35 @@ export const AppDataProvider = ({ children }) => {
 
     try {
       console.log("🔄 Fetching fresh data from server...");
+      
+      const safeFetch = async (url) => {
+        try {
+          // fetch 호출 시 발생할 수 있는 네트워크 에러를 잡기 위해 try-catch로 감싸고 
+          // 응답이 왔을 때만 res.ok를 체크합니다.
+          const res = await fetch(url).catch(err => {
+            console.error(`Network error for ${url}:`, err);
+            return null;
+          });
+
+          if (!res) return null;
+          if (!res.ok) {
+            console.warn(`Server error for ${url}: status ${res.status}`);
+            return null;
+          }
+          return await res.json();
+        } catch (e) {
+          console.error(`JSON parsing error for ${url}:`, e);
+          return null; 
+        }
+      };
+
       const [homeRes, aboutRes, cv1Res, cv2Res, exhibitionsRes, worksRes] = await Promise.all([
-        fetch("/api/getHome").then(res => res.json()),
-        fetch("/api/getAbout").then(res => res.json()),
-        fetch("/api/getCV1").then(res => res.json()),
-        fetch("/api/getCV2").then(res => res.json()),
-        fetch("/api/getExhibition").then(res => res.json()),
-        fetch("/api/getWorks").then(res => res.json()),
+        safeFetch("/api/getHome"),
+        safeFetch("/api/getAbout"),
+        safeFetch("/api/getCV1"),
+        safeFetch("/api/getCV2"),
+        safeFetch("/api/getExhibition"),
+        safeFetch("/api/getWorks"),
       ]);
 
       const newData = {
