@@ -53,21 +53,30 @@ const metadata = {
     title: 'hongyeonju',
     description: '홍연주(HONG YEONJU) Portfolio',
     icons: {
-        icon: '/favicon.ico',
-        apple: '/favicon.ico'
+        icon: [
+            {
+                url: '/favicon.ico',
+                sizes: 'any'
+            },
+            {
+                url: '/favicon.png',
+                type: 'image/png'
+            }
+        ],
+        apple: '/favicon.png'
     },
     openGraph: {
         type: 'website',
         url: 'https://hongyeonju.com',
         title: 'HONG YEONJU',
         description: '작가 홍연주',
-        images: '/favicon.ico'
+        images: '/favicon.png'
     },
     twitter: {
         card: 'summary_large_image',
         title: 'HONG YEONJU',
         description: '작가 홍연주',
-        images: '/favicon.ico'
+        images: '/favicon.png'
     }
 };
 function RootLayout({ children }) {
@@ -78,17 +87,17 @@ function RootLayout({ children }) {
                 children: children
             }, void 0, false, {
                 fileName: "[project]/src/app/layout.js",
-                lineNumber: 30,
+                lineNumber: 33,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/layout.js",
-            lineNumber: 29,
+            lineNumber: 32,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/layout.js",
-        lineNumber: 28,
+        lineNumber: 31,
         columnNumber: 5
     }, this);
 }
