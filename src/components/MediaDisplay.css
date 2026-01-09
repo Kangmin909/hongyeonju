@@ -10,12 +10,23 @@
   aspect-ratio: 4 / 3;
 }
 
+.media-placeholder-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
+  aspect-ratio: 4 / 3; /* 프레임 크기 고정 */
+}
+
 .media-error-message {
   font-family: 'Pretendard Variable', sans-serif;
   font-size: 14px;
   color: #808080;
   text-align: center;
+  z-index: 5;
+  width: 100%;
 }
+
 
 .media-placeholder-wrapper.loading-shimmer {
   min-height: 200px;

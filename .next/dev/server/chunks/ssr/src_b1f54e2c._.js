@@ -261,24 +261,31 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
         isLoaded,
         src
     ]);
+    const shouldShowShimmer = !isLoaded && !hasError && src;
+    const wrapperClass = `media-placeholder-wrapper ${shouldShowShimmer ? 'loading-shimmer' : ''} ${isLoaded ? 'is-loaded' : ''} ${className || ''}`;
     if (hasError || !src) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: `media-error-placeholder ${className || ''}`,
+            className: wrapperClass,
+            style: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f2f2f2'
+            },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "media-error-message",
                 children: "이미지를 불러오지 못했습니다."
             }, void 0, false, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 46,
+                lineNumber: 57,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 45,
+            lineNumber: 48,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
-    const wrapperClass = `media-placeholder-wrapper ${!isLoaded ? 'loading-shimmer' : ''} ${className || ''}`;
     const clickOverlayStyle = {
         position: 'absolute',
         top: 0,
@@ -309,7 +316,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                         onError: ()=>setHasError(true)
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 72,
+                        lineNumber: 81,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     onClick && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -317,18 +324,18 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                         onClick: onClick
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 82,
+                        lineNumber: 91,
                         columnNumber: 23
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 71,
+                lineNumber: 80,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 70,
+            lineNumber: 79,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -354,7 +361,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                     } : {}
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 94,
+                    lineNumber: 103,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
                 onClick && !controls && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -362,13 +369,13 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                     onClick: onClick
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 107,
+                    lineNumber: 116,
                     columnNumber: 34
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 93,
+            lineNumber: 102,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -386,12 +393,12 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
             } : {}
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 114,
+            lineNumber: 123,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/src/components/MediaDisplay.js",
-        lineNumber: 113,
+        lineNumber: 122,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

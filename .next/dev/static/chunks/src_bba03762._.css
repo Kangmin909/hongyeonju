@@ -69,9 +69,13 @@ code {
   display: flex;
 }
 
-.home-media-frame:not(.loading-shimmer) {
+.home-media-frame.is-loaded {
   aspect-ratio: auto;
   max-width: 100%;
+}
+
+.media-placeholder-wrapper[style*="background-color: rgb(242, 242, 242)"], .media-placeholder-wrapper[style*="background-color: #f2f2f2"] {
+  aspect-ratio: 4 / 3;
 }
 
 .common-menu-icon {
