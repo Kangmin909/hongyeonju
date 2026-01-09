@@ -58,6 +58,23 @@ code {
   opacity: 1;
 }
 
+.common-menu-icon {
+  cursor: pointer;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 24px;
+  height: 24px;
+  margin-top: 7px;
+  display: flex;
+}
+
+.menu-icon-img {
+  object-fit: contain;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
 .container {
   background: #fff;
   width: 402px;

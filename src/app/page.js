@@ -39,8 +39,14 @@ const Home = () => {
     <div className="home-container">
       <div className="home-header">
         <div className="home-name">HONG<br />YEONJU</div>
-        <div className="menu-icon" onClick={toggleMenu}>
-          <img src={menuIcon.src || menuIcon} alt="Menu" className="menu-icon-img" />
+        <div className="common-menu-icon" onClick={toggleMenu}>
+          <img 
+            src={menuIcon.src || menuIcon} 
+            alt="Menu" 
+            className="menu-icon-img" 
+            width="24" 
+            height="24"
+          />
         </div>
       </div>
       <div className="image-placeholder">

@@ -4,18 +4,22 @@ import ClientLayout from './ClientLayout';
 export const metadata = {
   title: 'hongyeonju',
   description: '홍연주(HONG YEONJU) Portfolio',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
   openGraph: {
     type: 'website',
     url: 'https://hongyeonju.com',
     title: 'HONG YEONJU',
     description: '작가 홍연주',
-    images: 'https://hongyeonju.vercel.app/favicon.ico',
+    images: '/favicon.ico',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'HONG YEONJU',
     description: '작가 홍연주',
-    images: 'https://hongyeonju.vercel.app/favicon.ico',
+    images: '/favicon.ico',
   },
 };
 

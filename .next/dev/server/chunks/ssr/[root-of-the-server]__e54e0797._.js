@@ -470,9 +470,6 @@ const Menu = ()=>{
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
     const searchParams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSearchParams"])();
-    const location = {
-        pathname
-    };
     const { isMenuOpen, toggleMenu, refreshData, loading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppDataContext$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAppData"])();
     const [isClosing, setIsClosing] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useState(false);
     const [openingImmediate, setOpeningImmediate] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useState(false);
@@ -480,7 +477,7 @@ const Menu = ()=>{
     const isNavigatingRef = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useRef(false);
     // 메뉴 닫기 함수
     const handleClose = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useCallback((immediate = false)=>{
-        if (immediate || isPopStateRef.current) {
+        if (immediate || isPopStateRef.current || isNavigatingRef.current) {
             if (isMenuOpen) toggleMenu();
             setIsClosing(false);
             setOpeningImmediate(false);
@@ -495,16 +492,17 @@ const Menu = ()=>{
         isMenuOpen,
         toggleMenu
     ]);
-    // Effect: 경로 변경 시 메뉴 닫기 (네비게이션 완료 후 동작)
+    // Effect: 경로 변경 시 메뉴 즉시 닫기 (네비게이션 완료 시점)
     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useEffect(()=>{
-        if (isMenuOpen) {
-            // 페이지 이동 시에는 애니메이션 없이 즉시 닫기
-            handleClose(true);
+        if (isMenuOpen && isNavigatingRef.current) {
+            handleClose(true); // 이동 시에는 애니메이션 없이 즉시 닫음
+            isNavigatingRef.current = false;
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         pathname,
-        searchParams
+        searchParams,
+        isMenuOpen,
+        handleClose
     ]);
     // Effect 1: 히스토리 감지 (팝스테이트 리스너)
     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useEffect(()=>{
@@ -530,7 +528,7 @@ const Menu = ()=>{
         toggleMenu,
         handleClose
     ]);
-    // Effect 1.5: 초기 로드 시 복원 (마운트 시 1회만 실행)
+    // Effect 1.5: 초기 로드 시 복원
     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useEffect(()=>{
         if (window.history.state?.modal === 'menu' && !isMenuOpen) {
             setOpeningImmediate(true);
@@ -538,7 +536,7 @@ const Menu = ()=>{
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    // Effect 2: 메뉴 상태에 따른 부가 효과
+    // Effect 2: 메뉴 상태에 따른 부가 효과 (스크롤 잠금 및 히스토리 푸시)
     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useEffect(()=>{
         if (!isMenuOpen) return;
         const scrollY = window.scrollY;
@@ -566,26 +564,20 @@ const Menu = ()=>{
                 document.body.style.width = '';
                 if (savedScrollY) window.scrollTo(0, parseInt(savedScrollY) * -1);
             }
-            isNavigatingRef.current = false;
         };
     }, [
-        isMenuOpen,
-        toggleMenu
+        isMenuOpen
     ]);
     const handleRefresh = async ()=>{
         await refreshData();
     };
     const handleNavigate = (path)=>{
-        if (location.pathname === path) {
-            // 동일 페이지: 히스토리 뒤로가기로 메뉴 닫기 (중복 히스토리 방지)
-            window.history.back();
+        if (pathname === path) {
+            window.history.back(); // 동일 페이지는 히스토리만 되돌림
         } else {
             isNavigatingRef.current = true;
-            // 다른 페이지: 현재 히스토리에서 modal 상태 제거 (뒤로가기 시 메뉴 안 열리게)
-            if (("TURBOPACK compile-time value", "undefined") !== 'undefined' && window.history.state?.modal === 'menu') //TURBOPACK unreachable
-            ;
-            // 메뉴 닫기를 호출하지 않고 바로 이동 -> useEffect에서 경로 변경 감지 후 닫음
-            router.push(path);
+            // 현재의 '메뉴 열림' 히스토리를 '새 페이지'로 대체하여 스택을 깨끗하게 유지
+            router.replace(path);
         }
     };
     if (!isMenuOpen) return null;
@@ -601,13 +593,13 @@ const Menu = ()=>{
                     className: "arrow-icon"
                 }, void 0, false, {
                     fileName: "[project]/src/components/Menu.js",
-                    lineNumber: 146,
+                    lineNumber: 129,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/src/components/Menu.js",
-                lineNumber: 144,
-                columnNumber: 9
+                lineNumber: 128,
+                columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "menu-items",
@@ -618,7 +610,7 @@ const Menu = ()=>{
                         children: "HOME"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 150,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -627,7 +619,7 @@ const Menu = ()=>{
                         children: "WORKS"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 151,
+                        lineNumber: 133,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -636,7 +628,7 @@ const Menu = ()=>{
                         children: "EXHIBITION"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 152,
+                        lineNumber: 134,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -645,7 +637,7 @@ const Menu = ()=>{
                         children: "CV"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 153,
+                        lineNumber: 135,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -654,13 +646,13 @@ const Menu = ()=>{
                         children: "ABOUT"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 154,
+                        lineNumber: 136,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/Menu.js",
-                lineNumber: 149,
+                lineNumber: 131,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -670,14 +662,14 @@ const Menu = ()=>{
                 children: loading ? 'REFRESHING...' : 'REFRESH'
             }, void 0, false, {
                 fileName: "[project]/src/components/Menu.js",
-                lineNumber: 157,
+                lineNumber: 138,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/Menu.js",
-        lineNumber: 141,
-        columnNumber: 7
+        lineNumber: 127,
+        columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
 const __TURBOPACK__default__export__ = Menu;

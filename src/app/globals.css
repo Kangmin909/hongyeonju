@@ -73,6 +73,27 @@ code {
   opacity: 1;
 }
 
+/* =========================
+   MENU ICON
+========================= */
+
+.common-menu-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  cursor: pointer;
+  margin-top: 7px; /* 32px 폰트(line-height 38px)의 첫 줄 중앙에 맞춤 */
+}
+
+.menu-icon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
 /* App.css Content */
 .container {
   position: relative;

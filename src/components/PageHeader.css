@@ -1,7 +1,7 @@
 .page-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start; /* center -> flex-start */
   width: 100%;
   margin-bottom: 40px; /* Common bottom margin */
   flex-shrink: 0;
@@ -15,16 +15,4 @@
   color: #000000;
   margin: 0;
 }
-
-.page-header-menu-icon {
-  cursor: pointer;
-  display: flex;
-}
-
-.menu-icon-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
 

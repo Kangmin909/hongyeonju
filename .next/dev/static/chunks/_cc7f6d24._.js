@@ -630,7 +630,6 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_async_to_generator$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_async_to_generator.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_object_spread.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread_props$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_object_spread_props.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_without_properties$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_object_without_properties.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_sliced_to_array.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_type_of$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_type_of.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$tslib$2f$tslib$2e$es6$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$5f$_generator__as__$5f3e$__ = __turbopack_context__.i("[project]/node_modules/tslib/tslib.es6.mjs [app-client] (ecmascript) <export __generator as _>");
@@ -640,7 +639,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navi
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppDataContext$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/context/AppDataContext.js [app-client] (ecmascript)");
 // 화살표 이미지를 import합니다.
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$assets$2f$icons$2f$back$2d$arrow$2e$svg$2e$mjs__$7b$__IMAGE__$3d3e$__$225b$project$5d2f$src$2f$assets$2f$icons$2f$back$2d$arrow$2e$svg__$28$static__in__ecmascript$2c$__tag__client$2922$__$7d$__$5b$app$2d$client$5d$__$28$structured__image__object__with__data__url$2c$__ecmascript$29$__ = __turbopack_context__.i('[project]/src/assets/icons/back-arrow.svg.mjs { IMAGE => "[project]/src/assets/icons/back-arrow.svg (static in ecmascript, tag client)" } [app-client] (structured image object with data url, ecmascript)');
-;
 ;
 ;
 ;
@@ -811,17 +809,11 @@ var Menu = function() {
             // 동일 페이지: 히스토리 뒤로가기로 메뉴 닫기 (중복 히스토리 방지)
             window.history.back();
         } else {
-            var _window_history_state;
             isNavigatingRef.current = true;
-            // 다른 페이지: 현재 히스토리에서 modal 상태 제거 (뒤로가기 시 메뉴 안 열리게)
-            if (("TURBOPACK compile-time value", "object") !== 'undefined' && ((_window_history_state = window.history.state) === null || _window_history_state === void 0 ? void 0 : _window_history_state.modal) === 'menu') {
-                var _ref = window.history.state || {}, modal = _ref.modal, restState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_without_properties$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])(_ref, [
-                    "modal"
-                ]);
-                window.history.replaceState(restState, '', window.location.href);
-            }
-            // 메뉴 닫기를 호출하지 않고 바로 이동 -> useEffect에서 경로 변경 감지 후 닫음
-            router.push(path);
+            // 다른 페이지: 현재의 '메뉴 열림' 히스토리 항목을 '새 페이지'로 교체 (Replace)
+            // 이렇게 하면 [이전페이지, 이전페이지(메뉴), 새페이지] 가 아닌
+            // [이전페이지, 새페이지] 구조가 되어 뒤로가기 한 번으로 정상 이동됨
+            router.replace(path);
         }
     };
     if (!isMenuOpen) return null;
@@ -839,12 +831,12 @@ var Menu = function() {
                     className: "arrow-icon"
                 }, void 0, false, {
                     fileName: "[project]/src/components/Menu.js",
-                    lineNumber: 146,
+                    lineNumber: 142,
                     columnNumber: 9
                 }, _this)
             }, void 0, false, {
                 fileName: "[project]/src/components/Menu.js",
-                lineNumber: 144,
+                lineNumber: 140,
                 columnNumber: 9
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -858,7 +850,7 @@ var Menu = function() {
                         children: "HOME"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 150,
+                        lineNumber: 146,
                         columnNumber: 9
                     }, _this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -869,7 +861,7 @@ var Menu = function() {
                         children: "WORKS"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 151,
+                        lineNumber: 147,
                         columnNumber: 9
                     }, _this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -880,7 +872,7 @@ var Menu = function() {
                         children: "EXHIBITION"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 152,
+                        lineNumber: 148,
                         columnNumber: 9
                     }, _this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -891,7 +883,7 @@ var Menu = function() {
                         children: "CV"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 153,
+                        lineNumber: 149,
                         columnNumber: 9
                     }, _this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -902,13 +894,13 @@ var Menu = function() {
                         children: "ABOUT"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Menu.js",
-                        lineNumber: 154,
+                        lineNumber: 150,
                         columnNumber: 9
                     }, _this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/Menu.js",
-                lineNumber: 149,
+                lineNumber: 145,
                 columnNumber: 7
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -918,13 +910,13 @@ var Menu = function() {
                 children: loading ? 'REFRESHING...' : 'REFRESH'
             }, void 0, false, {
                 fileName: "[project]/src/components/Menu.js",
-                lineNumber: 157,
+                lineNumber: 153,
                 columnNumber: 7
             }, _this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/Menu.js",
-        lineNumber: 141,
+        lineNumber: 137,
         columnNumber: 7
     }, _this);
 };

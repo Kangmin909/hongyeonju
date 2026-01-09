@@ -52,18 +52,22 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$ClientLayout$2
 const metadata = {
     title: 'hongyeonju',
     description: '홍연주(HONG YEONJU) Portfolio',
+    icons: {
+        icon: '/favicon.ico',
+        apple: '/favicon.ico'
+    },
     openGraph: {
         type: 'website',
         url: 'https://hongyeonju.com',
         title: 'HONG YEONJU',
         description: '작가 홍연주',
-        images: 'https://hongyeonju.vercel.app/favicon.ico'
+        images: '/favicon.ico'
     },
     twitter: {
         card: 'summary_large_image',
         title: 'HONG YEONJU',
         description: '작가 홍연주',
-        images: 'https://hongyeonju.vercel.app/favicon.ico'
+        images: '/favicon.ico'
     }
 };
 function RootLayout({ children }) {
@@ -74,17 +78,17 @@ function RootLayout({ children }) {
                 children: children
             }, void 0, false, {
                 fileName: "[project]/src/app/layout.js",
-                lineNumber: 26,
+                lineNumber: 30,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/layout.js",
-            lineNumber: 25,
+            lineNumber: 29,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/layout.js",
-        lineNumber: 24,
+        lineNumber: 28,
         columnNumber: 5
     }, this);
 }
