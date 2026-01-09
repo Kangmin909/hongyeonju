@@ -657,10 +657,13 @@
   background: none !important;
 }
 
-.media-element {
+.home-container .media-element {
+  will-change: transform;
   max-width: 100%;
   max-height: 80vh;
+  transform: scale(1.005);
   object-fit: contain !important;
+  background-color: #fff !important;
   width: auto !important;
   height: auto !important;
 }

@@ -263,6 +263,12 @@
   min-height: 200px;
 }
 
+.home-media-frame.media-placeholder-wrapper {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 /* [project]/src/components/Skeleton.css [app-client] (css) */
 @keyframes skeleton-shimmer {
   0% {
