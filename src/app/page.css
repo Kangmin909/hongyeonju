@@ -3,77 +3,66 @@
 .home-container {
   position: relative;
   width: 100%;
-  min-width: 340px; /* 최소 폭 설정 */
+  min-width: 340px;
   max-width: 1200px;
-  min-height: 100vh;
+  height: 100vh; /* Fixed height */
   background: #FFFFFF;
   margin: 0 auto;
   font-family: 'Pretendard Variable', sans-serif;
   box-sizing: border-box;
-  
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 .home-header {
-  position: absolute; /* 전체 화면 중앙 정렬을 위해 절대 위치 사용 */
+  position: absolute;
   top: 40px;
-  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
   left: clamp(24px, 1.212rem + 1.15vw, 50px);
   right: clamp(24px, 1.212rem + 1.15vw, 50px);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* center -> flex-start */
+  align-items: flex-start;
   z-index: 10;
-  flex-shrink: 0;
 }
 
 .home-name {
-
   font-weight: 400;
-
   font-size: 32px;
-
   line-height: 38px;
-
   color: #000000;
-
   white-space: nowrap;
-
 }
-
-
 
 .image-placeholder {
   position: relative;
   width: 100%;
-  flex: 1;
+  height: 100%;
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
+  align-items: center;
   justify-content: center;
   background: #ffffff;
   z-index: 1;
-  padding-top: 180px;
-  padding-bottom: 180px;
-  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
+  /* Removed large paddings that caused overflow */
   padding-left: clamp(24px, 1.212rem + 1.15vw, 50px);
   padding-right: clamp(24px, 1.212rem + 1.15vw, 50px);
   box-sizing: border-box;
-  overflow: hidden; /* 미세한 확대로 인한 경계선을 숨기기 위해 필수 */
 }
 
 /* 모든 미디어 요소 공통 (비디오, 이미지, iframe) */
-.profile-image, .media-iframe {
-  background: #ffffff !important;
+.profile-image:not(.loading-shimmer), .media-iframe:not(.loading-shimmer) {
+  background: transparent !important;
 }
 
-/* 비디오/이미지 요소 스타일 - 로딩 중일 때 배경을 가리지 않도록 수정 */
+/* 비디오/이미지 요소 스타일 */
 .media-element {
-  width: 101% !important; 
-  height: 100% !important;
-  margin-left: -0.5%; /* 가로 중앙 유지 */
-  object-fit: contain !important; /* 전체 영상 보존 */
+  max-width: 100%;
+  max-height: 80vh; 
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
 }
+
 
 /* YouTube 컨테이너 및 iframe 스타일 */
 .media-container {

@@ -22,4 +22,10 @@
   min-height: 200px;
 }
 
+.home-media-frame.media-placeholder-wrapper {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 /*# sourceMappingURL=src_components_MediaDisplay_css_bad6b30c._.single.css.map*/

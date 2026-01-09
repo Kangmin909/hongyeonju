@@ -20,3 +20,10 @@
 .media-placeholder-wrapper.loading-shimmer {
   min-height: 200px;
 }
+
+.home-media-frame.media-placeholder-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
