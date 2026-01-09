@@ -76,6 +76,8 @@ async function handler(req, res) {
                 images: imageMap[pageId] || []
             };
         });
+        // 서버 사이드 캐싱 설정
+        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
         res.status(200).json(data);
     } catch (err) {
         console.error(err);

@@ -44,6 +44,9 @@ async function handler(req, res) {
                 link: page.properties.link.url || ""
             };
         });
+        // 서버 사이드 캐싱 설정 (Vercel Edge Network)
+        // 30분간 신선한 캐시 유지, 이후 1시간 동안 백그라운드 갱신 허용
+        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
         res.status(200).json(data);
     } catch (err) {
         console.error(err);
