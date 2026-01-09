@@ -41,11 +41,10 @@ export default async function handler(req, res) {
     localCache = data;
     lastFetchTime = Date.now();
 
-    if (force === "true") {
-      res.setHeader("Cache-Control", "no-store, max-age=0");
-    } else {
-      res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
-    }
+    res.setHeader(
+      "Cache-Control",
+      "s-maxage=1800, stale-while-revalidate=3600"
+    );
 
     res.status(200).json(data);
   } catch (err) {

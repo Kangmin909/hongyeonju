@@ -40,15 +40,15 @@ export default async function handler(req, res) {
       };
     });
 
-    // 캐시 업데이트
+    // 캐시 업데이트 (메모리 캐시 갱신)
     localCache = data;
     lastFetchTime = Date.now();
 
-    if (force === "true") {
-      res.setHeader("Cache-Control", "no-store, max-age=0"); // 강제 갱신 시 캐시 안함
-    } else {
-      res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
-    }
+    // 항상 캐싱 헤더 적용: 강제 갱신으로 가져온 '신선한' 데이터가 이전 캐시를 덮어쓰도록 함
+    res.setHeader(
+      "Cache-Control",
+      "s-maxage=1800, stale-while-revalidate=3600"
+    );
 
     res.status(200).json(data);
   } catch (err) {
