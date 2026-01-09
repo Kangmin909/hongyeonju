@@ -252,9 +252,24 @@
   display: flex;
 }
 
+.media-placeholder-wrapper {
+  aspect-ratio: 4 / 3;
+  background-color: #f2f2f2;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.media-placeholder-wrapper.is-loaded {
+  aspect-ratio: auto;
+  background-color: #0000;
+}
+
 .media-error-message {
   color: gray;
   text-align: center;
+  z-index: 5;
+  width: 100%;
   font-family: Pretendard Variable, sans-serif;
   font-size: 14px;
 }

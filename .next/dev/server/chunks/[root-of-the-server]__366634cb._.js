@@ -36,12 +36,6 @@ async function handler(req, res) {
         const databaseId = process.env.NOTION_ABOUT_DB_ID;
         const response = await notion.databases.query({
             database_id: databaseId,
-            sorts: [
-                {
-                    property: "id",
-                    direction: "ascending"
-                }
-            ],
             page_size: 1
         });
         const page = response.results[0];
@@ -49,18 +43,24 @@ async function handler(req, res) {
             error: "About data not found"
         });
         const props = page.properties;
+        // 모든 텍스트/제목/이메일 속성을 안전하게 추출하는 헬퍼
+        const getPlainText = (prop)=>{
+            if (!prop) return "";
+            if (prop.email) return prop.email; // 이메일 타입 처리
+            if (prop.title) return prop.title[0]?.plain_text || "";
+            if (prop.rich_text) return prop.rich_text[0]?.plain_text || "";
+            if (prop.select) return prop.select.name || "";
+            return "";
+        };
+        const aboutTextRaw = getPlainText(props.aboutText);
         const data = {
-            mail: props.mail?.email || "",
-            instagram: props.instagram?.rich_text[0]?.plain_text || "",
-            aboutText: props.aboutText?.rich_text[0]?.plain_text.split("\n") || []
+            mail: getPlainText(props.mail),
+            instagram: getPlainText(props.instagram),
+            aboutText: aboutTextRaw ? aboutTextRaw.split("\n") : []
         };
         localCache = data;
         lastFetchTime = Date.now();
-        if (force === "true") {
-            res.setHeader("Cache-Control", "no-store, max-age=0");
-        } else {
-            res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
-        }
+        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
         res.status(200).json(data);
     } catch (err) {
         console.error(err);

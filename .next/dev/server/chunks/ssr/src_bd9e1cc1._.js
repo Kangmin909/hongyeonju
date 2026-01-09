@@ -45,24 +45,33 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
         isLoaded,
         src
     ]);
+    const shouldShowShimmer = !isLoaded && !hasError && src;
+    const wrapperClass = `media-placeholder-wrapper ${shouldShowShimmer ? 'loading-shimmer' : ''} ${isLoaded ? 'is-loaded' : ''} ${className || ''}`;
     if (hasError || !src) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: `media-error-placeholder ${className || ''}`,
+            className: wrapperClass,
+            style: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f2f2f2',
+                aspectRatio: '4 / 3',
+                width: '100%'
+            },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "media-error-message",
                 children: "이미지를 불러오지 못했습니다."
             }, void 0, false, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 46,
+                lineNumber: 59,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 45,
+            lineNumber: 48,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
-    const wrapperClass = `media-placeholder-wrapper ${!isLoaded ? 'loading-shimmer' : ''} ${className || ''}`;
     const clickOverlayStyle = {
         position: 'absolute',
         top: 0,
@@ -93,7 +102,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                         onError: ()=>setHasError(true)
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 72,
+                        lineNumber: 83,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     onClick && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -101,18 +110,18 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                         onClick: onClick
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 82,
+                        lineNumber: 93,
                         columnNumber: 23
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 71,
+                lineNumber: 82,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 70,
+            lineNumber: 81,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -138,7 +147,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                     } : {}
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 94,
+                    lineNumber: 105,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
                 onClick && !controls && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -146,13 +155,13 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
                     onClick: onClick
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 107,
+                    lineNumber: 118,
                     columnNumber: 34
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 93,
+            lineNumber: 104,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -170,12 +179,12 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
             } : {}
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 114,
+            lineNumber: 125,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/src/components/MediaDisplay.js",
-        lineNumber: 113,
+        lineNumber: 124,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -1781,15 +1790,41 @@ const ExhibitionDetail = ()=>{
         }, ("TURBOPACK compile-time value", void 0));
     }
     // exhibitions 데이터가 로드된 후, id에 해당하는 exhibition을 찾음
-    const exhibition = exhibitions.find((e)=>e.id === id);
+    // URL 인코딩된 ID를 디코딩하여 매칭
+    const decodedId = decodeURIComponent(id || "");
+    const exhibition = exhibitions.find((e)=>String(e.id) === decodedId);
     // id에 해당하는 exhibition이 없을 경우 "정보를 찾을 수 없음" 메시지를 표시
     if (!exhibition) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            children: "전시 정보를 찾을 수 없습니다."
-        }, void 0, false, {
+            className: "exhibition-detail-page",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$PageHeader$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                    title: "EXHIBITION"
+                }, void 0, false, {
+                    fileName: "[project]/src/app/exhibition/[id]/page.js",
+                    lineNumber: 93,
+                    columnNumber: 9
+                }, ("TURBOPACK compile-time value", void 0)),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        padding: '20px',
+                        textAlign: 'center'
+                    },
+                    children: [
+                        "전시 정보를 찾을 수 없습니다. (ID: ",
+                        decodedId,
+                        ")"
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/app/exhibition/[id]/page.js",
+                    lineNumber: 94,
+                    columnNumber: 9
+                }, ("TURBOPACK compile-time value", void 0))
+            ]
+        }, void 0, true, {
             fileName: "[project]/src/app/exhibition/[id]/page.js",
-            lineNumber: 89,
-            columnNumber: 12
+            lineNumber: 92,
+            columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
     const allMedia = Array.isArray(exhibition.images) ? exhibition.images : [];
@@ -1830,7 +1865,7 @@ const ExhibitionDetail = ()=>{
                 title: "EXHIBITION"
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                lineNumber: 120,
+                lineNumber: 129,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1840,12 +1875,12 @@ const ExhibitionDetail = ()=>{
                     children: exhibition.exhibitionTitle
                 }, void 0, false, {
                     fileName: "[project]/src/app/exhibition/[id]/page.js",
-                    lineNumber: 123,
+                    lineNumber: 132,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                lineNumber: 122,
+                lineNumber: 131,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1856,7 +1891,7 @@ const ExhibitionDetail = ()=>{
                         children: exhibition.date
                     }, void 0, false, {
                         fileName: "[project]/src/app/exhibition/[id]/page.js",
-                        lineNumber: 127,
+                        lineNumber: 136,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1864,7 +1899,7 @@ const ExhibitionDetail = ()=>{
                         children: exhibition.location
                     }, void 0, false, {
                         fileName: "[project]/src/app/exhibition/[id]/page.js",
-                        lineNumber: 128,
+                        lineNumber: 137,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1872,13 +1907,13 @@ const ExhibitionDetail = ()=>{
                         children: exhibition.description
                     }, void 0, false, {
                         fileName: "[project]/src/app/exhibition/[id]/page.js",
-                        lineNumber: 129,
+                        lineNumber: 138,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                lineNumber: 126,
+                lineNumber: 135,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1895,7 +1930,7 @@ const ExhibitionDetail = ()=>{
                                         onClick: ()=>handleMediaClick(item)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/exhibition/[id]/page.js",
-                                        lineNumber: 137,
+                                        lineNumber: 146,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1906,7 +1941,7 @@ const ExhibitionDetail = ()=>{
                                                 children: item.title
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                                                lineNumber: 144,
+                                                lineNumber: 153,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1914,29 +1949,29 @@ const ExhibitionDetail = ()=>{
                                                 children: item.meta
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                                                lineNumber: 145,
+                                                lineNumber: 154,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/exhibition/[id]/page.js",
-                                        lineNumber: 143,
+                                        lineNumber: 152,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, item.id, true, {
                                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                                lineNumber: 136,
+                                lineNumber: 145,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0)))
                     }, colIdx, false, {
                         fileName: "[project]/src/app/exhibition/[id]/page.js",
-                        lineNumber: 134,
+                        lineNumber: 143,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                lineNumber: 132,
+                lineNumber: 141,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             selectedMedia?.type === 'image' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ImageModal$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1945,7 +1980,7 @@ const ExhibitionDetail = ()=>{
                 onClose: ()=>setSelectedMedia(null)
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                lineNumber: 154,
+                lineNumber: 163,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             selectedMedia?.type === 'video' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$VideoModal$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1954,13 +1989,13 @@ const ExhibitionDetail = ()=>{
                 onClose: ()=>setSelectedMedia(null)
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/[id]/page.js",
-                lineNumber: 162,
+                lineNumber: 171,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/exhibition/[id]/page.js",
-        lineNumber: 119,
+        lineNumber: 128,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

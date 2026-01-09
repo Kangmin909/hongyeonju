@@ -19,25 +19,31 @@ export default async function handler(req, res) {
 
     const response = await notion.databases.query({
       database_id: databaseId,
-      sorts: [{ property: "id", direction: "ascending" }],
     });
 
-    const data = response.results.map((page) => ({
-      year: page.properties.year.title[0]?.plain_text || "",
-      content: page.properties.content.rich_text[0]?.plain_text || "",
-    }));
+    const data = response.results.map((page) => {
+      const p = page.properties;
+      const getPlainText = (prop) => {
+        if (!prop) return "";
+        if (prop.title) return prop.title[0]?.plain_text || "";
+        if (prop.rich_text) return prop.rich_text[0]?.plain_text || "";
+        if (prop.select) return prop.select.name || "";
+        return "";
+      };
+
+      return {
+        id: getPlainText(p.id),
+        year: getPlainText(p.year),
+        content: getPlainText(p.content),
+      };
+    });
 
     localCache = data;
     lastFetchTime = Date.now();
-
-    res.setHeader(
-      "Cache-Control",
-      "s-maxage=1800, stale-while-revalidate=3600"
-    );
-
+    res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
     res.status(200).json(data);
   } catch (err) {
-    console.error(err);
+    console.error("CV1 API Error:", err);
     res.status(500).json({ error: "Failed to load CV1" });
   }
 }

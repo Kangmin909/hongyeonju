@@ -17,8 +17,15 @@ const CV = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cv1, cv2, fetchAllData]);
 
-  const education = cv1 || [];
-  const exhibitions = cv2 || [];
+  const education = (cv1 || []).sort((a, b) => {
+    if (b.year !== a.year) return b.year.localeCompare(a.year); // 연도 내림차순
+    return a.id.localeCompare(b.id); // ID 오름차순
+  });
+
+  const exhibitions = (cv2 || []).sort((a, b) => {
+    if (b.year !== a.year) return b.year.localeCompare(a.year); // 연도 내림차순
+    return a.id.localeCompare(b.id); // ID 오름차순
+  });
 
   return (
     <div className="cv-page">

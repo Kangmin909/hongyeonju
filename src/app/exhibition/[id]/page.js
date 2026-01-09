@@ -82,11 +82,20 @@ const ExhibitionDetail = () => {
   }
 
   // exhibitions 데이터가 로드된 후, id에 해당하는 exhibition을 찾음
-  const exhibition = exhibitions.find(e => e.id === id);
+  // URL 인코딩된 ID를 디코딩하여 매칭
+  const decodedId = decodeURIComponent(id || "");
+  const exhibition = exhibitions.find(e => String(e.id) === decodedId);
 
   // id에 해당하는 exhibition이 없을 경우 "정보를 찾을 수 없음" 메시지를 표시
   if (!exhibition) {
-    return <div>전시 정보를 찾을 수 없습니다.</div>;
+    return (
+      <div className="exhibition-detail-page">
+        <PageHeader title="EXHIBITION" />
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          전시 정보를 찾을 수 없습니다. (ID: {decodedId})
+        </div>
+      </div>
+    );
   }
 
   const allMedia = Array.isArray(exhibition.images) ? exhibition.images : [];

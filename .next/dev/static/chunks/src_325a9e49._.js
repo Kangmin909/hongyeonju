@@ -327,14 +327,16 @@ var MediaDisplay = function(param) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#f2f2f2'
+                backgroundColor: '#f2f2f2',
+                aspectRatio: '4 / 3',
+                width: '100%'
             },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "media-error-message",
                 children: "이미지를 불러오지 못했습니다."
             }, void 0, false, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 57,
+                lineNumber: 59,
                 columnNumber: 9
             }, _this)
         }, void 0, false, {
@@ -377,7 +379,7 @@ var MediaDisplay = function(param) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 81,
+                        lineNumber: 83,
                         columnNumber: 11
                     }, _this),
                     onClick && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -385,18 +387,18 @@ var MediaDisplay = function(param) {
                         onClick: onClick
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 91,
+                        lineNumber: 93,
                         columnNumber: 23
                     }, _this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 80,
+                lineNumber: 82,
                 columnNumber: 9
             }, _this)
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 79,
+            lineNumber: 81,
             columnNumber: 7
         }, _this);
     }
@@ -426,7 +428,7 @@ var MediaDisplay = function(param) {
                     } : {}
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 103,
+                    lineNumber: 105,
                     columnNumber: 9
                 }, _this),
                 onClick && !controls && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -434,13 +436,13 @@ var MediaDisplay = function(param) {
                     onClick: onClick
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 116,
+                    lineNumber: 118,
                     columnNumber: 34
                 }, _this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 102,
+            lineNumber: 104,
             columnNumber: 7
         }, _this);
     }
@@ -462,12 +464,12 @@ var MediaDisplay = function(param) {
             } : {}
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 123,
+            lineNumber: 125,
             columnNumber: 7
         }, _this)
     }, void 0, false, {
         fileName: "[project]/src/components/MediaDisplay.js",
-        lineNumber: 122,
+        lineNumber: 124,
         columnNumber: 5
     }, _this);
 };

@@ -191,13 +191,15 @@
 }
 
 .cv-list-item {
-  gap: 34px;
+  align-items: flex-start;
+  gap: clamp(20px, 5vw, 34px);
   display: flex;
 }
 
 .cv-year {
   color: #6e6e6e;
-  min-width: 34px;
+  flex-shrink: 0;
+  width: 45px;
   font-size: 14px;
   line-height: 22px;
 }
@@ -206,6 +208,7 @@
   color: #6e6e6e;
   white-space: pre-wrap;
   word-break: keep-all;
+  flex: 1;
   margin: 0;
   font-family: inherit;
   font-size: 14px;

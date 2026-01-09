@@ -10065,3 +10065,386 @@ https://nextjs.org/docs/messages/module-not-found
 [23:52:07.312] Browser LOG     🔄 Forcing fresh data fetch...
 [23:52:07.762] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
 [23:52:08.044] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:01:47.245] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:01:47.368] Browser LOG     🔄 Fetching fresh data from server...
+[24:01:48.063] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:01:49.048] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:01:52.296] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:01:52.407] Browser LOG     🔄 Fetching fresh data from server...
+[24:01:52.430] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:01:52.754] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:01:52.806] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:02:00.542] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:02:00.731] Browser LOG     🔄 Fetching fresh data from server...
+[24:02:00.844] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:02:01.127] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:02:01.205] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:02:53.242] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:02:53.376] Browser LOG     🔄 Fetching fresh data from server...
+[24:02:53.413] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:02:54.473] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:02:57.512] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:08.953] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:03:09.064] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:03:09.092] Browser LOG     🔄 Fetching fresh data from server...
+[24:03:09.354] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:09.391] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:10.995] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:03:11.124] Browser LOG     🔄 Fetching fresh data from server...
+[24:03:11.132] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:03:11.490] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:11.522] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:19.472] Browser LOG     🔄 Forcing fresh data fetch...
+[24:03:19.988] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:20.024] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:24.277] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:03:24.418] Browser LOG     🔄 Fetching fresh data from server...
+[24:03:24.601] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:03:25.033] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:03:26.421] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:00.260] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:07:00.407] Browser LOG     🔄 Fetching fresh data from server...
+[24:07:00.454] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:07:01.355] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:02.230] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:08.627] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:07:08.741] Browser LOG     🔄 Fetching fresh data from server...
+[24:07:08.751] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:07:09.103] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:09.430] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:11.330] Browser LOG     🔄 Forcing fresh data fetch...
+[24:07:11.661] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:12.091] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:25.292] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:07:25.419] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:07:25.421] Browser LOG     🔄 Fetching fresh data from server...
+[24:07:25.841] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:25.899] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:41.789] Browser LOG     🔄 Forcing fresh data fetch...
+[24:07:42.270] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:42.507] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:47.243] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:07:47.340] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:07:47.371] Browser LOG     🔄 Fetching fresh data from server...
+[24:07:49.066] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:50.088] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:56.871] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:07:56.990] Browser LOG     🔄 Fetching fresh data from server...
+[24:07:57.045] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:07:57.519] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:07:58.004] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:09:11.664] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:09:11.862] Browser LOG     🔄 Fetching fresh data from server...
+[24:09:12.268] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:09:12.581] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:09:12.639] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:09:19.661] Browser LOG     🔄 Forcing fresh data fetch...
+[24:09:20.398] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:09:21.218] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[24:11:07.686] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:11:07.846] Browser LOG     🔄 Fetching fresh data from server...
+[24:11:07.989] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:11:12.895] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:11:13.175] Browser LOG     🔄 Fetching fresh data from server...
+[24:11:13.479] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:11:42.269] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:11:42.410] Browser LOG     🔄 Fetching fresh data from server...
+[24:11:42.474] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:11:45.879] Browser LOG     🔄 Forcing fresh data fetch...
+[24:11:52.528] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:11:52.719] Browser LOG     🔄 Fetching fresh data from server...
+[24:11:53.108] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:12:01.439] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:12:01.578] Browser LOG     🔄 Fetching fresh data from server...
+[24:12:01.658] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:12:26.640] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:12:26.760] Browser LOG     🔄 Fetching fresh data from server...
+[24:12:26.820] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:14:07.938] Server  LOG     ✓ Compiled in 66ms
+[24:14:20.501] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:14:20.685] Browser LOG     🔄 Fetching fresh data from server...
+[24:14:20.755] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:16:18.630] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:16:18.785] Browser LOG     🔄 Fetching fresh data from server...
+[24:16:18.819] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:17:02.710] Server  LOG     ✓ Compiled in 80ms
+[24:17:24.176] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:17:24.293] Browser LOG     🔄 Fetching fresh data from server...
+[24:17:24.296] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:19.115] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:19.267] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:19.319] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:21.031] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:21.114] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:21.181] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:23.427] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:23.569] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:23.621] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:26.330] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:26.468] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:26.664] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:32.622] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:32.751] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:32.766] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:35.527] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:35.672] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:35.674] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:38.700] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:38.857] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:38.897] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:41.399] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:41.536] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:41.555] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:43.609] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:43.777] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:43.974] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:18:47.383] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:18:47.542] Browser LOG     🔄 Fetching fresh data from server...
+[24:18:47.575] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:19:22.216] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:19:22.379] Browser LOG     🔄 Fetching fresh data from server...
+[24:19:22.670] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:19:27.537] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:19:27.733] Browser LOG     🔄 Fetching fresh data from server...
+[24:19:27.859] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:19:32.153] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:19:32.285] Browser LOG     🔄 Fetching fresh data from server...
+[24:19:32.413] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:19:42.853] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:19:43.083] Browser LOG     🔄 Fetching fresh data from server...
+[24:19:43.097] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:23:35.390] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:23:35.567] Browser LOG     🔄 Fetching fresh data from server...
+[24:23:38.895] Browser LOG     🔄 Forcing fresh data fetch...
+[24:27:41.913] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:27:42.064] Browser LOG     🔄 Fetching fresh data from server...
+[24:27:42.143] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:27:49.266] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:27:49.435] Browser LOG     🔄 Fetching fresh data from server...
+[24:27:49.577] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:28:53.340] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:28:53.462] Browser LOG     🔄 Fetching fresh data from server...
+[24:28:56.046] Browser LOG     🔄 Forcing fresh data fetch...
+[24:29:19.060] Browser LOG     🔄 Forcing fresh data fetch...
+[24:29:29.928] Browser LOG     🔄 Forcing fresh data fetch...
+[24:31:28.792] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:31:28.792] Browser LOG     🔄 Fetching fresh data from server...
+[24:31:28.838] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:31:49.567] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:31:49.739] Browser LOG     🔄 Fetching fresh data from server...
+[24:31:49.858] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:33:47.371] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:33:47.523] Browser LOG     🔄 Fetching fresh data from server...
+[24:33:47.960] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:33:50.932] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:33:51.093] Browser LOG     🔄 Fetching fresh data from server...
+[24:33:51.129] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:33:53.413] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:33:53.548] Browser LOG     🔄 Fetching fresh data from server...
+[24:33:54.058] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:34:00.442] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:34:00.586] Browser LOG     🔄 Fetching fresh data from server...
+[24:34:00.843] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:34:29.474] Browser LOG     🔄 Forcing fresh data fetch...
+[24:34:38.557] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:34:38.692] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:34:38.700] Browser LOG     🔄 Fetching fresh data from server...
+[24:35:38.700] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:35:38.846] Browser LOG     🔄 Fetching fresh data from server...
+[24:35:38.882] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:35:53.214] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:35:53.287] Browser LOG     🔄 Fetching fresh data from server...
+[24:35:53.380] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:35:57.216] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:35:57.396] Browser LOG     🔄 Fetching fresh data from server...
+[24:35:57.902] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:19.879] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:20.032] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:20.145] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:23.963] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:24.097] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:24.208] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:26.907] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:27.047] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:27.072] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:29.999] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:30.132] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:30.149] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:37.138] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:37.277] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:37.298] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:41.326] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:41.465] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:41.494] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:46.124] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:46.262] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:46.365] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:49.842] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:49.977] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:49.997] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:55.870] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:36:55.984] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:36:55.996] Browser LOG     🔄 Fetching fresh data from server...
+[24:36:59.882] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:37:00.008] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:37:00.010] Browser LOG     🔄 Fetching fresh data from server...
+[24:37:03.872] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:37:04.003] Browser LOG     🔄 Fetching fresh data from server...
+[24:37:04.037] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:37:07.600] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:37:07.736] Browser LOG     🔄 Fetching fresh data from server...
+[24:37:07.741] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:37:12.249] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:37:12.388] Browser LOG     🔄 Fetching fresh data from server...
+[24:37:12.516] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:39:34.736] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:39:34.873] Browser LOG     🔄 Fetching fresh data from server...
+[24:41:01.272] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:41:01.689] Browser LOG     🔄 Fetching fresh data from server...
+[24:41:02.018] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:42:09.545] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:42:09.705] Browser LOG     🔄 Fetching fresh data from server...
+[24:42:09.898] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:45:33.189] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:45:33.395] Browser LOG     🔄 Fetching fresh data from server...
+[24:46:23.525] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:46:23.675] Browser LOG     🔄 Fetching fresh data from server...
+[24:46:23.886] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:46:29.084] Browser LOG     🔄 Forcing fresh data fetch...
+[24:47:03.522] Browser LOG     🔄 Forcing fresh data fetch...
+[24:47:51.800] Browser LOG     🔄 Forcing fresh data fetch...
+[24:49:08.499] Browser LOG     🔄 Forcing fresh data fetch...
+[24:50:29.842] Browser LOG     🔄 Forcing fresh data fetch...
+[24:50:36.365] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:50:36.521] Browser LOG     🔄 Fetching fresh data from server...
+[24:50:36.577] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:51:00.852] Browser LOG     🔄 Forcing fresh data fetch...
+[24:51:09.608] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:51:09.752] Browser LOG     🔄 Fetching fresh data from server...
+[24:51:09.948] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:55:10.224] Browser LOG     🔄 Forcing fresh data fetch...
+[24:55:14.767] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:14.768] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:14.768] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.289] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:55:41.502] Browser LOG     🔄 Fetching fresh data from server...
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.502] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.636] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:55:41.930] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.930] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:41.930] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:46.765] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:46.765] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:46.765] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:46.765] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:46.765] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:55:46.765] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:58:36.143] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:58:36.143] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:58:36.143] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:58:37.718] Browser LOG     🔄 Forcing fresh data fetch...
+[24:58:37.718] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:58:37.718] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:58:37.718] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 제목
+[24:58:44.040] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:44.040] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:44.040] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:44.040] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:44.040] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:45.967] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:58:46.290] Browser LOG     🔄 Fetching fresh data from server...
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.291] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:46.556] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[24:58:47.241] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:47.242] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:47.242] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:47.242] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[24:58:47.242] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.079] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:03:59.371] Browser LOG     🔄 Fetching fresh data from server...
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:03:59.371] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 1
+[25:04:26.626] Browser LOG     🔄 Forcing fresh data fetch...
+[25:04:37.737] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:04:37.916] Browser LOG     🔄 Fetching fresh data from server...
+[25:04:37.941] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:04:48.613] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:04:48.738] Browser LOG     🔄 Fetching fresh data from server...
+[25:04:48.855] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:05:47.732] Server  LOG     ✓ Compiled in 51ms
+[25:05:56.470] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:05:56.635] Browser LOG     🔄 Fetching fresh data from server...
+[25:05:56.848] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:06:03.064] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:06:03.202] Browser LOG     🔄 Fetching fresh data from server...
+[25:06:03.421] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:06:05.105] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:06:05.247] Browser LOG     🔄 Fetching fresh data from server...
+[25:06:05.364] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:06:11.378] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:06:11.548] Browser LOG     🔄 Fetching fresh data from server...
+[25:06:11.631] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:06:14.221] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:06:14.367] Browser LOG     🔄 Fetching fresh data from server...
+[25:06:14.591] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:06:17.233] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:06:17.366] Browser LOG     🔄 Fetching fresh data from server...
+[25:06:17.449] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:06:20.974] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:06:21.102] Browser LOG     🔄 Fetching fresh data from server...
+[25:06:21.152] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:06:21.768] Server  LOG     ✓ Compiled in 46ms
+[25:07:12.474] Server  LOG     ✓ Compiled in 40ms
+[25:07:58.088] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:07:58.221] Browser LOG     🔄 Fetching fresh data from server...
+[25:07:58.372] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:07:59.715] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:07:59.892] Browser LOG     🔄 Fetching fresh data from server...
+[25:08:00.023] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:08:05.743] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:08:05.950] Browser LOG     🔄 Fetching fresh data from server...
+[25:08:06.158] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:08:35.535] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:08:35.721] Browser LOG     🔄 Fetching fresh data from server...
+[25:08:36.077] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:08:46.920] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:08:47.069] Browser LOG     🔄 Fetching fresh data from server...
+[25:08:47.188] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[25:09:03.113] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:09:03.113] Browser LOG     🔄 Fetching fresh data from server...
+[25:09:03.337] Server  LOG     ⚡ [Works] Returning from Memory Cache

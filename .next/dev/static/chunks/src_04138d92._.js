@@ -379,8 +379,14 @@ var CV = function() {
         cv2,
         fetchAllData
     ]);
-    var education = cv1 || [];
-    var exhibitions = cv2 || [];
+    var education = (cv1 || []).sort(function(a, b) {
+        if (b.year !== a.year) return b.year.localeCompare(a.year); // 연도 내림차순
+        return a.id.localeCompare(b.id); // ID 오름차순
+    });
+    var exhibitions = (cv2 || []).sort(function(a, b) {
+        if (b.year !== a.year) return b.year.localeCompare(a.year); // 연도 내림차순
+        return a.id.localeCompare(b.id); // ID 오름차순
+    });
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "cv-page",
         children: [
@@ -388,7 +394,7 @@ var CV = function() {
                 title: "CV"
             }, void 0, false, {
                 fileName: "[project]/src/app/cv/page.js",
-                lineNumber: 25,
+                lineNumber: 32,
                 columnNumber: 7
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -396,7 +402,7 @@ var CV = function() {
                 children: "홍연주 b.1999"
             }, void 0, false, {
                 fileName: "[project]/src/app/cv/page.js",
-                lineNumber: 27,
+                lineNumber: 34,
                 columnNumber: 7
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -407,17 +413,17 @@ var CV = function() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonCVItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/cv/page.js",
-                                lineNumber: 33,
+                                lineNumber: 40,
                                 columnNumber: 15
                             }, _this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonCVItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/cv/page.js",
-                                lineNumber: 34,
+                                lineNumber: 41,
                                 columnNumber: 15
                             }, _this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonCVItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/cv/page.js",
-                                lineNumber: 35,
+                                lineNumber: 42,
                                 columnNumber: 15
                             }, _this)
                         ]
@@ -430,7 +436,7 @@ var CV = function() {
                                     children: item.year
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/cv/page.js",
-                                    lineNumber: 40,
+                                    lineNumber: 47,
                                     columnNumber: 17
                                 }, _this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -438,24 +444,24 @@ var CV = function() {
                                     children: item.content
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/cv/page.js",
-                                    lineNumber: 41,
+                                    lineNumber: 48,
                                     columnNumber: 17
                                 }, _this)
                             ]
                         }, index, true, {
                             fileName: "[project]/src/app/cv/page.js",
-                            lineNumber: 39,
+                            lineNumber: 46,
                             columnNumber: 15
                         }, _this);
                     })
                 }, void 0, false, {
                     fileName: "[project]/src/app/cv/page.js",
-                    lineNumber: 30,
+                    lineNumber: 37,
                     columnNumber: 9
                 }, _this)
             }, void 0, false, {
                 fileName: "[project]/src/app/cv/page.js",
-                lineNumber: 29,
+                lineNumber: 36,
                 columnNumber: 7
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -463,7 +469,7 @@ var CV = function() {
                 children: "전시이력"
             }, void 0, false, {
                 fileName: "[project]/src/app/cv/page.js",
-                lineNumber: 48,
+                lineNumber: 55,
                 columnNumber: 7
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -474,22 +480,22 @@ var CV = function() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonCVItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/cv/page.js",
-                                lineNumber: 53,
+                                lineNumber: 60,
                                 columnNumber: 15
                             }, _this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonCVItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/cv/page.js",
-                                lineNumber: 54,
+                                lineNumber: 61,
                                 columnNumber: 15
                             }, _this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonCVItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/cv/page.js",
-                                lineNumber: 55,
+                                lineNumber: 62,
                                 columnNumber: 15
                             }, _this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonCVItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/cv/page.js",
-                                lineNumber: 56,
+                                lineNumber: 63,
                                 columnNumber: 15
                             }, _this)
                         ]
@@ -502,7 +508,7 @@ var CV = function() {
                                     children: item.year
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/cv/page.js",
-                                    lineNumber: 61,
+                                    lineNumber: 68,
                                     columnNumber: 17
                                 }, _this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
@@ -510,30 +516,30 @@ var CV = function() {
                                     children: item.content
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/cv/page.js",
-                                    lineNumber: 62,
+                                    lineNumber: 69,
                                     columnNumber: 17
                                 }, _this)
                             ]
                         }, index, true, {
                             fileName: "[project]/src/app/cv/page.js",
-                            lineNumber: 60,
+                            lineNumber: 67,
                             columnNumber: 15
                         }, _this);
                     })
                 }, void 0, false, {
                     fileName: "[project]/src/app/cv/page.js",
-                    lineNumber: 50,
+                    lineNumber: 57,
                     columnNumber: 9
                 }, _this)
             }, void 0, false, {
                 fileName: "[project]/src/app/cv/page.js",
-                lineNumber: 49,
+                lineNumber: 56,
                 columnNumber: 7
             }, _this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/cv/page.js",
-        lineNumber: 24,
+        lineNumber: 31,
         columnNumber: 5
     }, _this);
 };

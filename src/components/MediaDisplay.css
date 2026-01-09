@@ -13,9 +13,15 @@
 .media-placeholder-wrapper {
   position: relative;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #f2f2f2; /* 기본 배경색 설정 (로딩 전 깜빡임 방지) */
   overflow: hidden;
-  aspect-ratio: 4 / 3; /* 프레임 크기 고정 */
+  aspect-ratio: 4 / 3; /* 기본 비율 고정 */
+}
+
+/* 로딩이 완료된(is-loaded) 상태에서만 비율 제한 해제 */
+.media-placeholder-wrapper.is-loaded {
+  aspect-ratio: auto;
+  background-color: transparent;
 }
 
 .media-error-message {

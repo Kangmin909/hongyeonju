@@ -51,7 +51,9 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          backgroundColor: '#f2f2f2'
+          backgroundColor: '#f2f2f2',
+          aspectRatio: '4 / 3', // 에러 시에도 비율 강제 유지
+          width: '100%'
         }}
       >
         <div className="media-error-message">이미지를 불러오지 못했습니다.</div>
