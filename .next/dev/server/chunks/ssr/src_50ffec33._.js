@@ -1634,17 +1634,17 @@ const Home = ()=>{
                 className: "image-placeholder",
                 children: !home ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SkeletonHomeImage"], {}, void 0, false, {
                     fileName: "[project]/src/app/page.js",
-                    lineNumber: 55,
+                    lineNumber: 54,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaDisplay$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                     src: homeImage,
                     alt: "Home media",
-                    className: "profile-image",
+                    className: "profile-image home-media-frame",
                     autoplay: true,
                     onClick: handleMediaClick
                 }, void 0, false, {
                     fileName: "[project]/src/app/page.js",
-                    lineNumber: 57,
+                    lineNumber: 56,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
@@ -1658,7 +1658,7 @@ const Home = ()=>{
                 onClose: ()=>setSelectedMedia(null)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.js",
-                lineNumber: 68,
+                lineNumber: 67,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             selectedMedia?.type === 'video' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$VideoModal$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1667,7 +1667,7 @@ const Home = ()=>{
                 onClose: ()=>setSelectedMedia(null)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.js",
-                lineNumber: 76,
+                lineNumber: 75,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]

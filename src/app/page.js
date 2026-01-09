@@ -50,14 +50,13 @@ const Home = () => {
         </div>
       </div>
       <div className="image-placeholder">
-
         {!home ? (
           <SkeletonHomeImage />
         ) : (
           <MediaDisplay 
             src={homeImage} 
             alt="Home media" 
-            className="profile-image" 
+            className="profile-image home-media-frame" 
             autoplay={true} 
             onClick={handleMediaClick}
           />

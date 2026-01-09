@@ -63,17 +63,16 @@
 }
 
 /* 모든 미디어 요소 공통 (비디오, 이미지, iframe) */
-.profile-image, .media-element, .media-iframe {
+.profile-image, .media-iframe {
   background: #ffffff !important;
 }
 
-/* 비디오 요소 스타일 - 좌우만 미세하게 넓혀서 검은 선을 숨기고 상하는 유지 */
+/* 비디오/이미지 요소 스타일 - 로딩 중일 때 배경을 가리지 않도록 수정 */
 .media-element {
   width: 101% !important; 
   height: 100% !important;
   margin-left: -0.5%; /* 가로 중앙 유지 */
   object-fit: contain !important; /* 전체 영상 보존 */
-  background-color: #ffffff !important;
 }
 
 /* YouTube 컨테이너 및 iframe 스타일 */

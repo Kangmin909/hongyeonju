@@ -47,14 +47,13 @@
   overflow: hidden;
 }
 
-.profile-image, .media-element, .media-iframe {
+.profile-image, .media-iframe {
   background: #fff !important;
 }
 
 .media-element {
   margin-left: -.5%;
   object-fit: contain !important;
-  background-color: #fff !important;
   width: 101% !important;
   height: 100% !important;
 }
