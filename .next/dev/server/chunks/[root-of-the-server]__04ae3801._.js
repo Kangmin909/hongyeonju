@@ -23,61 +23,56 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$
 const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$external$5d$__$2840$notionhq$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$notionhq$2f$client$29$__["Client"]({
     auth: process.env.NOTION_TOKEN
 });
+let localCache = null;
+let lastFetchTime = 0;
+const CACHE_TTL = 1000 * 60 * 30;
 async function handler(req, res) {
-    try {
-        const exhibitionDbId = process.env.NOTION_EXHIBITION_DB_ID;
-        const imageDbId = process.env.NOTION_EXHIBITION_DETAIL_DB_ID;
-        // 1️⃣ 전시 DB 조회
-        const exhibitionRes = await notion.databases.query({
-            database_id: exhibitionDbId,
-            sorts: [
-                {
-                    property: "id",
-                    direction: "ascending"
-                }
-            ]
-        });
-        // 2️⃣ 이미지 DB 조회
-        const imageRes = await notion.databases.query({
-            database_id: imageDbId,
-            sorts: [
-                {
-                    property: "id",
-                    direction: "ascending"
-                }
-            ]
-        });
-        // 3️⃣ 이미지 map (exhibitionId → images[])
-        const imageMap = {};
-        imageRes.results.forEach((page)=>{
-            const exhibitionRel = page.properties.exhibition.relation[0]?.id;
-            if (!exhibitionRel) return;
-            if (!imageMap[exhibitionRel]) {
-                imageMap[exhibitionRel] = [];
-            }
-            imageMap[exhibitionRel].push({
-                id: page.properties.id.title[0]?.plain_text || "",
-                title: page.properties.title.rich_text[0]?.plain_text || "",
-                meta: page.properties.meta.rich_text[0]?.plain_text || "",
-                link: page.properties.link.url || ""
-            });
-        });
-        // 4️⃣ 최종 JSON 조립
-        const data = exhibitionRes.results.map((page)=>{
-            const pageId = page.id;
-            return {
-                id: page.properties.id.title[0]?.plain_text || "",
-                year: page.properties.year?.select?.name || "",
-                exhibitionTitle: page.properties.exhibitionTitle?.rich_text?.[0]?.plain_text || "",
-                date: page.properties.date?.rich_text?.[0]?.plain_text || "",
-                location: page.properties.location?.rich_text?.[0]?.plain_text || "",
-                description: page.properties.description?.rich_text?.[0]?.plain_text || "",
-                link: page.properties.link?.url || "",
-                images: imageMap[pageId] || []
-            };
-        });
-        // 서버 사이드 캐싱 설정
+    const { force } = req.query;
+    if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
         res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        return res.status(200).json(localCache);
+    }
+    try {
+        const databaseId = process.env.NOTION_EXHIBITION_DB_ID;
+        const response = await notion.databases.query({
+            database_id: databaseId,
+            sorts: [
+                {
+                    property: "id",
+                    direction: "ascending"
+                }
+            ]
+        });
+        const data = await Promise.all(response.results.map(async (page)=>{
+            const props = page.properties;
+            const pageId = page.id;
+            const blocks = await notion.blocks.children.list({
+                block_id: pageId
+            });
+            const images = blocks.results.filter((block)=>block.type === "image").map((block)=>({
+                    id: block.id,
+                    title: block.image.caption[0]?.plain_text || "",
+                    meta: block.image.caption[1]?.plain_text || "",
+                    link: block.image.type === "external" ? block.image.external.url : block.image.file.url
+                }));
+            return {
+                id: props.id.title[0]?.plain_text || "",
+                year: props.year.select?.name || "",
+                exhibitionTitle: props.exhibitionTitle.rich_text[0]?.plain_text || "",
+                date: props.date.rich_text[0]?.plain_text || "",
+                location: props.location.rich_text[0]?.plain_text || "",
+                description: props.description.rich_text[0]?.plain_text || "",
+                link: props.link.url || "",
+                images
+            };
+        }));
+        localCache = data;
+        lastFetchTime = Date.now();
+        if (force === "true") {
+            res.setHeader("Cache-Control", "no-store, max-age=0");
+        } else {
+            res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        }
         res.status(200).json(data);
     } catch (err) {
         console.error(err);

@@ -23,7 +23,15 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$
 const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$external$5d$__$2840$notionhq$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$notionhq$2f$client$29$__["Client"]({
     auth: process.env.NOTION_TOKEN
 });
+let localCache = null;
+let lastFetchTime = 0;
+const CACHE_TTL = 1000 * 60 * 30;
 async function handler(req, res) {
+    const { force } = req.query;
+    if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
+        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        return res.status(200).json(localCache);
+    }
     try {
         const databaseId = process.env.NOTION_CV2_DB_ID;
         const response = await notion.databases.query({
@@ -35,20 +43,22 @@ async function handler(req, res) {
                 }
             ]
         });
-        const data = response.results.map((page)=>{
-            return {
-                id: page.properties.id.title[0]?.plain_text || "",
-                year: page.properties.year.select?.name || "",
+        const data = response.results.map((page)=>({
+                year: page.properties.year.title[0]?.plain_text || "",
                 content: page.properties.content.rich_text[0]?.plain_text || ""
-            };
-        });
-        // 서버 사이드 캐싱 설정
-        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+            }));
+        localCache = data;
+        lastFetchTime = Date.now();
+        if (force === "true") {
+            res.setHeader("Cache-Control", "no-store, max-age=0");
+        } else {
+            res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        }
         res.status(200).json(data);
     } catch (err) {
         console.error(err);
         res.status(500).json({
-            error: "Failed to load cv2"
+            error: "Failed to load CV2"
         });
     }
 }

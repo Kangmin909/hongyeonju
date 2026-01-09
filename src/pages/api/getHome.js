@@ -2,7 +2,18 @@ import { Client } from "@notionhq/client";
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
+let localCache = null;
+let lastFetchTime = 0;
+const CACHE_TTL = 1000 * 60 * 30;
+
 export default async function handler(req, res) {
+  const { force } = req.query;
+
+  if (force !== "true" && localCache && (Date.now() - lastFetchTime < CACHE_TTL)) {
+    res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+    return res.status(200).json(localCache);
+  }
+
   try {
     const databaseId = process.env.NOTION_HOME_DB_ID;
 
@@ -14,25 +25,25 @@ export default async function handler(req, res) {
           direction: "ascending",
         },
       ],
-      page_size: 1, // ✅ 하나만 가져오기
+      page_size: 1,
     });
 
     const page = response.results[0];
-
-    if (!page) {
-      return res.status(404).json({ error: "No home data found" });
-    }
+    if (!page) return res.status(404).json({ error: "No home data found" });
 
     const data = {
       id: page.properties.id.title[0]?.plain_text || "",
       link: page.properties.link.url || "",
     };
 
-    // 서버 사이드 캐싱 설정
-    res.setHeader(
-      "Cache-Control",
-      "s-maxage=1800, stale-while-revalidate=3600"
-    );
+    localCache = data;
+    lastFetchTime = Date.now();
+
+    if (force === "true") {
+      res.setHeader("Cache-Control", "no-store, max-age=0");
+    } else {
+      res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+    }
 
     res.status(200).json(data);
   } catch (err) {

@@ -23,7 +23,15 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$
 const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$external$5d$__$2840$notionhq$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$notionhq$2f$client$29$__["Client"]({
     auth: process.env.NOTION_TOKEN
 });
+let localCache = null;
+let lastFetchTime = 0;
+const CACHE_TTL = 1000 * 60 * 30;
 async function handler(req, res) {
+    const { force } = req.query;
+    if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
+        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        return res.status(200).json(localCache);
+    }
     try {
         const databaseId = process.env.NOTION_ABOUT_DB_ID;
         const response = await notion.databases.query({
@@ -37,26 +45,27 @@ async function handler(req, res) {
             page_size: 1
         });
         const page = response.results[0];
-        if (!page) {
-            return res.status(404).json({
-                error: "No about data found"
-            });
-        }
-        const rawText = page.properties.aboutText.rich_text[0]?.plain_text || "";
-        const aboutText = rawText.split("\n").map((t)=>t.trim()).filter(Boolean);
+        if (!page) return res.status(404).json({
+            error: "About data not found"
+        });
+        const props = page.properties;
         const data = {
-            id: page.properties.id.title[0]?.plain_text || "",
-            mail: page.properties.mail.rich_text[0]?.plain_text || "",
-            instagram: page.properties.instagram.rich_text[0]?.plain_text || "",
-            aboutText
+            mail: props.mail?.email || "",
+            instagram: props.instagram?.rich_text[0]?.plain_text || "",
+            aboutText: props.aboutText?.rich_text[0]?.plain_text.split("\n") || []
         };
-        // 서버 사이드 캐싱 설정
-        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        localCache = data;
+        lastFetchTime = Date.now();
+        if (force === "true") {
+            res.setHeader("Cache-Control", "no-store, max-age=0");
+        } else {
+            res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        }
         res.status(200).json(data);
     } catch (err) {
         console.error(err);
         res.status(500).json({
-            error: "Failed to load about media"
+            error: "Failed to load about data"
         });
     }
 }

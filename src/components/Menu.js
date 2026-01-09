@@ -13,7 +13,7 @@ const Menu = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const { isMenuOpen, toggleMenu, refreshData, loading } = useAppData();
+  const { isMenuOpen, isRefreshing, toggleMenu, refreshData } = useAppData();
   const [isClosing, setIsClosing] = React.useState(false); 
   const [openingImmediate, setOpeningImmediate] = React.useState(false); 
 
@@ -68,7 +68,7 @@ const Menu = () => {
 
   // Effect 1.5: 초기 로드 시 복원
   React.useEffect(() => {
-    if (window.history.state?.modal === 'menu' && !isMenuOpen) {
+    if (typeof window !== 'undefined' && window.history.state?.modal === 'menu' && !isMenuOpen) {
       setOpeningImmediate(true);
       toggleMenu();
     }
@@ -135,8 +135,8 @@ const Menu = () => {
         <button className="menu-button" onClick={() => handleNavigate('/cv')}>CV</button>
         <button className="menu-button" onClick={() => handleNavigate('/about')}>ABOUT</button>
       </div>
-      <button className="refresh-button" onClick={handleRefresh} disabled={loading}>
-        {loading ? 'REFRESHING...' : 'REFRESH'}
+      <button className="refresh-button" onClick={handleRefresh} disabled={isRefreshing}>
+        {isRefreshing ? 'REFRESHING...' : 'REFRESH'}
       </button>
     </div>
   );

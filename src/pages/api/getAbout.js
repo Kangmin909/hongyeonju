@@ -2,7 +2,18 @@ import { Client } from "@notionhq/client";
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
+let localCache = null;
+let lastFetchTime = 0;
+const CACHE_TTL = 1000 * 60 * 30;
+
 export default async function handler(req, res) {
+  const { force } = req.query;
+
+  if (force !== "true" && localCache && (Date.now() - lastFetchTime < CACHE_TTL)) {
+    res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+    return res.status(200).json(localCache);
+  }
+
   try {
     const databaseId = process.env.NOTION_ABOUT_DB_ID;
 
@@ -14,38 +25,31 @@ export default async function handler(req, res) {
           direction: "ascending",
         },
       ],
-      page_size: 1, // ✅ 하나만 가져오기
+      page_size: 1,
     });
 
     const page = response.results[0];
+    if (!page) return res.status(404).json({ error: "About data not found" });
 
-    if (!page) {
-      return res.status(404).json({ error: "No about data found" });
-    }
-
-    const rawText = page.properties.aboutText.rich_text[0]?.plain_text || "";
-
-    const aboutText = rawText
-      .split("\n")
-      .map(t => t.trim())
-      .filter(Boolean);
-
+    const props = page.properties;
     const data = {
-      id: page.properties.id.title[0]?.plain_text || "",
-      mail: page.properties.mail.rich_text[0]?.plain_text || "",
-      instagram: page.properties.instagram.rich_text[0]?.plain_text || "",
-      aboutText,
+      mail: props.mail?.email || "",
+      instagram: props.instagram?.rich_text[0]?.plain_text || "",
+      aboutText: props.aboutText?.rich_text[0]?.plain_text.split("\n") || [],
     };
 
-    // 서버 사이드 캐싱 설정
-    res.setHeader(
-      "Cache-Control",
-      "s-maxage=1800, stale-while-revalidate=3600"
-    );
+    localCache = data;
+    lastFetchTime = Date.now();
+
+    if (force === "true") {
+      res.setHeader("Cache-Control", "no-store, max-age=0");
+    } else {
+      res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+    }
 
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to load about media" });
+    res.status(500).json({ error: "Failed to load about data" });
   }
 }

@@ -23,7 +23,18 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$
 const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$external$5d$__$2840$notionhq$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$notionhq$2f$client$29$__["Client"]({
     auth: process.env.NOTION_TOKEN
 });
+// 로컬/서버 공통 메모리 캐시
+let localCache = null;
+let lastFetchTime = 0;
+const CACHE_TTL = 1000 * 60 * 30; // 30분
 async function handler(req, res) {
+    const { force } = req.query;
+    // force 파라미터가 없고 캐시가 유효하면 메모리 캐시 반환
+    if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
+        console.log("⚡ [Works] Returning from Memory Cache");
+        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        return res.status(200).json(localCache);
+    }
     try {
         const databaseId = process.env.NOTION_WORKS_DB_ID;
         const response = await notion.databases.query({
@@ -44,9 +55,14 @@ async function handler(req, res) {
                 link: page.properties.link.url || ""
             };
         });
-        // 서버 사이드 캐싱 설정 (Vercel Edge Network)
-        // 30분간 신선한 캐시 유지, 이후 1시간 동안 백그라운드 갱신 허용
-        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        // 캐시 업데이트
+        localCache = data;
+        lastFetchTime = Date.now();
+        if (force === "true") {
+            res.setHeader("Cache-Control", "no-store, max-age=0"); // 강제 갱신 시 캐시 안함
+        } else {
+            res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        }
         res.status(200).json(data);
     } catch (err) {
         console.error(err);

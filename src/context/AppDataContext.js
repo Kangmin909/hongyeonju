@@ -84,6 +84,7 @@ export const AppDataProvider = ({ children }) => {
 
   const [data, setData] = useState(defaultData);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false); // 수동 새로고침 상태 추가
   const isLoading = useRef(false);
 
   // Initialize state from local storage cache if valid (Client-side only)
@@ -129,27 +130,24 @@ export const AppDataProvider = ({ children }) => {
     
     isLoading.current = true;
     setData(prev => ({ ...prev, loading: true }));
+    if (force) setIsRefreshing(true); // 강제 새로고침 시에만 활성화
 
     try {
-      console.log("🔄 Fetching fresh data from server...");
+      console.log(force ? "🔄 Forcing fresh data fetch..." : "🔄 Fetching fresh data from server...");
       
       const safeFetch = async (url) => {
         try {
-          // fetch 호출 시 발생할 수 있는 네트워크 에러를 잡기 위해 try-catch로 감싸고 
-          // 응답이 왔을 때만 res.ok를 체크합니다.
-          const res = await fetch(url).catch(err => {
+          const fetchUrl = force ? `${url}?force=true&t=${Date.now()}` : url;
+          const res = await fetch(fetchUrl).catch(err => {
             console.error(`Network error for ${url}:`, err);
             return null;
           });
 
           if (!res) return null;
-          if (!res.ok) {
-            console.warn(`Server error for ${url}: status ${res.status}`);
-            return null;
-          }
+          if (!res.ok) return null;
           return await res.json();
         } catch (e) {
-          console.error(`JSON parsing error for ${url}:`, e);
+          console.error(`Error for ${url}:`, e);
           return null; 
         }
       };
@@ -190,6 +188,7 @@ export const AppDataProvider = ({ children }) => {
       Object.assign(appDataStore, { ...data, ...errorState });
     } finally {
       isLoading.current = false;
+      setIsRefreshing(false); // 로딩 종료 시 해제
     }
   }, [data]);
 
@@ -207,6 +206,7 @@ export const AppDataProvider = ({ children }) => {
   const value = {
     ...data,
     isMenuOpen,
+    isRefreshing, // 새로운 상태 전달
     toggleMenu,
     fetchAllData,
     refreshData,

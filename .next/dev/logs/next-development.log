@@ -9977,3 +9977,91 @@ https://nextjs.org/docs/messages/module-not-found
 [23:37:59.232] Browser LOG     🔄 Fetching fresh data from server...
 [23:38:13.642] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [23:38:13.825] Browser LOG     🔄 Fetching fresh data from server...
+[23:43:45.346] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:43:45.573] Browser LOG     🔄 Fetching fresh data from server...
+[23:43:55.284] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:43:55.473] Browser LOG     🔄 Fetching fresh data from server...
+[23:44:02.547] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:44:02.675] Browser LOG     🔄 Fetching fresh data from server...
+[23:44:12.369] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:44:12.517] Browser LOG     🔄 Fetching fresh data from server...
+[23:44:28.316] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:44:28.434] Browser LOG     🔄 Fetching fresh data from server...
+[23:44:32.791] Server  LOG     ✓ Compiled in 47ms
+[23:44:53.778] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:44:53.936] Browser LOG     🔄 Fetching fresh data from server...
+[23:45:05.412] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:45:05.523] Browser LOG     🔄 Fetching fresh data from server...
+[23:47:18.516] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:47:18.698] Browser LOG     🔄 Fetching fresh data from server...
+[23:47:19.215] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:47:19.250] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:47:19.860] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:11.853] Browser LOG     🔄 Forcing fresh data fetch...
+[23:48:12.360] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:12.401] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:16.576] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:48:16.757] Browser LOG     🔄 Fetching fresh data from server...
+[23:48:17.015] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:48:17.285] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:17.461] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:29.117] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:48:29.264] Browser LOG     🔄 Fetching fresh data from server...
+[23:48:29.376] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:48:30.013] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:31.062] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:37.458] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:48:37.580] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:48:37.598] Browser LOG     🔄 Fetching fresh data from server...
+[23:48:37.984] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:44.587] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:47.164] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:48:47.349] Browser LOG     🔄 Fetching fresh data from server...
+[23:48:47.449] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:48:47.734] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:48.155] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:51.262] Browser LOG     🔄 Forcing fresh data fetch...
+[23:48:51.802] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:52.681] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:48:58.762] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:48:58.879] Browser LOG     🔄 Fetching fresh data from server...
+[23:48:58.883] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:48:59.306] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:49:03.026] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:49:08.221] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:49:08.221] Browser LOG     🔄 Fetching fresh data from server...
+[23:49:08.370] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:49:08.724] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:49:08.771] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:49:16.227] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:49:16.372] Browser LOG     🔄 Fetching fresh data from server...
+[23:49:16.482] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:49:16.736] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:49:19.306] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:49:28.139] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:49:28.402] Browser LOG     🔄 Fetching fresh data from server...
+[23:49:28.556] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:49:28.887] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:49:28.927] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:50:45.281] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:50:45.755] Browser LOG     🔄 Fetching fresh data from server...
+[23:50:45.876] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:50:46.336] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:50:46.613] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:50:57.420] Server  LOG     ✓ Compiled in 156ms
+[23:50:57.514] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:50:57.520] Browser LOG     🔄 Fetching fresh data from server...
+[23:50:58.036] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:50:58.322] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:51:23.841] Server  LOG     ✓ Compiled in 16ms
+[23:51:53.484] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[23:51:53.697] Browser LOG     🔄 Fetching fresh data from server...
+[23:51:53.897] Server  LOG     ⚡ [Works] Returning from Memory Cache
+[23:51:54.339] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:51:55.042] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:51:57.432] Browser LOG     🔄 Forcing fresh data fetch...
+[23:51:57.985] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:51:58.020] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:52:07.312] Browser LOG     🔄 Forcing fresh data fetch...
+[23:52:07.762] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')
+[23:52:08.044] Server  ERROR   TypeError: Cannot read properties of undefined (reading '0')

@@ -86,6 +86,7 @@ const AppDataProvider = ({ children })=>{
     };
     const [data, setData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(defaultData);
     const [isMenuOpen, setIsMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isRefreshing, setIsRefreshing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false); // 수동 새로고침 상태 추가
     const isLoading = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(false);
     // Initialize state from local storage cache if valid (Client-side only)
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
@@ -130,24 +131,21 @@ const AppDataProvider = ({ children })=>{
                 ...prev,
                 loading: true
             }));
+        if (force) setIsRefreshing(true); // 강제 새로고침 시에만 활성화
         try {
-            console.log("🔄 Fetching fresh data from server...");
+            console.log(force ? "🔄 Forcing fresh data fetch..." : "🔄 Fetching fresh data from server...");
             const safeFetch = async (url)=>{
                 try {
-                    // fetch 호출 시 발생할 수 있는 네트워크 에러를 잡기 위해 try-catch로 감싸고 
-                    // 응답이 왔을 때만 res.ok를 체크합니다.
-                    const res = await fetch(url).catch((err)=>{
+                    const fetchUrl = force ? `${url}?force=true&t=${Date.now()}` : url;
+                    const res = await fetch(fetchUrl).catch((err)=>{
                         console.error(`Network error for ${url}:`, err);
                         return null;
                     });
                     if (!res) return null;
-                    if (!res.ok) {
-                        console.warn(`Server error for ${url}: status ${res.status}`);
-                        return null;
-                    }
+                    if (!res.ok) return null;
                     return await res.json();
                 } catch (e) {
-                    console.error(`JSON parsing error for ${url}:`, e);
+                    console.error(`Error for ${url}:`, e);
                     return null;
                 }
             };
@@ -195,6 +193,7 @@ const AppDataProvider = ({ children })=>{
             });
         } finally{
             isLoading.current = false;
+            setIsRefreshing(false); // 로딩 종료 시 해제
         }
     }, [
         data
@@ -215,6 +214,7 @@ const AppDataProvider = ({ children })=>{
     const value = {
         ...data,
         isMenuOpen,
+        isRefreshing,
         toggleMenu,
         fetchAllData,
         refreshData
@@ -470,7 +470,7 @@ const Menu = ()=>{
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
     const searchParams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSearchParams"])();
-    const { isMenuOpen, toggleMenu, refreshData, loading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppDataContext$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAppData"])();
+    const { isMenuOpen, isRefreshing, toggleMenu, refreshData } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppDataContext$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAppData"])();
     const [isClosing, setIsClosing] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useState(false);
     const [openingImmediate, setOpeningImmediate] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useState(false);
     const isPopStateRef = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useRef(false);
@@ -530,10 +530,8 @@ const Menu = ()=>{
     ]);
     // Effect 1.5: 초기 로드 시 복원
     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useEffect(()=>{
-        if (window.history.state?.modal === 'menu' && !isMenuOpen) {
-            setOpeningImmediate(true);
-            toggleMenu();
-        }
+        if (("TURBOPACK compile-time value", "undefined") !== 'undefined' && window.history.state?.modal === 'menu' && !isMenuOpen) //TURBOPACK unreachable
+        ;
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     // Effect 2: 메뉴 상태에 따른 부가 효과 (스크롤 잠금 및 히스토리 푸시)
@@ -658,8 +656,8 @@ const Menu = ()=>{
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 className: "refresh-button",
                 onClick: handleRefresh,
-                disabled: loading,
-                children: loading ? 'REFRESHING...' : 'REFRESH'
+                disabled: isRefreshing,
+                children: isRefreshing ? 'REFRESHING...' : 'REFRESH'
             }, void 0, false, {
                 fileName: "[project]/src/components/Menu.js",
                 lineNumber: 138,

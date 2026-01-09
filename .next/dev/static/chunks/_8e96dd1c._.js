@@ -97,6 +97,7 @@ var AppDataProvider = function(param) {
     };
     var _useState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(defaultData), 2), data = _useState[0], setData = _useState[1];
     var _useState1 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), isMenuOpen = _useState1[0], setIsMenuOpen = _useState1[1];
+    var _useState2 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), isRefreshing = _useState2[0], setIsRefreshing = _useState2[1]; // 수동 새로고침 상태 추가
     var isLoading = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
     // Initialize state from local storage cache if valid (Client-side only)
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -164,6 +165,7 @@ var AppDataProvider = function(param) {
                                             });
                                         }
                                     }["AppDataProvider.useCallback[fetchAllData]"]);
+                                    if (force) setIsRefreshing(true); // 강제 새로고침 시에만 활성화
                                     _state.label = 1;
                                 case 1:
                                     _state.trys.push([
@@ -172,12 +174,12 @@ var AppDataProvider = function(param) {
                                         4,
                                         5
                                     ]);
-                                    console.log("🔄 Fetching fresh data from server...");
+                                    console.log(force ? "🔄 Forcing fresh data fetch..." : "🔄 Fetching fresh data from server...");
                                     safeFetch = ({
                                         "AppDataProvider.useCallback[fetchAllData]": function(url) {
                                             return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_async_to_generator$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])({
                                                 "AppDataProvider.useCallback[fetchAllData]": function() {
-                                                    var res, e;
+                                                    var fetchUrl, res, e;
                                                     return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$tslib$2f$tslib$2e$es6$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$5f$_generator__as__$5f3e$__["_"])(this, {
                                                         "AppDataProvider.useCallback[fetchAllData]": function(_state) {
                                                             switch(_state.label){
@@ -188,9 +190,10 @@ var AppDataProvider = function(param) {
                                                                         ,
                                                                         4
                                                                     ]);
+                                                                    fetchUrl = force ? "".concat(url, "?force=true&t=").concat(Date.now()) : url;
                                                                     return [
                                                                         4,
-                                                                        fetch(url).catch({
+                                                                        fetch(fetchUrl).catch({
                                                                             "AppDataProvider.useCallback[fetchAllData]": function(err) {
                                                                                 console.error("Network error for ".concat(url, ":"), err);
                                                                                 return null;
@@ -203,13 +206,10 @@ var AppDataProvider = function(param) {
                                                                         2,
                                                                         null
                                                                     ];
-                                                                    if (!res.ok) {
-                                                                        console.warn("Server error for ".concat(url, ": status ").concat(res.status));
-                                                                        return [
-                                                                            2,
-                                                                            null
-                                                                        ];
-                                                                    }
+                                                                    if (!res.ok) return [
+                                                                        2,
+                                                                        null
+                                                                    ];
                                                                     return [
                                                                         4,
                                                                         res.json()
@@ -221,7 +221,7 @@ var AppDataProvider = function(param) {
                                                                     ];
                                                                 case 3:
                                                                     e = _state.sent();
-                                                                    console.error("JSON parsing error for ".concat(url, ":"), e);
+                                                                    console.error("Error for ".concat(url, ":"), e);
                                                                     return [
                                                                         2,
                                                                         null
@@ -295,6 +295,7 @@ var AppDataProvider = function(param) {
                                     ];
                                 case 4:
                                     isLoading.current = false;
+                                    setIsRefreshing(false); // 로딩 종료 시 해제
                                     return [
                                         7
                                     ];
@@ -330,6 +331,7 @@ var AppDataProvider = function(param) {
     ]);
     var value = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread_props$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])({}, data), {
         isMenuOpen: isMenuOpen,
+        isRefreshing: isRefreshing,
         toggleMenu: toggleMenu,
         fetchAllData: fetchAllData,
         refreshData: refreshData
@@ -343,7 +345,7 @@ var AppDataProvider = function(param) {
         columnNumber: 5
     }, _this);
 };
-_s(AppDataProvider, "Qdt1iz7auYB2HSxWt7FHBp8c3hc=");
+_s(AppDataProvider, "R3YMeQkJLN5TgdC+tcDCrJmQ87Y=");
 _c = AppDataProvider;
 var useAppData = function() {
     _s1();
@@ -659,7 +661,7 @@ var Menu = function() {
     var router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     var pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
     var searchParams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"])();
-    var _useAppData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppDataContext$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppData"])(), isMenuOpen = _useAppData.isMenuOpen, toggleMenu = _useAppData.toggleMenu, refreshData = _useAppData.refreshData, loading = _useAppData.loading;
+    var _useAppData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppDataContext$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppData"])(), isMenuOpen = _useAppData.isMenuOpen, isRefreshing = _useAppData.isRefreshing, toggleMenu = _useAppData.toggleMenu, refreshData = _useAppData.refreshData;
     var _React_useState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState(false), 2), isClosing = _React_useState[0], setIsClosing = _React_useState[1];
     var _React_useState1 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState(false), 2), openingImmediate = _React_useState1[0], setOpeningImmediate = _React_useState1[1];
     var isPopStateRef = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(false);
@@ -737,7 +739,7 @@ var Menu = function() {
     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
         "Menu.useEffect": function() {
             var _window_history_state;
-            if (((_window_history_state = window.history.state) === null || _window_history_state === void 0 ? void 0 : _window_history_state.modal) === 'menu' && !isMenuOpen) {
+            if (("TURBOPACK compile-time value", "object") !== 'undefined' && ((_window_history_state = window.history.state) === null || _window_history_state === void 0 ? void 0 : _window_history_state.modal) === 'menu' && !isMenuOpen) {
                 setOpeningImmediate(true);
                 toggleMenu();
             }
@@ -899,8 +901,8 @@ var Menu = function() {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 className: "refresh-button",
                 onClick: handleRefresh,
-                disabled: loading,
-                children: loading ? 'REFRESHING...' : 'REFRESH'
+                disabled: isRefreshing,
+                children: isRefreshing ? 'REFRESHING...' : 'REFRESH'
             }, void 0, false, {
                 fileName: "[project]/src/components/Menu.js",
                 lineNumber: 138,
@@ -913,7 +915,7 @@ var Menu = function() {
         columnNumber: 5
     }, _this);
 };
-_s(Menu, "FpHbOWk49neTfuK2W1ida/xnuwo=", false, function() {
+_s(Menu, "lPSZ/ner0AyaxDBKm+7gt7GrXDg=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"],
