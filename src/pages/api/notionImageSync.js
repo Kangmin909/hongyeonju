@@ -87,9 +87,19 @@ export default async function handler(req, res) {
     
     const safeBaseName = baseName.replace(/\s+/g, "_");
     const uploadName = `${safeBaseName}_${timestamp}${extension}`;
+    
+    // 1) 업로드용 URL (Secret PAR 사용)
     const parUploadUrl = `${OCI_PAR_URL}${encodeURIComponent(uploadName)}`;
+    
+    // 2) 조회용 URL (Public Base URL 사용) - 보안상 안전
+    const OCI_PUBLIC_BASE_URL = process.env.OCI_PUBLIC_BASE_URL;
+    if (!OCI_PUBLIC_BASE_URL) {
+      console.error("❌ OCI_PUBLIC_BASE_URL not found in env");
+      return res.status(500).json({ error: "Missing OCI_PUBLIC_BASE_URL" });
+    }
+    const finalFileUrl = `${OCI_PUBLIC_BASE_URL}${encodeURIComponent(uploadName)}`;
 
-    console.log("📤 Uploading via PAR:", parUploadUrl);
+    console.log("📤 Uploading via PAR (Secret URL)");
     console.log("📄 Detected Content-Type:", contentType);
 
     const uploadResponse = await fetch(parUploadUrl, {
@@ -105,14 +115,10 @@ export default async function handler(req, res) {
       throw new Error(`Upload failed: ${text}`);
     }
 
-    console.log("✅ File uploaded via PAR!");
+    console.log("✅ File uploaded successfully.");
+    console.log("🔗 Public URL to be saved in Notion:", finalFileUrl);
 
-    // 5) 실제 OCI Object URL
-    const finalFileUrl = parUploadUrl.split("?")[0];
-
-    console.log("🔗 Final OCI URL:", finalFileUrl);
-
-    // 6) Notion DB 업데이트
+    // 6) Notion DB 업데이트 (안전한 Public URL 저장)
     const notionUpdateRes = await fetch(
       `https://api.notion.com/v1/pages/${pageId}`,
       {
