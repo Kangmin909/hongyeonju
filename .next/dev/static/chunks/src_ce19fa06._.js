@@ -6,10 +6,12 @@ __turbopack_context__.s([
     "default",
     ()=>__TURBOPACK__default__export__
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_object_spread.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_sliced_to_array.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_type_of$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_type_of.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+;
 ;
 ;
 var _this = ("TURBOPACK compile-time value", void 0);
@@ -66,6 +68,7 @@ var MediaDisplay = function(param) {
             return src ? loadedImageCache.has(src) : false;
         }
     }["MediaDisplay._useState.useState"]), 2), isLoaded = _useState1[0], setIsLoaded = _useState1[1];
+    var imgRef = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "MediaDisplay.useEffect": function() {
             if (isLoaded && src) {
@@ -76,6 +79,15 @@ var MediaDisplay = function(param) {
         isLoaded,
         src
     ]);
+    // 마운트 시 이미지가 이미 로드되어 있는지 확인 (브라우저 캐시 대응)
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "MediaDisplay.useEffect": function() {
+            if (imgRef.current && imgRef.current.complete) {
+                setIsLoaded(true);
+            }
+        }
+    }["MediaDisplay.useEffect"], []);
+    // 로딩 상태 결정: 에러가 없고 아직 로드되지 않았을 때만 shimmer 표시
     var shouldShowShimmer = !isLoaded && !hasError && src;
     var wrapperClass = "media-placeholder-wrapper ".concat(shouldShowShimmer ? 'loading-shimmer' : '', " ").concat(isLoaded ? 'is-loaded' : '', " ").concat(className || '');
     if (hasError || !src) {
@@ -94,12 +106,12 @@ var MediaDisplay = function(param) {
                 children: "이미지를 불러오지 못했습니다."
             }, void 0, false, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 59,
+                lineNumber: 68,
                 columnNumber: 9
             }, _this)
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 48,
+            lineNumber: 57,
             columnNumber: 7
         }, _this);
     }
@@ -121,6 +133,14 @@ var MediaDisplay = function(param) {
             className: wrapperClass,
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "media-container",
+                style: {
+                    opacity: isLoaded ? 1 : 0,
+                    position: isLoaded ? 'relative' : 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    top: 0,
+                    left: 0
+                },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("iframe", {
                         src: embedUrl,
@@ -137,7 +157,7 @@ var MediaDisplay = function(param) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 83,
+                        lineNumber: 102,
                         columnNumber: 11
                     }, _this),
                     onClick && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -145,18 +165,18 @@ var MediaDisplay = function(param) {
                         onClick: onClick
                     }, void 0, false, {
                         fileName: "[project]/src/components/MediaDisplay.js",
-                        lineNumber: 93,
+                        lineNumber: 112,
                         columnNumber: 23
                     }, _this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/MediaDisplay.js",
-                lineNumber: 82,
+                lineNumber: 91,
                 columnNumber: 9
             }, _this)
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 81,
+            lineNumber: 90,
             columnNumber: 7
         }, _this);
     }
@@ -167,6 +187,7 @@ var MediaDisplay = function(param) {
             className: wrapperClass,
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("video", {
+                    ref: imgRef,
                     src: src,
                     className: "media-element",
                     autoPlay: autoplay,
@@ -181,12 +202,18 @@ var MediaDisplay = function(param) {
                         return setHasError(true);
                     },
                     onClick: onClick,
-                    style: onClick ? {
+                    style: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])({
+                        opacity: isLoaded ? 1 : 0,
+                        position: isLoaded ? 'static' : 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                    }, onClick ? {
                         cursor: 'pointer'
-                    } : {}
+                    } : {})
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 105,
+                    lineNumber: 124,
                     columnNumber: 9
                 }, _this),
                 onClick && !controls && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -194,19 +221,20 @@ var MediaDisplay = function(param) {
                     onClick: onClick
                 }, void 0, false, {
                     fileName: "[project]/src/components/MediaDisplay.js",
-                    lineNumber: 118,
+                    lineNumber: 145,
                     columnNumber: 34
                 }, _this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 104,
+            lineNumber: 123,
             columnNumber: 7
         }, _this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: wrapperClass,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+            ref: imgRef,
             src: src,
             alt: alt || "Media content",
             className: "media-element",
@@ -217,21 +245,27 @@ var MediaDisplay = function(param) {
                 return setHasError(true);
             },
             onClick: onClick,
-            style: onClick ? {
+            style: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])({
+                opacity: isLoaded ? 1 : 0,
+                position: isLoaded ? 'static' : 'absolute',
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+            }, onClick ? {
                 cursor: 'pointer'
-            } : {}
+            } : {})
         }, void 0, false, {
             fileName: "[project]/src/components/MediaDisplay.js",
-            lineNumber: 125,
+            lineNumber: 152,
             columnNumber: 7
         }, _this)
     }, void 0, false, {
         fileName: "[project]/src/components/MediaDisplay.js",
-        lineNumber: 124,
+        lineNumber: 151,
         columnNumber: 5
     }, _this);
 };
-_s(MediaDisplay, "vXezLFoWJaVJeqVR6LOI7s37dbM=");
+_s(MediaDisplay, "FCTdsEGFvqkmI2uFO3lK0OktkAs=");
 _c = MediaDisplay;
 const __TURBOPACK__default__export__ = MediaDisplay;
 var _c;

@@ -372,221 +372,47 @@ __turbopack_context__.s([
     "default",
     ()=>__TURBOPACK__default__export__
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_sliced_to_array.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_type_of$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_type_of.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 ;
-;
-var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
+var _s = __turbopack_context__.k.signature();
 'use client';
 ;
 ;
-// Shim for useNavigationType
-var useNavigationType = function() {
-    _s();
-    var _useState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('PUSH'), 2), type = _useState[0], setType = _useState[1];
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "useNavigationType.useEffect": function() {
-            var handlePopState = {
-                "useNavigationType.useEffect.handlePopState": function() {
-                    return setType('POP');
-                }
-            }["useNavigationType.useEffect.handlePopState"];
-            var handlePushState = {
-                "useNavigationType.useEffect.handlePushState": function() {
-                    return setType('PUSH');
-                }
-            }["useNavigationType.useEffect.handlePushState"]; // Next.js doesn't emit this natively for Link
-            // This is an imperfect shim. Ideally we'd wrap the router or use a library.
-            // For now, we rely on popstate.
-            window.addEventListener('popstate', handlePopState);
-            return ({
-                "useNavigationType.useEffect": function() {
-                    return window.removeEventListener('popstate', handlePopState);
-                }
-            })["useNavigationType.useEffect"];
-        }
-    }["useNavigationType.useEffect"], []);
-    return type;
-};
-_s(useNavigationType, "F+AEAaoi734vUagIL3dVVmJt4No=");
 /**
- * 페이지 이동 시 스크롤 위치를 고도로 정밀하게 관리하는 컴포넌트입니다.
+ * 페이지 이동 시 스크롤 위치를 최상단으로 이동시키는 컴포넌트입니다.
+ * Next.js App Router의 기본 스크롤 복원 기능과 충돌하지 않도록 단순화했습니다.
  */ var ScrollToTop = function() {
-    _s1();
+    _s();
     var pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
     var searchParams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"])();
-    // Combine to mimic location object partially
-    var location = {
-        pathname: pathname,
-        key: pathname + searchParams.toString()
-    };
-    var navType = useNavigationType();
-    var isInitialAppLoad = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(true);
-    var isRestoring = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
-    var lastCapturedY = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(0);
-    var prevPathnameRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(location.pathname);
-    var prevKeyRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(location.key);
-    var restorationCleanupRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
-    // 1. 전역 설정
+    // 이전 경로를 기억하여 뒤로가기인지 새로운 이동인지 구분하는 데 도움을 줄 수 있지만,
+    // Next.js App Router는 기본적으로 뒤로가기 시 스크롤을 복원하고,
+    // Link나 router.push 시에는 스크롤을 top으로 보냅니다.
+    // 다만, 간혹 SPA 전환 시 스크롤이 유지되는 경우를 방지하기 위해 명시적으로 Top으로 보냅니다.
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ScrollToTop.useEffect": function() {
+            // 브라우저의 기본 스크롤 복원 기능을 활성화 (auto)
             if ('scrollRestoration' in window.history) {
-                window.history.scrollRestoration = 'manual';
+                window.history.scrollRestoration = 'auto';
             }
-            window.scrollTo(0, 0);
+        // 페이지 경로가 변경될 때만 스크롤을 최상단으로 이동
+        // 단, 브라우저가 스스로 스크롤을 복원하는 '뒤로가기(popstate)' 상황과는 구분하기 어렵지만
+        // Next.js는 router.push 시 scroll: true가 기본값이라 자동으로 올라갑니다.
+        // 여기서는 보조적인 역할만 수행합니다.
+        // window.scrollTo(0, 0); // Next.js가 대부분 처리하므로 과도한 강제 이동 제거
         }
-    }["ScrollToTop.useEffect"], []);
-    // 2. 실시간 스크롤 추적 (0 포함 모든 위치 저장)
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "ScrollToTop.useEffect": function() {
-            var handleScroll = {
-                "ScrollToTop.useEffect.handleScroll": function() {
-                    if (!isRestoring.current) {
-                        lastCapturedY.current = window.scrollY;
-                    }
-                }
-            }["ScrollToTop.useEffect.handleScroll"];
-            window.addEventListener('scroll', handleScroll, {
-                passive: true
-            });
-            return ({
-                "ScrollToTop.useEffect": function() {
-                    return window.removeEventListener('scroll', handleScroll);
-                }
-            })["ScrollToTop.useEffect"];
-        }
-    }["ScrollToTop.useEffect"], []);
-    // 3. 페이지 전환 로직
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useLayoutEffect"])({
-        "ScrollToTop.useLayoutEffect": function() {
-            if (restorationCleanupRef.current) {
-                restorationCleanupRef.current();
-                restorationCleanupRef.current = null;
-            }
-            var isSamePage = prevPathnameRef.current === location.pathname;
-            var cacheKey = "scroll_".concat(location.key);
-            // 페이지 이탈 전 현재 위치 저장
-            if (!isInitialAppLoad.current) {
-                try {
-                    sessionStorage.setItem("scroll_".concat(prevKeyRef.current), lastCapturedY.current.toString());
-                } catch (e) {}
-            }
-            if (navType === 'POP' && !isInitialAppLoad.current) {
-                // CASE 1: 뒤로가기 복원
-                var savedPos = sessionStorage.getItem(cacheKey);
-                var restoreY = savedPos ? parseInt(savedPos, 10) : 0;
-                if (restoreY > 0) {
-                    isRestoring.current = true;
-                    var htmlStyle = document.documentElement.style;
-                    var originalMinHeight = htmlStyle.minHeight;
-                    htmlStyle.minHeight = restoreY + window.innerHeight + 500 + 'px';
-                    var perform = {
-                        "ScrollToTop.useLayoutEffect.perform": function() {
-                            if (isRestoring.current) window.scrollTo({
-                                top: restoreY,
-                                behavior: 'instant'
-                            });
-                        }
-                    }["ScrollToTop.useLayoutEffect.perform"];
-                    perform();
-                    var interval = setInterval(perform, 16);
-                    var observer = new ResizeObserver(perform);
-                    observer.observe(document.body);
-                    var stop = {
-                        "ScrollToTop.useLayoutEffect.stop": function() {
-                            if (!isRestoring.current) return;
-                            isRestoring.current = false;
-                            clearInterval(interval);
-                            observer.disconnect();
-                            htmlStyle.minHeight = originalMinHeight;
-                            lastCapturedY.current = window.scrollY; // 실제 안착한 위치 캡처
-                        }
-                    }["ScrollToTop.useLayoutEffect.stop"];
-                    window.addEventListener('wheel', stop, {
-                        passive: true
-                    });
-                    window.addEventListener('touchstart', stop, {
-                        passive: true
-                    });
-                    var timer = setTimeout(stop, 2500);
-                    restorationCleanupRef.current = ({
-                        "ScrollToTop.useLayoutEffect": function() {
-                            clearTimeout(timer);
-                            stop();
-                        }
-                    })["ScrollToTop.useLayoutEffect"];
-                }
-            } else if (isSamePage && !isInitialAppLoad.current) {
-                // CASE 2: 동일 페이지 이동 (연도 변경)
-                var targetY = lastCapturedY.current;
-                // 이미 상단에 가깝다면 고정하지 않고 자연스럽게 이동하도록 둠
-                if (targetY > 10) {
-                    isRestoring.current = true;
-                    var htmlStyle1 = document.documentElement.style;
-                    var originalMinHeight1 = htmlStyle1.minHeight;
-                    htmlStyle1.minHeight = targetY + window.innerHeight + 'px';
-                    var pin = {
-                        "ScrollToTop.useLayoutEffect.pin": function() {
-                            if (isRestoring.current) window.scrollTo({
-                                top: targetY,
-                                behavior: 'instant'
-                            });
-                        }
-                    }["ScrollToTop.useLayoutEffect.pin"];
-                    pin();
-                    var interval1 = setInterval(pin, 16);
-                    var observer1 = new ResizeObserver(pin);
-                    observer1.observe(document.body);
-                    var stop1 = {
-                        "ScrollToTop.useLayoutEffect.stop": function() {
-                            if (!isRestoring.current) return;
-                            isRestoring.current = false;
-                            clearInterval(interval1);
-                            observer1.disconnect();
-                            htmlStyle1.minHeight = originalMinHeight1;
-                            // [중요] 연도 변경 후 콘텐츠가 짧아 위로 딸려 올라갔다면 그 위치(예: 0)를 새로운 '기억'으로 저장
-                            lastCapturedY.current = window.scrollY;
-                        }
-                    }["ScrollToTop.useLayoutEffect.stop"];
-                    // 연도 변경은 비교적 빠르므로 0.4초간만 강제 고정
-                    var timer1 = setTimeout(stop1, 400);
-                    restorationCleanupRef.current = ({
-                        "ScrollToTop.useLayoutEffect": function() {
-                            clearTimeout(timer1);
-                            stop1();
-                        }
-                    })["ScrollToTop.useLayoutEffect"];
-                }
-            } else {
-                // CASE 3: 신규 페이지 진입
-                window.scrollTo(0, 0);
-                lastCapturedY.current = 0;
-            }
-            isInitialAppLoad.current = false;
-            prevPathnameRef.current = location.pathname;
-            prevKeyRef.current = location.key;
-            return ({
-                "ScrollToTop.useLayoutEffect": function() {
-                    if (restorationCleanupRef.current) {
-                        restorationCleanupRef.current();
-                        restorationCleanupRef.current = null;
-                    }
-                }
-            })["ScrollToTop.useLayoutEffect"];
-        }
-    }["ScrollToTop.useLayoutEffect"], [
-        location,
-        navType
+    }["ScrollToTop.useEffect"], [
+        pathname,
+        searchParams
     ]);
     return null;
 };
-_s1(ScrollToTop, "HfKxGAYgV9vJtML5RMzqjfoTnhQ=", false, function() {
+_s(ScrollToTop, "h6p6PpCFmP4Mu5bIMduBzSZThBE=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"],
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"],
-        useNavigationType
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"]
     ];
 });
 _c = ScrollToTop;

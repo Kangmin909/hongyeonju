@@ -4,13 +4,13 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 let localCache = null;
 let lastFetchTime = 0;
-const CACHE_TTL = 1000 * 60 * 30;
+const CACHE_TTL = 1000 * 60 * 60;
 
 export default async function handler(req, res) {
   const { force } = req.query;
 
   if (force !== "true" && localCache && (Date.now() - lastFetchTime < CACHE_TTL)) {
-    res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+    res.setHeader("Cache-Control", "public, s-maxage=1");
     return res.status(200).json(localCache);
   }
 
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 
     res.setHeader(
       "Cache-Control",
-      "s-maxage=1800, stale-while-revalidate=3600"
+      "public, s-maxage=1"
     );
 
     res.status(200).json(data);

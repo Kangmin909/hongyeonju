@@ -23,15 +23,7 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$
 const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$external$5d$__$2840$notionhq$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$notionhq$2f$client$29$__["Client"]({
     auth: process.env.NOTION_TOKEN
 });
-let localCache = null;
-let lastFetchTime = 0;
-const CACHE_TTL = 1000 * 60 * 5; // 5분 (이미지 링크 만료 방지)
 async function handler(req, res) {
-    const { force } = req.query;
-    if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
-        res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
-        return res.status(200).json(localCache);
-    }
     try {
         const databaseId = process.env.NOTION_EXHIBITION_DB_ID;
         const response = await notion.databases.query({
@@ -100,7 +92,6 @@ async function handler(req, res) {
                         numeric: true
                     }));
             }
-            // console.log(`[Exhibition ${props.id?.title?.[0]?.plain_text}] Images:`, images.length);
             return {
                 id: id,
                 year: getPlainText(props.year),
@@ -112,9 +103,7 @@ async function handler(req, res) {
                 images
             };
         }));
-        localCache = data;
-        lastFetchTime = Date.now();
-        res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
+        res.setHeader("Cache-Control", "public, s-maxage=1, stale-while-revalidate=3600");
         res.status(200).json(data);
     } catch (err) {
         console.error("Exhibition API Error:", err);

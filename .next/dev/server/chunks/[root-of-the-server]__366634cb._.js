@@ -25,11 +25,11 @@ const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$
 });
 let localCache = null;
 let lastFetchTime = 0;
-const CACHE_TTL = 1000 * 60 * 30;
+const CACHE_TTL = 1000 * 60 * 60;
 async function handler(req, res) {
     const { force } = req.query;
     if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
-        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        res.setHeader("Cache-Control", "public, s-maxage=1");
         return res.status(200).json(localCache);
     }
     try {
@@ -60,7 +60,7 @@ async function handler(req, res) {
         };
         localCache = data;
         lastFetchTime = Date.now();
-        res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
+        res.setHeader("Cache-Control", "public, s-maxage=1");
         res.status(200).json(data);
     } catch (err) {
         console.error(err);

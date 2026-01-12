@@ -1,167 +1,34 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-// Shim for useNavigationType
-const useNavigationType = () => {
-  const [type, setType] = useState('PUSH');
-  
-  useEffect(() => {
-    const handlePopState = () => setType('POP');
-    const handlePushState = () => setType('PUSH'); // Next.js doesn't emit this natively for Link
-    // This is an imperfect shim. Ideally we'd wrap the router or use a library.
-    // For now, we rely on popstate.
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-  
-  return type;
-}
-
 /**
- * 페이지 이동 시 스크롤 위치를 고도로 정밀하게 관리하는 컴포넌트입니다.
+ * 페이지 이동 시 스크롤 위치를 최상단으로 이동시키는 컴포넌트입니다.
+ * Next.js App Router의 기본 스크롤 복원 기능과 충돌하지 않도록 단순화했습니다.
  */
 const ScrollToTop = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  // Combine to mimic location object partially
-  const location = { pathname, key: pathname + searchParams.toString() }; 
   
-  const navType = useNavigationType();
+  // 이전 경로를 기억하여 뒤로가기인지 새로운 이동인지 구분하는 데 도움을 줄 수 있지만,
+  // Next.js App Router는 기본적으로 뒤로가기 시 스크롤을 복원하고,
+  // Link나 router.push 시에는 스크롤을 top으로 보냅니다.
+  // 다만, 간혹 SPA 전환 시 스크롤이 유지되는 경우를 방지하기 위해 명시적으로 Top으로 보냅니다.
 
-  
-  const isInitialAppLoad = useRef(true);
-  const isRestoring = useRef(false);
-  const lastCapturedY = useRef(0);
-  const prevPathnameRef = useRef(location.pathname);
-  const prevKeyRef = useRef(location.key);
-  const restorationCleanupRef = useRef(null);
-
-  // 1. 전역 설정
   useEffect(() => {
+    // 브라우저의 기본 스크롤 복원 기능을 활성화 (auto)
     if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
+      window.history.scrollRestoration = 'auto';
     }
-    window.scrollTo(0, 0); 
-  }, []);
-
-  // 2. 실시간 스크롤 추적 (0 포함 모든 위치 저장)
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!isRestoring.current) {
-        lastCapturedY.current = window.scrollY;
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // 3. 페이지 전환 로직
-  useLayoutEffect(() => {
-    if (restorationCleanupRef.current) {
-      restorationCleanupRef.current();
-      restorationCleanupRef.current = null;
-    }
-
-    const isSamePage = prevPathnameRef.current === location.pathname;
-    const cacheKey = `scroll_${location.key}`;
-
-    // 페이지 이탈 전 현재 위치 저장
-    if (!isInitialAppLoad.current) {
-       try {
-         sessionStorage.setItem(`scroll_${prevKeyRef.current}`, lastCapturedY.current.toString());
-       } catch (e) {}
-    }
-
-    if (navType === 'POP' && !isInitialAppLoad.current) {
-      // CASE 1: 뒤로가기 복원
-      const savedPos = sessionStorage.getItem(cacheKey);
-      const restoreY = savedPos ? parseInt(savedPos, 10) : 0;
-
-      if (restoreY > 0) {
-        isRestoring.current = true;
-        const htmlStyle = document.documentElement.style;
-        const originalMinHeight = htmlStyle.minHeight;
-        htmlStyle.minHeight = (restoreY + window.innerHeight + 500) + 'px';
-
-        const perform = () => {
-          if (isRestoring.current) window.scrollTo({ top: restoreY, behavior: 'instant' });
-        };
-
-        perform();
-        const interval = setInterval(perform, 16);
-        const observer = new ResizeObserver(perform);
-        observer.observe(document.body);
-
-        const stop = () => {
-          if (!isRestoring.current) return;
-          isRestoring.current = false;
-          clearInterval(interval);
-          observer.disconnect();
-          htmlStyle.minHeight = originalMinHeight;
-          lastCapturedY.current = window.scrollY; // 실제 안착한 위치 캡처
-        };
-
-        window.addEventListener('wheel', stop, { passive: true });
-        window.addEventListener('touchstart', stop, { passive: true });
-        const timer = setTimeout(stop, 2500);
-
-        restorationCleanupRef.current = () => { clearTimeout(timer); stop(); };
-      }
-    } else if (isSamePage && !isInitialAppLoad.current) {
-      // CASE 2: 동일 페이지 이동 (연도 변경)
-      const targetY = lastCapturedY.current;
-      
-      // 이미 상단에 가깝다면 고정하지 않고 자연스럽게 이동하도록 둠
-      if (targetY > 10) {
-        isRestoring.current = true;
-        const htmlStyle = document.documentElement.style;
-        const originalMinHeight = htmlStyle.minHeight;
-        
-        htmlStyle.minHeight = (targetY + window.innerHeight) + 'px';
-
-        const pin = () => {
-          if (isRestoring.current) window.scrollTo({ top: targetY, behavior: 'instant' });
-        };
-
-        pin();
-        const interval = setInterval(pin, 16);
-        const observer = new ResizeObserver(pin);
-        observer.observe(document.body);
-
-        const stop = () => {
-          if (!isRestoring.current) return;
-          isRestoring.current = false;
-          clearInterval(interval);
-          observer.disconnect();
-          htmlStyle.minHeight = originalMinHeight;
-          // [중요] 연도 변경 후 콘텐츠가 짧아 위로 딸려 올라갔다면 그 위치(예: 0)를 새로운 '기억'으로 저장
-          lastCapturedY.current = window.scrollY;
-        };
-
-        // 연도 변경은 비교적 빠르므로 0.4초간만 강제 고정
-        const timer = setTimeout(stop, 400);
-
-        restorationCleanupRef.current = () => { clearTimeout(timer); stop(); };
-      }
-    } else {
-      // CASE 3: 신규 페이지 진입
-      window.scrollTo(0, 0);
-      lastCapturedY.current = 0;
-    }
-
-    isInitialAppLoad.current = false;
-    prevPathnameRef.current = location.pathname;
-    prevKeyRef.current = location.key;
-
-    return () => {
-      if (restorationCleanupRef.current) {
-        restorationCleanupRef.current();
-        restorationCleanupRef.current = null;
-      }
-    };
-  }, [location, navType]);
+    
+    // 페이지 경로가 변경될 때만 스크롤을 최상단으로 이동
+    // 단, 브라우저가 스스로 스크롤을 복원하는 '뒤로가기(popstate)' 상황과는 구분하기 어렵지만
+    // Next.js는 router.push 시 scroll: true가 기본값이라 자동으로 올라갑니다.
+    // 여기서는 보조적인 역할만 수행합니다.
+    
+    // window.scrollTo(0, 0); // Next.js가 대부분 처리하므로 과도한 강제 이동 제거
+  }, [pathname, searchParams]);
 
   return null;
 };

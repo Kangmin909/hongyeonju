@@ -33,6 +33,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
   const [hasError, setHasError] = useState(false);
   // 캐시에 있으면 즉시 로드된 상태로 시작합니다.
   const [isLoaded, setIsLoaded] = useState(() => src ? loadedImageCache.has(src) : false);
+  const imgRef = React.useRef(null);
 
   useEffect(() => {
     if (isLoaded && src) {
@@ -40,6 +41,14 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
     }
   }, [isLoaded, src]);
 
+  // 마운트 시 이미지가 이미 로드되어 있는지 확인 (브라우저 캐시 대응)
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // 로딩 상태 결정: 에러가 없고 아직 로드되지 않았을 때만 shimmer 표시
   const shouldShowShimmer = !isLoaded && !hasError && src;
   const wrapperClass = `media-placeholder-wrapper ${shouldShowShimmer ? 'loading-shimmer' : ''} ${isLoaded ? 'is-loaded' : ''} ${className || ''}`;
 
@@ -79,7 +88,17 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
     
     return (
       <div className={wrapperClass}>
-        <div className="media-container">
+        <div 
+          className="media-container" 
+          style={{ 
+            opacity: isLoaded ? 1 : 0,
+            position: isLoaded ? 'relative' : 'absolute', // 로딩 중엔 절대 위치로 숨김
+            width: '100%',
+            height: '100%',
+            top: 0,
+            left: 0
+          }}
+        >
           <iframe
             src={embedUrl}
             title={alt || 'YouTube video'}
@@ -90,7 +109,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
             onLoad={() => setIsLoaded(true)}
             onError={() => setHasError(true)}
           />
-          {onClick && <div style={clickOverlayStyle} onClick={onClick} />}
+          {isLoaded && onClick && <div style={clickOverlayStyle} onClick={onClick} />}
         </div>
       </div>
     );
@@ -103,6 +122,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
     return (
       <div className={wrapperClass}>
         <video
+          ref={imgRef}
           src={src}
           className="media-element"
           autoPlay={autoplay}
@@ -113,9 +133,16 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
           onLoadedData={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
           onClick={onClick}
-          style={onClick ? { cursor: 'pointer' } : {}}
+          style={{ 
+            opacity: isLoaded ? 1 : 0, 
+            position: isLoaded ? 'static' : 'absolute',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            ...(onClick ? { cursor: 'pointer' } : {}) 
+          }}
         />
-        {onClick && !controls && <div style={clickOverlayStyle} onClick={onClick} />}
+        {isLoaded && onClick && !controls && <div style={clickOverlayStyle} onClick={onClick} />}
       </div>
     );
   }
@@ -123,13 +150,21 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
   return (
     <div className={wrapperClass}>
       <img 
+        ref={imgRef}
         src={src} 
         alt={alt || "Media content"} 
         className="media-element"
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         onClick={onClick}
-        style={onClick ? { cursor: 'pointer' } : {}}
+        style={{ 
+          opacity: isLoaded ? 1 : 0, 
+          position: isLoaded ? 'static' : 'absolute',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          ...(onClick ? { cursor: 'pointer' } : {}) 
+        }}
       />
     </div>
   );

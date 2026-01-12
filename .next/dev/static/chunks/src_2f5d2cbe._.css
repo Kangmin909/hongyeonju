@@ -270,13 +270,14 @@
   aspect-ratio: 4 / 3;
   background-color: #f2f2f2;
   width: 100%;
+  transition: background-color .5s;
   position: relative;
   overflow: hidden;
 }
 
 .media-placeholder-wrapper.is-loaded {
   aspect-ratio: auto;
-  background-color: #0000;
+  background-color: #0000 !important;
 }
 
 .media-error-message {
