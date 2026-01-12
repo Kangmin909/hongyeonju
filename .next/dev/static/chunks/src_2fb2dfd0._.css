@@ -92,13 +92,13 @@
   display: flex;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 531px) {
   .exhibition-detail-column:nth-child(2), .exhibition-detail-column:nth-child(3) {
     display: none;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1079px) {
+@media (min-width: 532px) and (max-width: 1079px) {
   .exhibition-detail-column:nth-child(3) {
     display: none;
   }
@@ -193,52 +193,6 @@
   border-radius: 20px;
 }
 
-.media-error-placeholder {
-  aspect-ratio: 4 / 3;
-  color: #a0a0a0;
-  text-align: center;
-  background-color: #f0f0f0;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  font-size: 14px;
-  display: flex;
-}
-
-.media-placeholder-wrapper {
-  aspect-ratio: 4 / 3;
-  background-color: #fff;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-
-.loading-shimmer {
-  background: linear-gradient(110deg, #f2f2f2 30%, #fff 50%, #f2f2f2 70%) 0 0 / 300% 100%;
-  animation: 2s ease-in-out infinite skeleton-shimmer;
-}
-
-.media-element {
-  opacity: 0;
-  width: 100%;
-  height: auto;
-  transition: opacity .3s ease-in;
-  display: block;
-}
-
-.media-placeholder-wrapper:not(.loading-shimmer) {
-  aspect-ratio: auto;
-  background-color: #fff;
-}
-
-.media-placeholder-wrapper:not(.loading-shimmer) .media-element {
-  opacity: 1;
-}
-
-.media-error-message {
-  max-width: 80%;
-}
-
 /* [project]/src/components/MediaDisplay.css [app-client] (css) */
 .media-error-placeholder {
   aspect-ratio: 4 / 3;
@@ -256,13 +210,14 @@
   aspect-ratio: 4 / 3;
   background-color: #f2f2f2;
   width: 100%;
+  transition: background-color .5s;
   position: relative;
   overflow: hidden;
 }
 
 .media-placeholder-wrapper.is-loaded {
   aspect-ratio: auto;
-  background-color: #0000;
+  background-color: #0000 !important;
 }
 
 .media-error-message {

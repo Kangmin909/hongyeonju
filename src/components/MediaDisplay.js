@@ -31,8 +31,8 @@ const isYouTubeUrl = (url) => {
 // MediaDisplay 컴포넌트
 const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false, onClick }) => {
   const [hasError, setHasError] = useState(false);
-  // 캐시에 있으면 즉시 로드된 상태로 시작합니다.
-  const [isLoaded, setIsLoaded] = useState(() => src ? loadedImageCache.has(src) : false);
+  // 항상 로딩 상태로 시작하여 프레임 공간을 확보함 (캐시된 이미지라도 마운트 직후 레이아웃 잡는 시간 확보)
+  const [isLoaded, setIsLoaded] = useState(false);
   const imgRef = React.useRef(null);
 
   useEffect(() => {
@@ -154,6 +154,7 @@ const MediaDisplay = ({ src, alt, className, autoplay = false, controls = false,
         src={src} 
         alt={alt || "Media content"} 
         className="media-element"
+        loading="eager" /* 즉시 로딩 강제 */
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         onClick={onClick}

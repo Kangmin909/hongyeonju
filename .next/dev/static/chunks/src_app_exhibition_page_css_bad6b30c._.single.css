@@ -67,13 +67,13 @@
   display: flex;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 531px) {
   .exhibitions-column:nth-child(2), .exhibitions-column:nth-child(3) {
     display: none;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1079px) {
+@media (min-width: 532px) and (max-width: 1079px) {
   .exhibitions-column:nth-child(3) {
     display: none;
   }
@@ -142,7 +142,7 @@
   left: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 532px) {
   .exhibitions-list, .exhibitions-column {
     gap: 40px;
   }

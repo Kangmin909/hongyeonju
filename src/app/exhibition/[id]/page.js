@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useParams } from 'next/navigation';
 import './page.css';
 import { useAppData } from '../../../context/AppDataContext';
@@ -27,7 +27,7 @@ const ExhibitionDetail = () => {
   }, []);
 
   const getNumColumns = () => {
-    if (windowWidth < 768) return 1;
+    if (windowWidth < 532) return 1;
     if (windowWidth < 1080) return 2;
     return 3;
   };

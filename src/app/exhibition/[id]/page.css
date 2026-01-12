@@ -98,14 +98,14 @@
 }
 
 /* 반응형 열 표시 제어 (JS 로드 전 방어 로직) */
-@media (max-width: 767px) {
+@media (max-width: 531px) {
   .exhibition-detail-column:nth-child(2),
   .exhibition-detail-column:nth-child(3) {
     display: none;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1079px) {
+@media (min-width: 532px) and (max-width: 1079px) {
   .exhibition-detail-column:nth-child(3) {
     display: none;
   }
@@ -198,60 +198,4 @@
 .skeleton-badge {
   background-color: #f0f0f0; /* 스켈레톤 기본 색상 */
   border-radius: 20px;
-}
-
-/* 미디어 로딩 에러 플레이스홀더 */
-.media-error-placeholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
-  width: 100%;
-  aspect-ratio: 4 / 3; /* 기본 비율 */
-  color: #a0a0a0;
-  font-size: 14px;
-  text-align: center;
-}
-
-/* 레이아웃 시프트 방지를 위한 미디어 래퍼 */
-.media-placeholder-wrapper {
-  position: relative;
-  width: 100%;
-  background-color: #ffffff;
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-}
-
-/* 로딩 중 쉬머 애니메이션 */
-.loading-shimmer {
-  background: linear-gradient(
-    110deg, 
-    #f2f2f2 30%, 
-    #ffffff 50%, 
-    #f2f2f2 70%
-  );
-  background-size: 300% 100%;
-  animation: skeleton-shimmer 2s infinite ease-in-out;
-}
-
-.media-element {
-  width: 100%;
-  height: auto;
-  display: block;
-  opacity: 0;
-  transition: opacity 0.3s ease-in;
-}
-
-/* 로딩이 완료된 래퍼 내부의 이미지/비디오 */
-.media-placeholder-wrapper:not(.loading-shimmer) {
-  background-color: #ffffff;
-  aspect-ratio: auto; /* 로딩 완료 후 실제 이미지 비율에 따름 */
-}
-
-.media-placeholder-wrapper:not(.loading-shimmer) .media-element {
-  opacity: 1;
-}
-
-.media-error-message {
-  max-width: 80%;
 }

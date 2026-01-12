@@ -71,14 +71,14 @@
   }
 
   /* 반응형 열 표시 제어 (JS 로드 전 방어 로직) */
-  @media (max-width: 767px) {
+  @media (max-width: 531px) {
     .exhibitions-column:nth-child(2),
     .exhibitions-column:nth-child(3) {
       display: none;
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1079px) {
+  @media (min-width: 532px) and (max-width: 1079px) {
     .exhibitions-column:nth-child(3) {
       display: none;
     }
@@ -162,7 +162,7 @@
   }
 
   /* 반응형 간격 설정 */
-  @media (min-width: 768px) {
+  @media (min-width: 532px) {
     .exhibitions-list {
       gap: 40px;
     }

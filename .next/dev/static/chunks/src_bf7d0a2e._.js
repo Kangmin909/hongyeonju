@@ -62,12 +62,8 @@ var MediaDisplay = function(param) {
     var src = param.src, alt = param.alt, className = param.className, _param_autoplay = param.autoplay, autoplay = _param_autoplay === void 0 ? false : _param_autoplay, _param_controls = param.controls, controls = _param_controls === void 0 ? false : _param_controls, onClick = param.onClick;
     _s();
     var _useState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), hasError = _useState[0], setHasError = _useState[1];
-    // 캐시에 있으면 즉시 로드된 상태로 시작합니다.
-    var _useState1 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "MediaDisplay._useState.useState": function() {
-            return src ? loadedImageCache.has(src) : false;
-        }
-    }["MediaDisplay._useState.useState"]), 2), isLoaded = _useState1[0], setIsLoaded = _useState1[1];
+    // 항상 로딩 상태로 시작하여 프레임 공간을 확보함 (캐시된 이미지라도 마운트 직후 레이아웃 잡는 시간 확보)
+    var _useState1 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), isLoaded = _useState1[0], setIsLoaded = _useState1[1];
     var imgRef = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "MediaDisplay.useEffect": function() {
@@ -238,7 +234,8 @@ var MediaDisplay = function(param) {
             src: src,
             alt: alt || "Media content",
             className: "media-element",
-            onLoad: function() {
+            loading: "eager",
+            /* 즉시 로딩 강제 */ onLoad: function() {
                 return setIsLoaded(true);
             },
             onError: function() {
@@ -265,7 +262,7 @@ var MediaDisplay = function(param) {
         columnNumber: 5
     }, _this);
 };
-_s(MediaDisplay, "FCTdsEGFvqkmI2uFO3lK0OktkAs=");
+_s(MediaDisplay, "aEnK5q3l8x7tMwfI1qs8jrTrZuM=");
 _c = MediaDisplay;
 const __TURBOPACK__default__export__ = MediaDisplay;
 var _c;

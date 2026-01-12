@@ -2,15 +2,11 @@
 
 import { Suspense } from 'react';
 import { AppDataProvider } from '../context/AppDataContext';
-import ScrollToTop from '../components/ScrollToTop';
 import Menu from '../components/Menu';
 
 export default function ClientLayout({ children }) {
   return (
     <AppDataProvider>
-      <Suspense fallback={null}>
-        <ScrollToTop />
-      </Suspense>
       <Suspense fallback={null}>
         <Menu />
       </Suspense>

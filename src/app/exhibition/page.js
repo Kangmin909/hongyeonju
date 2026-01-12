@@ -36,7 +36,7 @@ const ExhibitionsContent = () => {
   }, []);
 
   const getNumColumns = () => {
-    if (windowWidth < 768) return 1;
+    if (windowWidth < 532) return 1;
     if (windowWidth < 1080) return 2;
     return 3;
   };
@@ -66,9 +66,36 @@ const ExhibitionsContent = () => {
   });
 
   const handleExhibitionClick = (exhibition) => {
-    router.push(`/exhibition/${exhibition.id}`); // 전시 세부페이지로 이동
+    sessionStorage.setItem('exhibition_scroll', window.scrollY.toString());
+    router.push(`/exhibition/${exhibition.id}`); 
   };
-  
+
+  // 스크롤 복원 로직 (수동 복구)
+  useEffect(() => {
+    const savedScroll = sessionStorage.getItem('exhibition_scroll');
+    if (savedScroll) {
+      const scrollY = parseInt(savedScroll, 10);
+      window.scrollTo(0, scrollY);
+
+      // 이미지 로딩 등으로 인한 레이아웃 변화에 대응
+      const observer = new ResizeObserver(() => {
+        if (Math.abs(window.scrollY - scrollY) > 10) {
+          window.scrollTo(0, scrollY);
+        }
+      });
+      observer.observe(document.body);
+
+      const timer = setTimeout(() => {
+        observer.disconnect();
+        sessionStorage.removeItem('exhibition_scroll');
+      }, 800); // 0.8초 동안 위치 고정 시도
+
+      return () => {
+        observer.disconnect();
+        clearTimeout(timer);
+      };
+    }
+  }, []); // 마운트 시 1회 실행
 
   return (
     <div className="exhibitions-container">

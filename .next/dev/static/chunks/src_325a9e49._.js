@@ -304,12 +304,8 @@ var MediaDisplay = function(param) {
     var src = param.src, alt = param.alt, className = param.className, _param_autoplay = param.autoplay, autoplay = _param_autoplay === void 0 ? false : _param_autoplay, _param_controls = param.controls, controls = _param_controls === void 0 ? false : _param_controls, onClick = param.onClick;
     _s();
     var _useState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), hasError = _useState[0], setHasError = _useState[1];
-    // 캐시에 있으면 즉시 로드된 상태로 시작합니다.
-    var _useState1 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "MediaDisplay._useState.useState": function() {
-            return src ? loadedImageCache.has(src) : false;
-        }
-    }["MediaDisplay._useState.useState"]), 2), isLoaded = _useState1[0], setIsLoaded = _useState1[1];
+    // 항상 로딩 상태로 시작하여 프레임 공간을 확보함 (캐시된 이미지라도 마운트 직후 레이아웃 잡는 시간 확보)
+    var _useState1 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), isLoaded = _useState1[0], setIsLoaded = _useState1[1];
     var imgRef = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "MediaDisplay.useEffect": function() {
@@ -480,7 +476,8 @@ var MediaDisplay = function(param) {
             src: src,
             alt: alt || "Media content",
             className: "media-element",
-            onLoad: function() {
+            loading: "eager",
+            /* 즉시 로딩 강제 */ onLoad: function() {
                 return setIsLoaded(true);
             },
             onError: function() {
@@ -507,7 +504,7 @@ var MediaDisplay = function(param) {
         columnNumber: 5
     }, _this);
 };
-_s(MediaDisplay, "FCTdsEGFvqkmI2uFO3lK0OktkAs=");
+_s(MediaDisplay, "aEnK5q3l8x7tMwfI1qs8jrTrZuM=");
 _c = MediaDisplay;
 const __TURBOPACK__default__export__ = MediaDisplay;
 var _c;
@@ -884,7 +881,7 @@ var ExhibitionsContent = function() {
         }
     }["ExhibitionsContent.useEffect"], []);
     var getNumColumns = function() {
-        if (windowWidth < 768) return 1;
+        if (windowWidth < 532) return 1;
         if (windowWidth < 1080) return 2;
         return 3;
     };
@@ -917,8 +914,40 @@ var ExhibitionsContent = function() {
         columns[index % numColumns].push(exhibition);
     });
     var handleExhibitionClick = function(exhibition) {
-        router.push("/exhibition/".concat(exhibition.id)); // 전시 세부페이지로 이동
+        sessionStorage.setItem('exhibition_scroll', window.scrollY.toString());
+        router.push("/exhibition/".concat(exhibition.id));
     };
+    // 스크롤 복원 로직 (수동 복구)
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ExhibitionsContent.useEffect": function() {
+            var savedScroll = sessionStorage.getItem('exhibition_scroll');
+            if (savedScroll) {
+                var scrollY = parseInt(savedScroll, 10);
+                window.scrollTo(0, scrollY);
+                // 이미지 로딩 등으로 인한 레이아웃 변화에 대응
+                var observer = new ResizeObserver({
+                    "ExhibitionsContent.useEffect": function() {
+                        if (Math.abs(window.scrollY - scrollY) > 10) {
+                            window.scrollTo(0, scrollY);
+                        }
+                    }
+                }["ExhibitionsContent.useEffect"]);
+                observer.observe(document.body);
+                var timer = setTimeout({
+                    "ExhibitionsContent.useEffect.timer": function() {
+                        observer.disconnect();
+                        sessionStorage.removeItem('exhibition_scroll');
+                    }
+                }["ExhibitionsContent.useEffect.timer"], 800); // 0.8초 동안 위치 고정 시도
+                return ({
+                    "ExhibitionsContent.useEffect": function() {
+                        observer.disconnect();
+                        clearTimeout(timer);
+                    }
+                })["ExhibitionsContent.useEffect"];
+            }
+        }
+    }["ExhibitionsContent.useEffect"], []); // 마운트 시 1회 실행
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "exhibitions-container",
         children: [
@@ -926,7 +955,7 @@ var ExhibitionsContent = function() {
                 title: "EXHIBITION"
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/page.js",
-                lineNumber: 75,
+                lineNumber: 102,
                 columnNumber: 7
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$YearNav$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -936,7 +965,7 @@ var ExhibitionsContent = function() {
                 loading: !exhibitions
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/page.js",
-                lineNumber: 77,
+                lineNumber: 104,
                 columnNumber: 7
             }, _this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -950,23 +979,23 @@ var ExhibitionsContent = function() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonExhibitionItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/exhibition/page.js",
-                                lineNumber: 89,
+                                lineNumber: 116,
                                 columnNumber: 15
                             }, _this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonExhibitionItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/exhibition/page.js",
-                                lineNumber: 90,
+                                lineNumber: 117,
                                 columnNumber: 15
                             }, _this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonExhibitionItem"], {}, void 0, false, {
                                 fileName: "[project]/src/app/exhibition/page.js",
-                                lineNumber: 91,
+                                lineNumber: 118,
                                 columnNumber: 15
                             }, _this)
                         ]
                     }, colIdx, true, {
                         fileName: "[project]/src/app/exhibition/page.js",
-                        lineNumber: 88,
+                        lineNumber: 115,
                         columnNumber: 13
                     }, _this);
                 }) : columns.map(function(column, colIdx) {
@@ -986,7 +1015,7 @@ var ExhibitionsContent = function() {
                                         autoplay: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/exhibition/page.js",
-                                        lineNumber: 103,
+                                        lineNumber: 130,
                                         columnNumber: 19
                                     }, _this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -997,7 +1026,7 @@ var ExhibitionsContent = function() {
                                                 children: exhibition.exhibitionTitle
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/exhibition/page.js",
-                                                lineNumber: 105,
+                                                lineNumber: 132,
                                                 columnNumber: 21
                                             }, _this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1005,7 +1034,7 @@ var ExhibitionsContent = function() {
                                                 children: exhibition.date
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/exhibition/page.js",
-                                                lineNumber: 106,
+                                                lineNumber: 133,
                                                 columnNumber: 21
                                             }, _this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1013,41 +1042,41 @@ var ExhibitionsContent = function() {
                                                 children: exhibition.location
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/exhibition/page.js",
-                                                lineNumber: 107,
+                                                lineNumber: 134,
                                                 columnNumber: 21
                                             }, _this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/exhibition/page.js",
-                                        lineNumber: 104,
+                                        lineNumber: 131,
                                         columnNumber: 19
                                     }, _this)
                                 ]
                             }, exhibition.id, true, {
                                 fileName: "[project]/src/app/exhibition/page.js",
-                                lineNumber: 98,
+                                lineNumber: 125,
                                 columnNumber: 17
                             }, _this);
                         })
                     }, colIdx, false, {
                         fileName: "[project]/src/app/exhibition/page.js",
-                        lineNumber: 96,
+                        lineNumber: 123,
                         columnNumber: 13
                     }, _this);
                 })
             }, void 0, false, {
                 fileName: "[project]/src/app/exhibition/page.js",
-                lineNumber: 84,
+                lineNumber: 111,
                 columnNumber: 7
             }, _this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/exhibition/page.js",
-        lineNumber: 74,
+        lineNumber: 101,
         columnNumber: 5
     }, _this);
 };
-_s(ExhibitionsContent, "VHMSTOft4Z9AlREXQmZB37wPOyE=", false, function() {
+_s(ExhibitionsContent, "HReT6d0spttAeXWYNqX/1wuSPds=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"],
@@ -1064,35 +1093,35 @@ function ExhibitionsPage() {
                     title: "EXHIBITION"
                 }, void 0, false, {
                     fileName: "[project]/src/app/exhibition/page.js",
-                    lineNumber: 121,
+                    lineNumber: 148,
                     columnNumber: 64
                 }, void 0),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "exhibitions-list",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SkeletonExhibitionItem"], {}, void 0, false, {
                         fileName: "[project]/src/app/exhibition/page.js",
-                        lineNumber: 121,
+                        lineNumber: 148,
                         columnNumber: 131
                     }, void 0)
                 }, void 0, false, {
                     fileName: "[project]/src/app/exhibition/page.js",
-                    lineNumber: 121,
+                    lineNumber: 148,
                     columnNumber: 97
                 }, void 0)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/exhibition/page.js",
-            lineNumber: 121,
+            lineNumber: 148,
             columnNumber: 25
         }, void 0),
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ExhibitionsContent, {}, void 0, false, {
             fileName: "[project]/src/app/exhibition/page.js",
-            lineNumber: 122,
+            lineNumber: 149,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/exhibition/page.js",
-        lineNumber: 121,
+        lineNumber: 148,
         columnNumber: 5
     }, this);
 }
