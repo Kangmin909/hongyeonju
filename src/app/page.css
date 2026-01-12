@@ -63,12 +63,10 @@
 }
 
 /* 비디오/이미지 요소 스타일 */
-.media-element {
-  max-width: 100%;
-  max-height: 100%; /* 부모의 높이 제한을 따름 */
-  width: auto !important;
+.home-container .media-element {
+  width: 100% !important; 
   height: auto !important;
-  object-fit: contain !important;
+  object-fit: contain !important; 
   background-color: #ffffff !important; 
   transform: scale(1.005); 
   will-change: transform;

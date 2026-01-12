@@ -121,10 +121,10 @@ const Menu = () => {
     }
   };
 
-  if (!isMenuOpen) return null;
+  // if (!isMenuOpen) return null; // 주석 처리하거나 제거
 
   return (
-    <div className={`menu-container ${isClosing ? 'is-closing' : ''} ${openingImmediate ? 'no-animation' : ''}`}>
+    <div className={`menu-container ${isMenuOpen ? 'is-open' : ''} ${isClosing ? 'is-closing' : ''} ${openingImmediate ? 'no-animation' : ''}`}>
       <div className="back-arrow" onClick={() => window.history.back()}>
         <img src={arrowIcon.src || arrowIcon} alt="Back Arrow" className="arrow-icon" />
       </div>

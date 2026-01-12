@@ -2,28 +2,31 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  margin: 0 auto; /* 수평 중앙 정렬 */
   width: 100%;
-  min-width: 340px;
-  max-width: 1200px;
   height: 100vh;
-  background: #FFFFFF;
-  font-family: 'Pretendard Variable', sans-serif;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
-  z-index: 3000;
-  
+  /* 모바일 브라우저 주소창 대응을 위해 dvh 사용 (지원 안하면 vh) */
+  height: 100dvh; 
+  background-color: #FFFFFF;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  
-  padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px) 50px clamp(24px, 1.212rem + 1.15vw, 50px);
+  justify-content: space-between;
+  /* 375px~1200px 사이에서 24px~50px로 부드럽게 변화 */
+  padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px);
+  /* 하단 여백 대폭 추가 (버튼 가림 방지) */
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
   box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto; /* 내용이 길어지면 스크롤 허용 */
+  transform: translateX(100%); /* 기본 상태: 우측으로 숨김 */
+}
 
-  /* 애니메이션 기준점 변경 */
-  animation: slideInFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
+.menu-container.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0); /* 열림 상태: 제자리 */
 }
 
 .menu-container.no-animation {

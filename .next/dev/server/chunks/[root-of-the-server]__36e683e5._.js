@@ -23,19 +23,7 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$
 const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$external$5d$__$2840$notionhq$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$notionhq$2f$client$29$__["Client"]({
     auth: process.env.NOTION_TOKEN
 });
-// 로컬/서버 공통 메모리 캐시
-let localCache = null;
-let lastFetchTime = 0;
-const CACHE_TTL = 1000 * 60 * 60; // 1시간 (메모리 캐시 유지)
 async function handler(req, res) {
-    const { force } = req.query;
-    // 1. 메모리 캐시 확인 (force가 아닐 때)
-    if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
-        // CDN에는 "1초만 저장해"라고 해서 요청이 서버(여기)로 오게 유도하고,
-        // 서버에서는 메모리 캐시를 즉시 반환하여 속도와 최신성을 모두 잡음
-        res.setHeader("Cache-Control", "public, s-maxage=1");
-        return res.status(200).json(localCache);
-    }
     try {
         const databaseId = process.env.NOTION_WORKS_DB_ID;
         const response = await notion.databases.query({
@@ -56,13 +44,7 @@ async function handler(req, res) {
                 link: page.properties.link.url || ""
             };
         });
-        // 2. 캐시 업데이트 (메모리 최신화)
-        localCache = data;
-        lastFetchTime = Date.now();
-        // 3. 응답 설정
-        // s-maxage=1 : CDN 캐시는 1초만에 만료 -> 사용자는 거의 매번 최신 상태 확인 가능
-        // stale-while-revalidate 제거 : 옛날 데이터를 보여주지 않음
-        res.setHeader("Cache-Control", "public, s-maxage=1");
+        res.setHeader("Cache-Control", "public, s-maxage=1, stale-while-revalidate=3600");
         res.status(200).json(data);
     } catch (err) {
         console.error(err);

@@ -2,29 +2,12 @@ import { Client } from "@notionhq/client";
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
-let localCache = null;
-let lastFetchTime = 0;
-const CACHE_TTL = 1000 * 60 * 60; 
-
 export default async function handler(req, res) {
-  const { force } = req.query;
-
-  if (force !== "true" && localCache && (Date.now() - lastFetchTime < CACHE_TTL)) {
-    res.setHeader("Cache-Control", "public, s-maxage=1");
-    return res.status(200).json(localCache);
-  }
-
   try {
     const databaseId = process.env.NOTION_HOME_DB_ID;
 
     const response = await notion.databases.query({
       database_id: databaseId,
-      sorts: [
-        {
-          property: "id",
-          direction: "ascending",
-        },
-      ],
       page_size: 1,
     });
 
@@ -36,12 +19,10 @@ export default async function handler(req, res) {
       link: page.properties.link.url || "",
     };
 
-    localCache = data;
-    lastFetchTime = Date.now();
-
+    // Edge Network 캐시 정책: 1초간 신선함 유지, 이후 1시간 동안 백그라운드 갱신 허용
     res.setHeader(
       "Cache-Control",
-      "public, s-maxage=1"
+      "public, s-maxage=1, stale-while-revalidate=3600"
     );
 
     res.status(200).json(data);

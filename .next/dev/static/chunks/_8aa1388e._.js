@@ -579,9 +579,9 @@ var Menu = function() {
             router.replace(path);
         }
     };
-    if (!isMenuOpen) return null;
+    // if (!isMenuOpen) return null; // 주석 처리하거나 제거
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "menu-container ".concat(isClosing ? 'is-closing' : '', " ").concat(openingImmediate ? 'no-animation' : ''),
+        className: "menu-container ".concat(isMenuOpen ? 'is-open' : '', " ").concat(isClosing ? 'is-closing' : '', " ").concat(openingImmediate ? 'no-animation' : ''),
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "back-arrow",

@@ -23,25 +23,11 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$
 const notion = new __TURBOPACK__imported__module__$5b$externals$5d2f40$notionhq$2f$client__$5b$external$5d$__$2840$notionhq$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$notionhq$2f$client$29$__["Client"]({
     auth: process.env.NOTION_TOKEN
 });
-let localCache = null;
-let lastFetchTime = 0;
-const CACHE_TTL = 1000 * 60 * 60;
 async function handler(req, res) {
-    const { force } = req.query;
-    if (force !== "true" && localCache && Date.now() - lastFetchTime < CACHE_TTL) {
-        res.setHeader("Cache-Control", "public, s-maxage=1");
-        return res.status(200).json(localCache);
-    }
     try {
         const databaseId = process.env.NOTION_HOME_DB_ID;
         const response = await notion.databases.query({
             database_id: databaseId,
-            sorts: [
-                {
-                    property: "id",
-                    direction: "ascending"
-                }
-            ],
             page_size: 1
         });
         const page = response.results[0];
@@ -52,9 +38,8 @@ async function handler(req, res) {
             id: page.properties.id.title[0]?.plain_text || "",
             link: page.properties.link.url || ""
         };
-        localCache = data;
-        lastFetchTime = Date.now();
-        res.setHeader("Cache-Control", "public, s-maxage=1");
+        // Edge Network 캐시 정책: 1초간 신선함 유지, 이후 1시간 동안 백그라운드 갱신 허용
+        res.setHeader("Cache-Control", "public, s-maxage=1, stale-while-revalidate=3600");
         res.status(200).json(data);
     } catch (err) {
         console.error(err);
