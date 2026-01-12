@@ -10,7 +10,7 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px);
   padding-bottom: calc(100px + env(safe-area-inset-bottom));
   box-sizing: border-box;
@@ -124,36 +124,3 @@
 .menu-button:nth-child(3) { animation-delay: 0.21s; }
 .menu-button:nth-child(4) { animation-delay: 0.24s; }
 .menu-button:nth-child(5) { animation-delay: 0.27s; }
-
-
-.refresh-button {
-  all: unset;
-  align-self: flex-end; /* 우측 정렬 */
-  margin-bottom: 0; 
-  margin-top: auto; 
-  font-size: 11px;
-  font-weight: 300;
-  color: #ACACAC;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  padding: 5px 0;
-  border-bottom: 1px solid transparent;
-}
-
-@media (hover: hover) {
-  .refresh-button:hover {
-    color: #ACACAC; 
-  }
-}
-
-.refresh-button:active {
-  opacity: 0.5;
-  border-bottom: 1px solid #ACACAC; 
-}
-
-.refresh-button:disabled {
-  color: #000; 
-  cursor: default;
-  border-bottom: 1px solid transparent;
-}

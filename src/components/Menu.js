@@ -13,7 +13,7 @@ const Menu = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const { isMenuOpen, isRefreshing, toggleMenu, refreshData } = useAppData();
+  const { isMenuOpen, toggleMenu } = useAppData();
   const [isClosing, setIsClosing] = React.useState(false); 
   const [openingImmediate, setOpeningImmediate] = React.useState(false); 
 
@@ -107,10 +107,6 @@ const Menu = () => {
     };
   }, [isMenuOpen]);
 
-  const handleRefresh = async () => {
-    await refreshData();
-  };
-
   const handleNavigate = (path) => {
     if (pathname === path) {
       window.history.back(); // 동일 페이지는 히스토리만 되돌림
@@ -135,9 +131,6 @@ const Menu = () => {
         <button className="menu-button" onClick={() => handleNavigate('/cv')}>CV</button>
         <button className="menu-button" onClick={() => handleNavigate('/about')}>ABOUT</button>
       </div>
-      <button className="refresh-button" onClick={handleRefresh} disabled={isRefreshing}>
-        {isRefreshing ? 'REFRESHING...' : 'REFRESH'}
-      </button>
     </div>
   );
 };

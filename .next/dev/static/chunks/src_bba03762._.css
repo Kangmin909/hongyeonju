@@ -155,7 +155,7 @@ code {
   visibility: hidden;
   background-color: #fff;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   display: flex;
   position: fixed;
   top: 0;
@@ -281,38 +281,6 @@ code {
 
 .menu-button:nth-child(5) {
   animation-delay: .27s;
-}
-
-.refresh-button {
-  all: unset;
-  color: #acacac;
-  letter-spacing: .15em;
-  cursor: pointer;
-  border-bottom: 1px solid #0000;
-  align-self: flex-end;
-  margin-top: auto;
-  margin-bottom: 0;
-  padding: 5px 0;
-  font-size: 11px;
-  font-weight: 300;
-  transition: color .3s;
-}
-
-@media (hover: hover) {
-  .refresh-button:hover {
-    color: #acacac;
-  }
-}
-
-.refresh-button:active {
-  opacity: .5;
-  border-bottom: 1px solid #acacac;
-}
-
-.refresh-button:disabled {
-  color: #000;
-  cursor: default;
-  border-bottom: 1px solid #0000;
 }
 
 /*# sourceMappingURL=src_bba03762._.css.map*/
