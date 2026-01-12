@@ -94,6 +94,7 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* 모바일 터치 효과: active일 때만 잠깐 불투명도 조절 */
   .exhibition-item:active .exhibition-image {
     opacity: 0.7;
   }
@@ -102,12 +103,13 @@
   .exhibition-image {
     width: 100%;
     height: auto;
-    /* background: #D9D9D9; 제거: 스켈레톤 애니메이션 노출을 위함 */
     display: block;
     object-fit: cover;
     overflow: hidden;
+    /* 기본 상태에서 트랜지션 제거하여 마운트 시 번쩍임 방지 */
   }
 
+  /* PC에서만 작동하는 호버 효과 */
   @media (hover: hover) {
     .exhibition-image {
       transition: opacity 0.3s ease;
