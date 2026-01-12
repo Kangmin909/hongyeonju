@@ -52,19 +52,25 @@
 /* 섹션 제목 */
 .about-section-title {
   font-size: 20px;
-  font-weight: 400; /* 명시적으로 볼드 해제 */
+  font-weight: 400; 
   line-height: 24px;
   color: #000000;
-  margin-bottom: 10px;
+  margin-top: 40px; /* 기본 상단 여백 */
+  margin-bottom: 10px; /* 제목과 내용 사이 간격 복구 */
+}
+
+/* 첫 번째 섹션 제목의 상단 여백 제거 */
+.about-page > div:first-of-type .about-section-title {
+  margin-top: 0;
 }
 
 /* 연락처 정보 */
 .about-contact-info {
   display: block;
   font-size: 14px;
-  line-height: 17px;
+  line-height: 22px; 
   color: #6E6E6E;
-  margin-bottom: 18px;
+  margin-bottom: 0; /* 불필요한 하단 여백 제거 (섹션 간격은 제목의 margin-top으로 제어) */
   text-decoration: none;
 }
 
