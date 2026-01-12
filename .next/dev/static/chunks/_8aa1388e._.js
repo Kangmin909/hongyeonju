@@ -43,8 +43,6 @@ var appDataStore = {
     loading: false,
     error: null
 };
-// 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
-var CACHE_DURATION = 1000 * 60 * 60;
 // Create Context
 var AppDataContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"])();
 /**
@@ -100,29 +98,6 @@ var AppDataProvider = function(param) {
     var _useState1 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), isMenuOpen = _useState1[0], setIsMenuOpen = _useState1[1];
     var _useState2 = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_sliced_to_array$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false), 2), isRefreshing = _useState2[0], setIsRefreshing = _useState2[1]; // 수동 새로고침 상태 추가
     var isLoading = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
-    // Initialize state from local storage cache if valid (Client-side only)
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "AppDataProvider.useEffect": function() {
-            try {
-                var cachedData = localStorage.getItem('appData');
-                var cachedTimestamp = localStorage.getItem('appDataTimestamp');
-                if (cachedData && cachedTimestamp) {
-                    var isCacheValid = Date.now() - parseInt(cachedTimestamp, 10) < CACHE_DURATION;
-                    if (isCacheValid) {
-                        var parsedData = JSON.parse(cachedData);
-                        var loadedState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread_props$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])({}, parsedData), {
-                            loading: false
-                        });
-                        setData(loadedState);
-                        Object.assign(appDataStore, loadedState);
-                        preloadMedia(loadedState);
-                    }
-                }
-            } catch (error) {
-                console.error("Failed to load cached data:", error);
-            }
-        }
-    }["AppDataProvider.useEffect"], []);
     var toggleMenu = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "AppDataProvider.useCallback[toggleMenu]": function() {
             setIsMenuOpen({
@@ -134,13 +109,13 @@ var AppDataProvider = function(param) {
     }["AppDataProvider.useCallback[toggleMenu]"], []);
     /**
    * Fetches all required data from the API.
-   * @param {boolean} force - If true, ignores cache and forces a fetch.
+   * @param {boolean} force - If true, forces a fresh fetch (e.g. for manual refresh).
    */ var fetchAllData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "AppDataProvider.useCallback[fetchAllData]": function() {
             var force = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : false;
             return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_async_to_generator$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])({
                 "AppDataProvider.useCallback[fetchAllData]": function() {
-                    var cachedTimestamp, safeFetch, _ref, homeRes, aboutRes, cv1Res, cv2Res, exhibitionsRes, worksRes, newData, finalState, error, errorState;
+                    var safeFetch, _ref, homeRes, aboutRes, cv1Res, cv2Res, exhibitionsRes, worksRes, newData, finalState, error, errorState;
                     return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$tslib$2f$tslib$2e$es6$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$5f$_generator__as__$5f3e$__["_"])(this, {
                         "AppDataProvider.useCallback[fetchAllData]": function(_state) {
                             switch(_state.label){
@@ -148,16 +123,10 @@ var AppDataProvider = function(param) {
                                     if (isLoading.current) return [
                                         2
                                     ];
-                                    // Check cache validity unless forced
-                                    if (!force) {
-                                        cachedTimestamp = localStorage.getItem('appDataTimestamp');
-                                        if (cachedTimestamp && Date.now() - parseInt(cachedTimestamp, 10) < CACHE_DURATION) {
-                                            // If critical data exists, skip fetch
-                                            if (data.home && data.exhibitions) return [
-                                                2
-                                            ];
-                                        }
-                                    }
+                                    // If we already have data and it's not a forced refresh, we can skip
+                                    if (!force && data.home && data.exhibitions) return [
+                                        2
+                                    ];
                                     isLoading.current = true;
                                     setData({
                                         "AppDataProvider.useCallback[fetchAllData]": function(prev) {
@@ -262,9 +231,6 @@ var AppDataProvider = function(param) {
                                         exhibitions: exhibitionsRes,
                                         works: worksRes
                                     };
-                                    // Update cache
-                                    localStorage.setItem('appData', JSON.stringify(newData));
-                                    localStorage.setItem('appDataTimestamp', Date.now().toString());
                                     finalState = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread_props$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_object_spread$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])({}, newData), {
                                         loading: false,
                                         error: null
@@ -320,7 +286,7 @@ var AppDataProvider = function(param) {
     }["AppDataProvider.useCallback[refreshData]"], [
         fetchAllData
     ]);
-    // Effect: Preload media if data is already available (e.g. from cache)
+    // Effect: Preload media if data is already available
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AppDataProvider.useEffect": function() {
             if (data.home || data.exhibitions) {
@@ -342,11 +308,11 @@ var AppDataProvider = function(param) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/context/AppDataContext.js",
-        lineNumber: 217,
+        lineNumber: 183,
         columnNumber: 5
     }, _this);
 };
-_s(AppDataProvider, "R3YMeQkJLN5TgdC+tcDCrJmQ87Y=");
+_s(AppDataProvider, "+Tgi7EuvTopuKqxm00XImF57m5o=");
 _c = AppDataProvider;
 var useAppData = function() {
     _s1();

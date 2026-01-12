@@ -18,9 +18,6 @@ export const appDataStore = {
   error: null,
 };
 
-// 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
-const CACHE_DURATION = 1000 * 60 * 60; 
-
 // Create Context
 const AppDataContext = createContext();
 
@@ -68,7 +65,7 @@ const preloadMedia = (appData) => {
 
 /**
  * AppDataProvider Component
- * Manages global application state, data fetching, and caching.
+ * Manages global application state and data fetching.
  */
 export const AppDataProvider = ({ children }) => {
   
@@ -88,46 +85,19 @@ export const AppDataProvider = ({ children }) => {
   const [isRefreshing, setIsRefreshing] = useState(false); // 수동 새로고침 상태 추가
   const isLoading = useRef(false);
 
-  // Initialize state from local storage cache if valid (Client-side only)
-  useEffect(() => {
-    try {
-      const cachedData = localStorage.getItem('appData');
-      const cachedTimestamp = localStorage.getItem('appDataTimestamp');
-
-      if (cachedData && cachedTimestamp) {
-        const isCacheValid = (Date.now() - parseInt(cachedTimestamp, 10)) < CACHE_DURATION;
-        if (isCacheValid) {
-          const parsedData = JSON.parse(cachedData);
-          const loadedState = { ...parsedData, loading: false };
-          setData(loadedState);
-          Object.assign(appDataStore, loadedState);
-          preloadMedia(loadedState);
-        }
-      }
-    } catch (error) {
-      console.error("Failed to load cached data:", error);
-    }
-  }, []);
-
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
   }, []);
 
   /**
    * Fetches all required data from the API.
-   * @param {boolean} force - If true, ignores cache and forces a fetch.
+   * @param {boolean} force - If true, forces a fresh fetch (e.g. for manual refresh).
    */
   const fetchAllData = useCallback(async (force = false) => {
     if (isLoading.current) return;
     
-    // Check cache validity unless forced
-    if (!force) {
-      const cachedTimestamp = localStorage.getItem('appDataTimestamp');
-      if (cachedTimestamp && (Date.now() - parseInt(cachedTimestamp, 10)) < CACHE_DURATION) {
-        // If critical data exists, skip fetch
-        if (data.home && data.exhibitions) return; 
-      }
-    }
+    // If we already have data and it's not a forced refresh, we can skip
+    if (!force && data.home && data.exhibitions) return;
     
     isLoading.current = true;
     setData(prev => ({ ...prev, loading: true }));
@@ -171,10 +141,6 @@ export const AppDataProvider = ({ children }) => {
         works: worksRes,
       };
 
-      // Update cache
-      localStorage.setItem('appData', JSON.stringify(newData));
-      localStorage.setItem('appDataTimestamp', Date.now().toString());
-
       const finalState = { ...newData, loading: false, error: null };
       setData(finalState);
       Object.assign(appDataStore, finalState); // Update global store
@@ -197,7 +163,7 @@ export const AppDataProvider = ({ children }) => {
     return fetchAllData(true);
   }, [fetchAllData]);
 
-  // Effect: Preload media if data is already available (e.g. from cache)
+  // Effect: Preload media if data is already available
   useEffect(() => {
     if (data.home || data.exhibitions) {
       preloadMedia(data);

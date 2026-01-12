@@ -188,3 +188,271 @@ Import traces:
 [00:02:00.824] Browser LOG     🔄 Fetching fresh data from server...
 [00:02:12.178] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [00:02:12.346] Browser LOG     🔄 Fetching fresh data from server...
+[00:05:11.362] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:11.362] Browser LOG     🔄 Fetching fresh data from server...
+[00:05:23.957] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:24.104] Browser LOG     🔄 Fetching fresh data from server...
+[00:05:32.214] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:32.332] Browser LOG     🔄 Fetching fresh data from server...
+[00:05:37.923] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:37.923] Browser LOG     🔄 Fetching fresh data from server...
+[00:11:01.612] Server  LOG     ✓ Compiled in 52ms
+[00:11:02.269] Browser ERROR   ./src/context/AppDataContext.js:133:1
+Parsing ecmascript source code failed
+  131 |     </AppDataContext.Provider>
+  132 |   );
+> 133 | };
+      | ^
+  134 |
+  135 | // Hook for using context
+  136 | export const useAppData = () => {
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:11:11.267] Browser ERROR   ./src/context/AppDataContext.js:123:1
+Parsing ecmascript source code failed
+  121 |     </AppDataContext.Provider>
+  122 |   );
+> 123 | };
+      | ^
+  124 |
+  125 | // Hook for using context
+  126 | export const useAppData = () => {
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:11:49.419] Server  ERROR   ⨯ ./src/context/AppDataContext.js:123:1
+Parsing ecmascript source code failed
+  121 |     </AppDataContext.Provider>
+  122 |   );
+> 123 | };
+      | ^
+  124 |
+  125 | // Hook for using context
+  126 | export const useAppData = () => {
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/works/page.js [Client Component Browser]
+    ./src/app/works/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/works/page.js [Client Component SSR]
+    ./src/app/works/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+
+[00:11:49.756] Browser ERROR   uncaughtError: Error: ./src/context/AppDataContext.js:123:1
+Parsing ecmascript source code failed
+  121 |     </AppDataContext.Provider>
+  122 |   );
+> 123 | };
+      | ^
+  124 |
+  125 | // Hook for using context
+  126 | export const useAppData = () => {
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+
+[00:11:49.961] Browser ERROR   ./src/context/AppDataContext.js:123:1
+Parsing ecmascript source code failed
+  121 |     </AppDataContext.Provider>
+  122 |   );
+> 123 | };
+      | ^
+  124 |
+  125 | // Hook for using context
+  126 | export const useAppData = () => {
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:11:49.961] Browser ERROR   ./src/context/AppDataContext.js:123:1
+Parsing ecmascript source code failed
+  121 |     </AppDataContext.Provider>
+  122 |   );
+> 123 | };
+      | ^
+  124 |
+  125 | // Hook for using context
+  126 | export const useAppData = () => {
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/works/page.js [Client Component Browser]
+    ./src/app/works/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/works/page.js [Client Component SSR]
+    ./src/app/works/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:11:49.961] Browser ERROR   ./src/context/AppDataContext.js:123:1
+Parsing ecmascript source code failed
+  121 |     </AppDataContext.Provider>
+  122 |   );
+> 123 | };
+      | ^
+  124 |
+  125 | // Hook for using context
+  126 | export const useAppData = () => {
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:11:59.232] Server  LOG     ✓ Compiled in 7ms
+[00:11:59.711] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:59.873] Browser LOG     🔄 Fetching fresh data from server...
+[00:12:03.122] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:03.270] Browser LOG     🔄 Fetching fresh data from server...
+[00:12:09.659] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:09.799] Browser LOG     🔄 Fetching fresh data from server...
+[00:12:24.315] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:24.505] Browser LOG     🔄 Fetching fresh data from server...
+[00:12:33.472] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:33.630] Browser LOG     🔄 Fetching fresh data from server...
+[00:12:36.848] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:37.027] Browser LOG     🔄 Fetching fresh data from server...
+[00:12:39.022] Server  LOG     ✓ Compiled in 17ms
+[00:12:41.887] Server  LOG     ✓ Compiled in 6ms
+[00:12:43.346] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:43.491] Browser LOG     🔄 Fetching fresh data from server...

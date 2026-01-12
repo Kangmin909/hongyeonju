@@ -33,8 +33,6 @@ const appDataStore = {
     loading: false,
     error: null
 };
-// 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
-const CACHE_DURATION = 1000 * 60 * 60;
 // Create Context
 const AppDataContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createContext"])();
 /**
@@ -89,44 +87,16 @@ const AppDataProvider = ({ children })=>{
     const [isMenuOpen, setIsMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isRefreshing, setIsRefreshing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false); // 수동 새로고침 상태 추가
     const isLoading = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(false);
-    // Initialize state from local storage cache if valid (Client-side only)
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        try {
-            const cachedData = localStorage.getItem('appData');
-            const cachedTimestamp = localStorage.getItem('appDataTimestamp');
-            if (cachedData && cachedTimestamp) {
-                const isCacheValid = Date.now() - parseInt(cachedTimestamp, 10) < CACHE_DURATION;
-                if (isCacheValid) {
-                    const parsedData = JSON.parse(cachedData);
-                    const loadedState = {
-                        ...parsedData,
-                        loading: false
-                    };
-                    setData(loadedState);
-                    Object.assign(appDataStore, loadedState);
-                    preloadMedia(loadedState);
-                }
-            }
-        } catch (error) {
-            console.error("Failed to load cached data:", error);
-        }
-    }, []);
     const toggleMenu = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(()=>{
         setIsMenuOpen((prev)=>!prev);
     }, []);
     /**
    * Fetches all required data from the API.
-   * @param {boolean} force - If true, ignores cache and forces a fetch.
+   * @param {boolean} force - If true, forces a fresh fetch (e.g. for manual refresh).
    */ const fetchAllData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (force = false)=>{
         if (isLoading.current) return;
-        // Check cache validity unless forced
-        if (!force) {
-            const cachedTimestamp = localStorage.getItem('appDataTimestamp');
-            if (cachedTimestamp && Date.now() - parseInt(cachedTimestamp, 10) < CACHE_DURATION) {
-                // If critical data exists, skip fetch
-                if (data.home && data.exhibitions) return;
-            }
-        }
+        // If we already have data and it's not a forced refresh, we can skip
+        if (!force && data.home && data.exhibitions) return;
         isLoading.current = true;
         setData((prev)=>({
                 ...prev,
@@ -166,9 +136,6 @@ const AppDataProvider = ({ children })=>{
                 exhibitions: exhibitionsRes,
                 works: worksRes
             };
-            // Update cache
-            localStorage.setItem('appData', JSON.stringify(newData));
-            localStorage.setItem('appDataTimestamp', Date.now().toString());
             const finalState = {
                 ...newData,
                 loading: false,
@@ -204,7 +171,7 @@ const AppDataProvider = ({ children })=>{
     }, [
         fetchAllData
     ]);
-    // Effect: Preload media if data is already available (e.g. from cache)
+    // Effect: Preload media if data is already available
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (data.home || data.exhibitions) {
             preloadMedia(data);
@@ -225,7 +192,7 @@ const AppDataProvider = ({ children })=>{
         children: children
     }, void 0, false, {
         fileName: "[project]/src/context/AppDataContext.js",
-        lineNumber: 217,
+        lineNumber: 183,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

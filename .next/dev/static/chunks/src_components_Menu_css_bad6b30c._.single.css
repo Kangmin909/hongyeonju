@@ -2,6 +2,7 @@
 .menu-container {
   z-index: 1000;
   width: 100%;
+  max-width: 1200px;
   height: 100dvh;
   padding: 40px clamp(24px, 1.212rem + 1.15vw, 50px);
   padding-bottom: calc(100px + env(safe-area-inset-bottom));
@@ -14,14 +15,16 @@
   display: flex;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
   overflow-y: auto;
+  transform: translateX(-50%);
 }
 
 .menu-container.is-open {
   opacity: 1;
   visibility: visible;
   transition: opacity .3s;
+  transform: translateX(-50%);
 }
 
 .back-arrow {

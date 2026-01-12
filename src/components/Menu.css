@@ -1,8 +1,10 @@
 .menu-container {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 1200px;
   height: 100dvh; 
   background-color: #FFFFFF;
   z-index: 1000;
@@ -21,6 +23,7 @@
 .menu-container.is-open {
   opacity: 1;
   visibility: visible;
+  transform: translateX(-50%);
   transition: opacity 0.3s ease; /* 나타날 때만 부드럽게 */
 }
 
