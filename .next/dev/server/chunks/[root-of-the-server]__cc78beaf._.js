@@ -38,8 +38,9 @@ async function handler(req, res) {
             id: page.properties.id.title[0]?.plain_text || "",
             link: page.properties.link.url || ""
         };
-        // Edge Network 캐시 정책: 1초간 신선함 유지, 이후 1시간 동안 백그라운드 갱신 허용
-        res.setHeader("Cache-Control", "public, s-maxage=1, stale-while-revalidate=3600");
+        // 최신화 대기 1분, 캐시 유지 1주일 (604800초)
+        // 거의 모든 상황에서 즉시 응답을 보장함
+        res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=604800");
         res.status(200).json(data);
     } catch (err) {
         console.error(err);

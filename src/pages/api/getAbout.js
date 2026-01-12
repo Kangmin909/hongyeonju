@@ -2,8 +2,6 @@ import { Client } from "@notionhq/client";
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
-// Removed localCache and lastFetchTime, CACHE_TTL as they are not used in the new version
-
 export default async function handler(req, res) {
   try {
     const databaseId = process.env.NOTION_ABOUT_DB_ID;
@@ -18,10 +16,9 @@ export default async function handler(req, res) {
 
     const props = page.properties;
 
-    // 모든 텍스트/제목/이메일 속성을 안전하게 추출하는 헬퍼
     const getPlainText = (prop) => {
       if (!prop) return "";
-      if (prop.email) return prop.email; // 이메일 타입 처리
+      if (prop.email) return prop.email;
       if (prop.title) return prop.title[0]?.plain_text || "";
       if (prop.rich_text) return prop.rich_text[0]?.plain_text || "";
       if (prop.select) return prop.select.name || "";
@@ -35,11 +32,9 @@ export default async function handler(req, res) {
       aboutText: aboutTextRaw ? aboutTextRaw.split("\n") : [],
     };
 
-    // Removed localCache and lastFetchTime updates
-
     res.setHeader(
       "Cache-Control",
-      "public, s-maxage=1, stale-while-revalidate=3600"
+      "public, s-maxage=60, stale-while-revalidate=604800"
     );
 
     res.status(200).json(data);

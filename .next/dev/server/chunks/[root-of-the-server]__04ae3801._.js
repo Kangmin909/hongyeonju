@@ -50,19 +50,15 @@ async function handler(req, res) {
                     }).catch(()=>null)));
                 images = relatedPages.filter((p)=>p).map((p)=>{
                     const pProps = p.properties;
-                    // 1. 링크/파일 속성 찾기: 'link'라는 이름의 URL 속성을 최우선으로 함 (OCI 캐시용)
                     const linkProp = pProps.link || pProps.Link || Object.values(pProps).find((prop)=>prop.type === 'url');
                     let link = linkProp?.url || "";
-                    // 만약 link 속성에 값이 없다면, 기존 방식(files)으로 가져옴
                     if (!link) {
                         const fileProp = Object.values(pProps).find((prop)=>prop.type === 'files');
                         const fileObj = fileProp?.files?.[0];
                         link = fileObj?.file?.url || fileObj?.external?.url || "";
                     }
-                    // 1. ID 찾기 (속성명 'id' 또는 'ID'인 Title 타입)
                     const idProp = pProps.id || pProps.ID || Object.values(pProps).find((prop)=>prop.type === 'title');
                     let idVal = idProp?.title?.[0]?.plain_text || "";
-                    // 2. 제목(Title) 찾기 (속성명 'title' 또는 'Title'인 Rich Text 타입)
                     let titleProp = pProps.title || pProps.Title;
                     let titleVal = titleProp?.rich_text?.[0]?.plain_text || "";
                     if (!titleVal) {
@@ -96,7 +92,7 @@ async function handler(req, res) {
                 images
             };
         }));
-        res.setHeader("Cache-Control", "public, s-maxage=1, stale-while-revalidate=3600");
+        res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=604800");
         res.status(200).json(data);
     } catch (err) {
         console.error("Exhibition API Error:", err);

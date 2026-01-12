@@ -50,7 +50,7 @@ async function handler(req, res) {
                 content: getPlainText(p.content)
             };
         });
-        res.setHeader("Cache-Control", "public, s-maxage=1, stale-while-revalidate=3600");
+        res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=604800");
         res.status(200).json(data);
     } catch (err) {
         console.error("CV1 API Error:", err);
