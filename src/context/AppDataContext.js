@@ -18,7 +18,8 @@ export const appDataStore = {
   error: null,
 };
 
-const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+// 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
+const CACHE_DURATION = 1000 * 60 * 60; 
 
 // Create Context
 const AppDataContext = createContext();

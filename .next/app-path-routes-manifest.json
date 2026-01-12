@@ -6,5 +6,6 @@
   "/exhibition/[id]/page": "/exhibition/[id]",
   "/exhibition/page": "/exhibition",
   "/page": "/",
+  "/sitemap.xml/route": "/sitemap.xml",
   "/works/page": "/works"
 }

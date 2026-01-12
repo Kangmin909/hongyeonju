@@ -43,7 +43,8 @@ var appDataStore = {
     loading: false,
     error: null
 };
-var CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+// 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
+var CACHE_DURATION = 1000 * 60 * 60;
 // Create Context
 var AppDataContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"])();
 /**
@@ -341,7 +342,7 @@ var AppDataProvider = function(param) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/context/AppDataContext.js",
-        lineNumber: 216,
+        lineNumber: 217,
         columnNumber: 5
     }, _this);
 };

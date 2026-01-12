@@ -1,22 +1,190 @@
-[00:00:00.981] Server  LOG     ✓ Ready in 716ms
-[00:00:01.442] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:01.602] Browser LOG     🔄 Fetching fresh data from server...
-[00:00:16.590] Server  LOG     ✓ Compiled in 97ms
-[02:00:08.961] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:00:08.961] Browser LOG     🔄 Fetching fresh data from server...
-[02:00:21.002] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:00:21.127] Browser LOG     🔄 Fetching fresh data from server...
-[02:01:45.755] Server  LOG     ✓ Compiled in 51ms
-[02:01:59.015] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:01:59.149] Browser LOG     🔄 Fetching fresh data from server...
-[02:13:18.156] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:13:18.317] Browser LOG     🔄 Fetching fresh data from server...
-[02:13:39.450] Browser LOG     🔄 Fetching fresh data from server...
-[02:13:41.657] Browser LOG     🔄 Fetching fresh data from server...
-[02:13:49.903] Browser LOG     🔄 Fetching fresh data from server...
-[02:13:50.447] Browser ERROR   Network error for /api/getExhibition: {}
-[02:13:50.447] Browser ERROR   Network error for /api/getWorks: {}
-[02:13:50.447] Browser LOG     🔄 Fetching fresh data from server...
-[02:13:57.630] Browser LOG     🔄 Fetching fresh data from server...
-[02:14:01.242] Browser LOG     🔄 Fetching fresh data from server...
-[02:14:03.639] Browser LOG     🔄 Fetching fresh data from server...
+[00:00:00.990] Server  LOG     ✓ Ready in 778ms
+[00:00:04.420] Server  ERROR   ⨯ ./src/context/AppDataContext.js:23:7
+Ecmascript file had an error
+  21 | // 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
+  22 | const CACHE_DURATION = 1000 * 60 * 60; 
+> 23 | const appDataStore = { ...defaultData };
+     |       ^^^^^^^^^^^^
+  24 |
+  25 | // Create Context
+  26 | const AppDataContext = createContext();
+
+the name `appDataStore` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+
+[00:00:05.153] Browser ERROR   uncaughtError: Error: ./src/context/AppDataContext.js:23:7
+Ecmascript file had an error
+  21 | // 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
+  22 | const CACHE_DURATION = 1000 * 60 * 60; 
+> 23 | const appDataStore = { ...defaultData };
+     |       ^^^^^^^^^^^^
+  24 |
+  25 | // Create Context
+  26 | const AppDataContext = createContext();
+
+the name `appDataStore` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+
+[00:00:05.564] Browser ERROR   ./src/context/AppDataContext.js:23:7
+Ecmascript file had an error
+  21 | // 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
+  22 | const CACHE_DURATION = 1000 * 60 * 60; 
+> 23 | const appDataStore = { ...defaultData };
+     |       ^^^^^^^^^^^^
+  24 |
+  25 | // Create Context
+  26 | const AppDataContext = createContext();
+
+the name `appDataStore` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:00:05.564] Browser ERROR   ./src/context/AppDataContext.js:23:7
+Ecmascript file had an error
+  21 | // 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
+  22 | const CACHE_DURATION = 1000 * 60 * 60; 
+> 23 | const appDataStore = { ...defaultData };
+     |       ^^^^^^^^^^^^
+  24 |
+  25 | // Create Context
+  26 | const AppDataContext = createContext();
+
+the name `appDataStore` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:00:05.564] Browser ERROR   ./src/context/AppDataContext.js:23:7
+Ecmascript file had an error
+  21 | // 1시간 (밀리초 단위) - 브라우저 localStorage 캐시 유지 시간
+  22 | const CACHE_DURATION = 1000 * 60 * 60; 
+> 23 | const appDataStore = { ...defaultData };
+     |       ^^^^^^^^^^^^
+  24 |
+  25 | // Create Context
+  26 | const AppDataContext = createContext();
+
+the name `appDataStore` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/page.js [Client Component Browser]
+    ./src/app/page.js [Server Component]
+
+  #2 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/page.js [Client Component SSR]
+    ./src/app/page.js [Server Component]
+
+  #3 [Client Component Browser]:
+    ./src/context/AppDataContext.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Client Component Browser]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+
+  #4 [Client Component SSR]:
+    ./src/context/AppDataContext.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Client Component SSR]
+    ./src/app/ClientLayout.js [Server Component]
+    ./src/app/layout.js [Server Component]
+[00:01:00.906] Server  LOG     ✓ Compiled in 46ms
+[00:01:01.514] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:01.696] Browser LOG     🔄 Fetching fresh data from server...
+[00:01:37.197] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:37.329] Browser LOG     🔄 Fetching fresh data from server...
+[00:01:38.047] Browser ERROR   Network error for /api/getWorks: {}
+[00:01:38.047] Browser ERROR   Network error for /api/getExhibition: {}
+[00:01:38.047] Browser ERROR   Network error for /api/getCV2: {}
+[00:01:38.047] Browser LOG     🔄 Fetching fresh data from server...
+[00:01:39.812] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:39.930] Browser LOG     🔄 Fetching fresh data from server...
+[00:02:00.824] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:00.824] Browser LOG     🔄 Fetching fresh data from server...
+[00:02:12.178] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:12.346] Browser LOG     🔄 Fetching fresh data from server...

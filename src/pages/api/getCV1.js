@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
     res.setHeader(
       "Cache-Control",
-      "public, s-maxage=60, stale-while-revalidate=604800"
+      "public, s-maxage=1, stale-while-revalidate=31536000"
     );
 
     res.status(200).json(data);

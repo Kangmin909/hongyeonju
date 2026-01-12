@@ -110,6 +110,12 @@
       "namedRegex": "^/exhibition(?:/)?$"
     },
     {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    },
+    {
       "page": "/works",
       "regex": "^/works(?:/)?$",
       "routeKeys": {},

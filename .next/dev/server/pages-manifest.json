@@ -1,4 +1,7 @@
 {
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
   "/api/getAbout": "pages/api/getAbout.js",
   "/api/getCV1": "pages/api/getCV1.js",
   "/api/getCV2": "pages/api/getCV2.js",
