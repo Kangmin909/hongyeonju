@@ -50,6 +50,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$ClientLayout$2
 ;
 ;
 const metadata = {
+    metadataBase: new URL('https://hongyeonju.com'),
     title: 'hongyeonju',
     description: '홍연주(HONG YEONJU) Portfolio',
     icons: {
@@ -67,7 +68,7 @@ const metadata = {
     },
     openGraph: {
         type: 'website',
-        url: 'https://hongyeonju.com',
+        url: '/',
         title: 'HONG YEONJU',
         description: '작가 홍연주',
         images: '/favicon.png'
@@ -87,17 +88,17 @@ function RootLayout({ children }) {
                 children: children
             }, void 0, false, {
                 fileName: "[project]/src/app/layout.js",
-                lineNumber: 33,
+                lineNumber: 34,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/layout.js",
-            lineNumber: 32,
+            lineNumber: 33,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/layout.js",
-        lineNumber: 31,
+        lineNumber: 32,
         columnNumber: 5
     }, this);
 }

@@ -2,6 +2,7 @@ import './globals.css';
 import ClientLayout from './ClientLayout';
 
 export const metadata = {
+  metadataBase: new URL('https://hongyeonju.com'),
   title: 'hongyeonju',
   description: '홍연주(HONG YEONJU) Portfolio',
   icons: {
@@ -13,7 +14,7 @@ export const metadata = {
   },
   openGraph: {
     type: 'website',
-    url: 'https://hongyeonju.com',
+    url: '/',
     title: 'HONG YEONJU',
     description: '작가 홍연주',
     images: '/favicon.png',

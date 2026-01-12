@@ -173,22 +173,20 @@ code {
   background-color: #fff;
   flex-direction: column;
   justify-content: space-between;
-  transition: opacity .3s, visibility .3s, transform .3s cubic-bezier(.16, 1, .3, 1);
   display: flex;
   position: fixed;
   top: 0;
   left: 0;
   overflow-y: auto;
-  transform: translateX(100%);
 }
 
 .menu-container.is-open {
   opacity: 1;
   visibility: visible;
-  transform: translateX(0);
+  transition: opacity .3s;
 }
 
-.menu-container.no-animation {
+.back-arrow {
   animation: none;
 }
 
@@ -298,17 +296,6 @@ code {
 
 .menu-button:nth-child(5) {
   animation-delay: .27s;
-}
-
-.menu-container.is-closing {
-  pointer-events: none;
-  animation: .3s cubic-bezier(.16, 1, .3, 1) forwards slideOutToRight;
-}
-
-@keyframes slideOutToRight {
-  to {
-    transform: translateX(100%);
-  }
 }
 
 .refresh-button {
